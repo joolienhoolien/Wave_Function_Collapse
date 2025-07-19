@@ -51,7 +51,7 @@ TILE_RULES = {
     DOWN: {UP : {BLANK, UP},
          RIGHT: {UP, DOWN, LEFT},
          DOWN: {LEFT, RIGHT, UP},
-         LEFT: {UP, RIGHT, LEFT}
+         LEFT: {UP, RIGHT, DOWN}
            },
     LEFT: {UP : {LEFT, DOWN, RIGHT},
          RIGHT: {BLANK, RIGHT},
@@ -80,13 +80,14 @@ class Tile(pygame.sprite.Sprite):
     def set_value(self, value):
         self.value = value
         self.collapsed = True
-        self.options = {value}
+        self.options = set()
         self.image = pygame.image.load(tiles[value])
 
     def collapse(self):
         if not self.options:
             self.set_value(BLANK)
-        self.set_value(random.choice(tuple(self.options)))
+        else:
+            self.set_value(random.choice(tuple(self.options)))
 
 
 def setup():
@@ -105,6 +106,60 @@ def setup():
             grid[i][j] = Tile(x, y, BLANK)
 
 
+def draw_tiles():
+    for row in grid:
+        for tile in row:
+            tile.draw(DISPLAYSURF)
+
+
+def collapse_tiles():
+    global FINISHED_COLLAPSING
+    # Calculate which is the next tile to collapse
+    # 1. Obtain a list of tiles coordinates such that they have the least amount of options
+    lowest_num_options = len(ALL_OPTIONS)
+    lowest_entropy = []
+    for i, row in enumerate(grid):
+        for j, tile in enumerate(row):
+            if tile.collapsed or len(tile.options) > lowest_num_options:
+                continue
+            elif len(tile.options) == lowest_num_options:
+                lowest_entropy.append((tile, i, j))
+            else:
+                lowest_num_options = len(tile.options)
+                lowest_entropy = [(tile, i, j)]
+    if lowest_entropy:
+
+        # 2. From this list, randomly choose a tile to collapse
+        to_collapse_data = random.choice(lowest_entropy)
+        tile, x, y = to_collapse_data
+        tile.collapse()
+        print(f"Collapsing tile at grid[{x},{y}] into {tile.value}")
+
+        # 3. Update neighboring tiles using intersection of rules and options
+        if x != 0:
+            tile_left = grid[x - 1][y]
+            print(f"Looking at neighbor UP... ({x - 1}, {y}), options={tile_left.options}")
+            tile_left.options = tile_left.options & TILE_RULES[tile.value][LEFT]
+            print(f"After update... ({x - 1}, {y}), options={tile_left.options}")
+        if x != GRID_DIM - 1:
+            tile_right = grid[x + 1][y]
+            print(f"Looking at neighbor DOWN... ({x + 1}, {y}), options={tile_right.options}")
+            tile_right.options = tile_right.options & TILE_RULES[tile.value][RIGHT]
+            print(f"After update... ({x + 1}, {y}), options={tile_right.options}")
+        if y != 0:
+            tile_up = grid[x][y - 1]
+            print(f"Looking at neighbor LEFT... ({x}, {y - 1}), options={tile_up.options}")
+            tile_up.options = tile_up.options & TILE_RULES[tile.value][UP]
+            print(f"After update... ({x}, {y - 1}), options={tile_up.options}")
+        if y != GRID_DIM - 1:
+            tile_down = grid[x][y + 1]
+            #print(f"Looking at neighbor RIGHT... ({x}, {y + 1}), options={tile_down.options}")
+            tile_down.options = tile_down.options & TILE_RULES[tile.value][DOWN]
+            #print(f"After update... ({x}, {y + 1}), options={tile_down.options}")
+
+    else:
+        FINISHED_COLLAPSING = True
+
 def game_loop():
     global FINISHED_COLLAPSING
     while True:
@@ -115,46 +170,10 @@ def game_loop():
 
         #If there remains a single tile not collapsed...
         if not FINISHED_COLLAPSING:
-            # Calculate which is the next tile to collapse
-            #1. Obtain a list of tiles coordinates such that they have the least amount of options
-            lowest_num_options = len(ALL_OPTIONS)
-            lowest_entropy = []
-            for i, row in enumerate(grid):
-                for j, tile in enumerate(row):
-                    if tile.collapsed or len(tile.options) > lowest_num_options:
-                        continue
-                    elif len(tile.options) == lowest_num_options:
-                        lowest_entropy.append((tile, i, j))
-                    else:
-                        lowest_num_options = len(tile.options)
-                        lowest_entropy = [(tile, i, j)]
-            if  lowest_entropy:
+            print("\n\nCollapsing tiles...")
+            collapse_tiles()
 
-                #2. From this list, randomly choose a tile to collapse
-                to_collapse_data = random.choice(lowest_entropy)
-                tile, x, y = to_collapse_data
-                tile.collapse()
-
-                #3. Update neighboring tiles using intersection of rules and options
-                if x != 0:
-                    tile_up = grid[x - 1][y]
-                    tile_up.options = tile_up.options & TILE_RULES[tile.value][UP]
-                if x != GRID_DIM - 1:
-                    tile_down = grid[x + 1][y]
-                    tile_down.options = tile_down.options & TILE_RULES[tile.value][DOWN]
-                if y != 0:
-                    tile_left = grid[x][y - 1]
-                    tile_left.options = tile_left.options & TILE_RULES[tile.value][LEFT]
-                if y != GRID_DIM - 1:
-                    tile_right = grid[x][y + 1]
-                    tile_right.options = tile_right.options & TILE_RULES[tile.value][RIGHT]
-        else:
-            FINISHED_COLLAPSING = True
-
-        #Draw the tiles each frame
-        for row in grid:
-            for tile in row:
-                tile.draw(DISPLAYSURF)
+        draw_tiles()
         pygame.display.update()
         FramePerSec.tick(FPS)
 
@@ -162,5 +181,4 @@ def game_loop():
 if __name__ == "__main__":
     pygame.init()
     setup()
-    #grid[1][0].set_value(LEFT) #manually collapsing cell for testing
     game_loop()
