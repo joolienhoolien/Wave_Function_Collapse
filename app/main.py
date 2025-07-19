@@ -1,6 +1,7 @@
 import sys
 import pygame
 from pygame.locals import *
+import random
 
 #Color reference
 BLACK = pygame.Color(0,0,0)
@@ -11,7 +12,7 @@ GREEN = pygame.Color(0,255,0)
 BLUE = pygame.Color(0,0,255)
 
 #Display
-SCREEN_WIDTH, SCREEN_HEIGHT = 100, 100
+SCREEN_WIDTH, SCREEN_HEIGHT = 1000,1000
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 DISPLAYSURF.fill(WHITE)
 
@@ -19,19 +20,52 @@ DISPLAYSURF.fill(WHITE)
 FramePerSec = pygame.time.Clock()
 FPS = 60
 
-#Grid stuff
-grid_dim = 2
+#Grid
+GRID_DIM = 20
 grid = []
+
+#Tiles
 tiles = ["../tiles/blank.png",
          "../tiles/up.png",
          "../tiles/right.png",
          "../tiles/down.png",
          "../tiles/left.png",]
 BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
+ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
+TILE_RULES = {
+    BLANK: {UP : {BLANK, UP},
+            RIGHT: {BLANK, RIGHT},
+            DOWN: {BLANK, DOWN},
+            LEFT: {BLANK, LEFT}
+            },
+    UP: {UP : {RIGHT, DOWN, LEFT},
+         RIGHT: {UP, DOWN, LEFT},
+         DOWN: {BLANK, DOWN},
+         LEFT: {DOWN, RIGHT, UP}
+         },
+    RIGHT: {UP : {RIGHT, DOWN, LEFT},
+         RIGHT: {UP, DOWN, LEFT},
+         DOWN: {UP, RIGHT, LEFT},
+         LEFT: {BLANK, LEFT}
+            },
+    DOWN: {UP : {BLANK, UP},
+         RIGHT: {UP, DOWN, LEFT},
+         DOWN: {LEFT, RIGHT, UP},
+         LEFT: {UP, RIGHT, LEFT}
+           },
+    LEFT: {UP : {LEFT, DOWN, RIGHT},
+         RIGHT: {BLANK, RIGHT},
+         DOWN: {LEFT, RIGHT, UP},
+         LEFT: {DOWN, RIGHT, UP}
+           },
+}
+
+FINISHED_COLLAPSING = False
+
 
 class Tile(pygame.sprite.Sprite):
     collapsed = False
-    options = [BLANK, UP, RIGHT, DOWN, LEFT]
+    options = {BLANK, UP, RIGHT, DOWN, LEFT}
     value = BLANK
 
     def __init__(self, x, y, tile):
@@ -46,34 +80,78 @@ class Tile(pygame.sprite.Sprite):
     def set_value(self, value):
         self.value = value
         self.collapsed = True
-        self.options = [value]
+        self.options = {value}
         self.image = pygame.image.load(tiles[value])
+
+    def collapse(self):
+        if not self.options:
+            self.set_value(BLANK)
+        self.set_value(random.choice(tuple(self.options)))
 
 
 def setup():
     global grid
-    grid = [[0 for _ in range(grid_dim)] for _ in range(grid_dim)]
-    for i in range(grid_dim):
-        for j in range(grid_dim):
-            tile_width = SCREEN_WIDTH / grid_dim
+    grid = [[0 for _ in range(GRID_DIM)] for _ in range(GRID_DIM)]
+    for i in range(GRID_DIM):
+        for j in range(GRID_DIM):
+            tile_width = SCREEN_WIDTH / GRID_DIM
             tile_x_center = tile_width / 2
             x = tile_x_center + (tile_width * i)
 
-            tile_width = SCREEN_WIDTH / grid_dim
+            tile_width = SCREEN_WIDTH / GRID_DIM
             tile_y_center = tile_width / 2
             y = tile_y_center + (tile_width * j)
 
             grid[i][j] = Tile(x, y, BLANK)
 
 
-
 def game_loop():
+    global FINISHED_COLLAPSING
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
 
+        #If there remains a single tile not collapsed...
+        if not FINISHED_COLLAPSING:
+            # Calculate which is the next tile to collapse
+            #1. Obtain a list of tiles coordinates such that they have the least amount of options
+            lowest_num_options = len(ALL_OPTIONS)
+            lowest_entropy = []
+            for i, row in enumerate(grid):
+                for j, tile in enumerate(row):
+                    if tile.collapsed or len(tile.options) > lowest_num_options:
+                        continue
+                    elif len(tile.options) == lowest_num_options:
+                        lowest_entropy.append((tile, i, j))
+                    else:
+                        lowest_num_options = len(tile.options)
+                        lowest_entropy = [(tile, i, j)]
+            if  lowest_entropy:
+
+                #2. From this list, randomly choose a tile to collapse
+                to_collapse_data = random.choice(lowest_entropy)
+                tile, x, y = to_collapse_data
+                tile.collapse()
+
+                #3. Update neighboring tiles using intersection of rules and options
+                if x != 0:
+                    tile_up = grid[x - 1][y]
+                    tile_up.options = tile_up.options & TILE_RULES[tile.value][UP]
+                if x != GRID_DIM - 1:
+                    tile_down = grid[x + 1][y]
+                    tile_down.options = tile_down.options & TILE_RULES[tile.value][DOWN]
+                if y != 0:
+                    tile_left = grid[x][y - 1]
+                    tile_left.options = tile_left.options & TILE_RULES[tile.value][LEFT]
+                if y != GRID_DIM - 1:
+                    tile_right = grid[x][y + 1]
+                    tile_right.options = tile_right.options & TILE_RULES[tile.value][RIGHT]
+        else:
+            FINISHED_COLLAPSING = True
+
+        #Draw the tiles each frame
         for row in grid:
             for tile in row:
                 tile.draw(DISPLAYSURF)
