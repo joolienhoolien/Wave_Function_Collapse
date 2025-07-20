@@ -21,7 +21,7 @@ FramePerSec = pygame.time.Clock()
 FPS = 60
 
 #Grid
-GRID_DIM = 20
+GRID_DIM = 50
 grid = []
 
 #Tiles
@@ -59,9 +59,9 @@ TILE_RULES = {
          LEFT: {DOWN, RIGHT, UP}
            },
 }
-
 FINISHED_COLLAPSING = False
-
+SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM, SCREEN_HEIGHT // GRID_DIM
+print(SPRITE_SIZE_W, SPRITE_SIZE_H)
 
 class Tile(pygame.sprite.Sprite):
     collapsed = False
@@ -70,7 +70,8 @@ class Tile(pygame.sprite.Sprite):
 
     def __init__(self, x, y, tile):
         super().__init__()
-        self.image = pygame.image.load(tiles[tile])
+        self.image = pygame.image.load(tiles[tile]).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (SPRITE_SIZE_W, SPRITE_SIZE_H))
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
 
@@ -104,6 +105,7 @@ def setup():
             y = tile_y_center + (tile_width * j)
 
             grid[i][j] = Tile(x, y, BLANK)
+            print(x,y)
 
 
 def draw_tiles():
@@ -133,29 +135,20 @@ def collapse_tiles():
         to_collapse_data = random.choice(lowest_entropy)
         tile, x, y = to_collapse_data
         tile.collapse()
-        print(f"Collapsing tile at grid[{x},{y}] into {tile.value}")
 
         # 3. Update neighboring tiles using intersection of rules and options
         if x != 0:
             tile_left = grid[x - 1][y]
-            print(f"Looking at neighbor UP... ({x - 1}, {y}), options={tile_left.options}")
             tile_left.options = tile_left.options & TILE_RULES[tile.value][LEFT]
-            print(f"After update... ({x - 1}, {y}), options={tile_left.options}")
         if x != GRID_DIM - 1:
             tile_right = grid[x + 1][y]
-            print(f"Looking at neighbor DOWN... ({x + 1}, {y}), options={tile_right.options}")
             tile_right.options = tile_right.options & TILE_RULES[tile.value][RIGHT]
-            print(f"After update... ({x + 1}, {y}), options={tile_right.options}")
         if y != 0:
             tile_up = grid[x][y - 1]
-            print(f"Looking at neighbor LEFT... ({x}, {y - 1}), options={tile_up.options}")
             tile_up.options = tile_up.options & TILE_RULES[tile.value][UP]
-            print(f"After update... ({x}, {y - 1}), options={tile_up.options}")
         if y != GRID_DIM - 1:
             tile_down = grid[x][y + 1]
-            #print(f"Looking at neighbor RIGHT... ({x}, {y + 1}), options={tile_down.options}")
             tile_down.options = tile_down.options & TILE_RULES[tile.value][DOWN]
-            #print(f"After update... ({x}, {y + 1}), options={tile_down.options}")
 
     else:
         FINISHED_COLLAPSING = True
@@ -170,7 +163,6 @@ def game_loop():
 
         #If there remains a single tile not collapsed...
         if not FINISHED_COLLAPSING:
-            print("\n\nCollapsing tiles...")
             collapse_tiles()
 
         draw_tiles()
