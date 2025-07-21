@@ -52,8 +52,11 @@ class Cell(pygame.sprite.Sprite):
         self.update_image(tile.image_path)
         self.tile = tile
 
-    def update_image(self, image_path: str):
-        self.image = pygame.image.load(image_path)
+    def update_image(self, image_path: str, **kwargs):
+        width = kwargs.get('width', self.sprite_width)
+        height = kwargs.get('height', self.sprite_height)
+        self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (width, height))
         self.rect.center = (self.x, self.y)
 
     def draw(self, surface):

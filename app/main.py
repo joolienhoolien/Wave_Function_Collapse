@@ -35,7 +35,7 @@ from tile import Tile, rotate_tile
 from cell import Cell
 
 #Display
-SCREEN_WIDTH, SCREEN_HEIGHT = 500,500
+SCREEN_WIDTH, SCREEN_HEIGHT = 800,800
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 #DISPLAYSURF.fill(GREEN)
 
@@ -44,12 +44,10 @@ FramePerSec = pygame.time.Clock()
 FPS = 60
 
 #Grid
-GRID_DIM = 10
+GRID_DIM = 50
 grid = []
 
 #Tiles
-TILE_IMAGES = ["../tiles/set1/blank.png",
-         "../tiles/set1/up.png"]
 BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
 ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
 FINISHED_COLLAPSING = False
@@ -57,17 +55,72 @@ SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM, SCREEN_HEIGHT // GRID_D
 TILES = []
 BASE_TILES = []
 
-def setup():
+
+def setup_tiles_set1():
     #Blank tile is a special case
     TILES.append(Tile("../tile_sets/set1/blank.png",
                       {UP: {0}, RIGHT: {0}, DOWN: {0}, LEFT: {0}}))
     #Set up base tiles
     BASE_TILES.append(Tile("../tile_sets/set1/T.png",
                            {UP: {1}, RIGHT: {1}, DOWN: {0}, LEFT: {1}}))
+
+def setup_tiles_pcb():
+    """
+    side definitions:
+        GREY: 0
+        GREEN: 1
+        LIGHT GREEN CONNECTOR: 2
+        LIGHT GREY CONNECTOR: 3
+        GREY THEN GREEN: 4
+        GREEN THEN GREY: 5
+    :return:
+    """
+    #Full Green
+    TILES.append(Tile("../tile_sets/pcb/1.png",
+                      {UP: {1}, RIGHT: {1}, DOWN: {1}, LEFT: {1}}))
+    #Full Grey
+    TILES.append(Tile("../tile_sets/pcb/0.png",
+                      {UP: {0}, RIGHT: {0}, DOWN: {0}, LEFT: {0}}))
+
+    #Set up base tiles
+    BASE_TILES.append(Tile("../tile_sets/pcb/2.png",
+                           {UP: {1}, RIGHT: {2}, DOWN: {1}, LEFT: {1}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/3.png",
+                           {UP: {1}, RIGHT: {3}, DOWN: {1}, LEFT: {3}}))
+    #BASE_TILES.append(Tile("../tile_sets/pcb/4.png",
+    #                       {UP: {4}, RIGHT: {2}, DOWN: {5}, LEFT: {0}}))
+    #BASE_TILES.append(Tile("../tile_sets/pcb/5.png",
+    #                       {UP: {4}, RIGHT: {1}, DOWN: {1}, LEFT: {5}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/6.png",
+                           {UP: {1}, RIGHT: {2}, DOWN: {1}, LEFT: {2}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/7.png",
+                           {UP: {3}, RIGHT: {2}, DOWN: {3}, LEFT: {2}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/8.png",
+                           {UP: {3}, RIGHT: {1}, DOWN: {2}, LEFT: {1}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/9.png",
+                           {UP: {2}, RIGHT: {2}, DOWN: {1}, LEFT: {2}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/10.png",
+                           {UP: {2}, RIGHT: {2}, DOWN: {2}, LEFT: {2}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/11.png",
+                           {UP: {2}, RIGHT: {2}, DOWN: {1}, LEFT: {1}}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/12.png",
+                           {UP: {1}, RIGHT: {2}, DOWN: {1}, LEFT: {2}}))
+
+
+def setup_tiles(tile_set):
+    #TODO: Set the tile settings in another class so it is dynamic
+    if tile_set == "set1":
+        setup_tiles_set1()
+    elif tile_set == "pcb":
+        setup_tiles_pcb()
     for tile in BASE_TILES:
-        for i in range(4):
+        for i in range(4): #TODO: Some tiles I only want to rotate once i.e. they are same if you 180 rotate them
             rotated_tile = rotate_tile(tile, i)
             TILES.append(rotated_tile)
+
+
+def setup():
+    setup_tiles("pcb")
 
     #Set up neighbors for tiles
     for tile in TILES:
