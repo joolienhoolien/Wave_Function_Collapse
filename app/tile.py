@@ -33,8 +33,6 @@ class Tile:
     def set_neighbors(self, tiles) -> None:
         for other_tile in tiles:
             #DOWN
-            #TODO: Change to "if equal to reverse of string
-            #TODO i.e. if other_tile.sides[DOWN] == self.sides[UP][::-1] <-- strings
             if other_tile.sides[DOWN] == self.sides[UP][::-1]:
                 self.neighbors[DOWN].add(other_tile)
             #UP
@@ -60,7 +58,6 @@ def rotate_tile(tile: Tile, num_pi_rotations: int) -> Tile:
     new_tile.image_path = image_path
 
     #Rotate sides
-    #sides look like {UP: {1}, RIGHT: {1}, DOWN: {0}, LEFT: {1}}
     if num_pi_rotations == 1:
         new_tile.sides[UP] = tile.sides[LEFT]
         new_tile.sides[RIGHT] = tile.sides[UP]

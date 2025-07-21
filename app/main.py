@@ -41,7 +41,7 @@ DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 #Frames
 FramePerSec = pygame.time.Clock()
-FPS = 60
+FPS = 300
 
 #Grid
 GRID_DIM = 50
@@ -59,10 +59,10 @@ BASE_TILES = []
 def setup_tiles_set1():
     #Blank tile is a special case
     TILES.append(Tile("../tile_sets/set1/blank.png",
-                      {UP: {0}, RIGHT: {0}, DOWN: {0}, LEFT: {0}}))
+                      {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
     #Set up base tiles
     BASE_TILES.append(Tile("../tile_sets/set1/T.png",
-                           {UP: {1}, RIGHT: {1}, DOWN: {0}, LEFT: {1}}))
+                           {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "1"}))
 
 def setup_tiles_pcb():
     """
@@ -104,6 +104,30 @@ def setup_tiles_pcb():
     BASE_TILES.append(Tile("../tile_sets/pcb/12.png",
                            {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
 
+def setup_tiles_circles():
+    """
+    color definitions:
+        black: 0
+        white: 1
+    :return:
+    """
+    TILES.append(Tile("../tile_sets/circles/b.png",
+                      {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES.append(Tile("../tile_sets/circles/b_half.png",
+                      {UP: "0", RIGHT: "1", DOWN: "1", LEFT: "1"}))
+    BASE_TILES.append(Tile("../tile_sets/circles/b_i.png",
+                      {UP: "0", RIGHT: "1", DOWN: "0", LEFT: "1"}))
+    BASE_TILES.append(Tile("../tile_sets/circles/b_quarter.png",
+                      {UP: "0", RIGHT: "0", DOWN: "1", LEFT: "1"}))
+    TILES.append(Tile("../tile_sets/circles/w.png",
+                      {UP: "1", RIGHT: "1", DOWN: "1", LEFT: "1"}))
+    BASE_TILES.append(Tile("../tile_sets/circles/w_half.png",
+                      {UP: "1", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES.append(Tile("../tile_sets/circles/w_i.png",
+                      {UP: "1", RIGHT: "0", DOWN: "1", LEFT: "0"}))
+    BASE_TILES.append(Tile("../tile_sets/circles/w_quarter.png",
+                      {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "0"}))
+
 
 def setup_tiles(tile_set):
     #TODO: Set the tile settings in another class so it is dynamic
@@ -111,6 +135,8 @@ def setup_tiles(tile_set):
         setup_tiles_set1()
     elif tile_set == "pcb":
         setup_tiles_pcb()
+    elif tile_set == "circles":
+        setup_tiles_circles()
     for tile in BASE_TILES:
         for i in range(4): #TODO: Some tiles I only want to rotate once i.e. they are same if you 180 rotate them
             rotated_tile = rotate_tile(tile, i)
@@ -118,7 +144,7 @@ def setup_tiles(tile_set):
 
 
 def setup():
-    setup_tiles("pcb")
+    setup_tiles("circles")
 
     #Set up neighbors for tiles
     for tile in TILES:
