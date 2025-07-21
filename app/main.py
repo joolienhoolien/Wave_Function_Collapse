@@ -1,20 +1,41 @@
+"""
+In the setup() phase of the program
+we need to take in a set of base tiles
+alter them (rotate, flip, I think that's it)
+store list of all tiles in main.py.
+
+Then, once we have the list, we need to go through it
+for each tile, we look for other tiles which match
+add the acceptable tiles to neighbors set
+i.e.
+tile_apple.sides.UP = set(1, 4)
+look through tiles
+    tile.banana.down = 0 -> don't add it to tile_apples neighbors
+    tile.orange.down = 1 -> add it!
+        tile.apple.neighbors[UP] += tile.orange
+
+Then we set up our cells...
+
+Then when we collapse...
+we pick a cell and collapse it,
+look at the neighbors and do the same check as before
+cell.options = cell.options & currentTile.neighbors[{direction}]
+
+
+Optimization:
+Have a separate data structure for keeping track of least entropic
+cells and removes collapsed cells so that performance keeps up
+"""
+
 import sys
 import pygame
 from pygame.locals import *
 import random
-from tile import Tile
+from tile import Tile, rotate_tile
 from cell import Cell
 
-#Color reference
-BLACK = pygame.Color(0,0,0)
-WHITE = pygame.Color(255,255,255)
-GREY = pygame.Color(128,128,128)
-RED = pygame.Color(255,0,0)
-GREEN = pygame.Color(0,255,0)
-BLUE = pygame.Color(0,0,255)
-
 #Display
-SCREEN_WIDTH, SCREEN_HEIGHT = 1000,1000
+SCREEN_WIDTH, SCREEN_HEIGHT = 500,500
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 #DISPLAYSURF.fill(GREEN)
 
@@ -23,35 +44,30 @@ FramePerSec = pygame.time.Clock()
 FPS = 60
 
 #Grid
-GRID_DIM = 20
+GRID_DIM = 10
 grid = []
 
 #Tiles
-TILE_IMAGES = ["../tiles/blank.png",
-         "../tiles/up.png",
-         "../tiles/right.png",
-         "../tiles/down.png",
-         "../tiles/left.png", ]
+TILE_IMAGES = ["../tiles/set1/blank.png",
+         "../tiles/set1/up.png"]
 BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
 ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
 FINISHED_COLLAPSING = False
 SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM, SCREEN_HEIGHT // GRID_DIM
 TILES = []
-#print(SPRITE_SIZE_W, SPRITE_SIZE_H)
+BASE_TILES = []
 
 def setup():
-    #Set up base tiles
-    TILES.append(Tile("../tiles/blank.png",
+    #Blank tile is a special case
+    TILES.append(Tile("../tile_sets/set1/blank.png",
                       {UP: {0}, RIGHT: {0}, DOWN: {0}, LEFT: {0}}))
-    TILES.append(Tile("../tiles/up.png",
-                      {UP: {1}, RIGHT: {1}, DOWN: {0}, LEFT: {1}}))
-    TILES.append(Tile("../tiles/right.png",
-                      {UP: {1}, RIGHT: {1}, DOWN: {1}, LEFT: {0}}))
-    TILES.append(Tile("../tiles/down.png",
-                      {UP: {0}, RIGHT: {1}, DOWN: {1}, LEFT: {1}}))
-    TILES.append(Tile("../tiles/left.png",
-                      {UP: {1}, RIGHT: {0}, DOWN: {1}, LEFT: {1}}))
-    #TODO: Add rotating to set up alt tiles
+    #Set up base tiles
+    BASE_TILES.append(Tile("../tile_sets/set1/T.png",
+                           {UP: {1}, RIGHT: {1}, DOWN: {0}, LEFT: {1}}))
+    for tile in BASE_TILES:
+        for i in range(4):
+            rotated_tile = rotate_tile(tile, i)
+            TILES.append(rotated_tile)
 
     #Set up neighbors for tiles
     for tile in TILES:

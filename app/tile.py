@@ -7,6 +7,10 @@ Tile class responsibilities:
             This is set up after every tile is created.
     - Used as a blueprint when collapsing cells
 """
+import copy
+
+from PIL import Image
+import os
 
 BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
 
@@ -20,7 +24,6 @@ class Tile:
                           DOWN: set(),
                           LEFT: set(),
                           RIGHT: set()}
-
     #TODO: Can be optimized to O(nlogn) instead of O(n^2)
     #Currently this will be called by a for loop so it checks each tile against each other tile,
     #   redundantly checking both directions for each tile twice
@@ -42,31 +45,34 @@ class Tile:
             if other_tile.sides[RIGHT] & self.sides[LEFT]:
                 self.neighbors[RIGHT].add(other_tile)
 
-"""
-In the setup() phase of the program
-we need to take in a set of base tiles
-alter them (rotate, flip, i think that's it)
-store list of all tiles in main.py.
+def rotate_tile(tile: Tile, num_pi_rotations: int) -> Tile:
+    new_tile = Tile(tile.image_path, copy.deepcopy(tile.sides))
 
-Then, once we have the list, we need to go through it
-for each tile, we look for other tiles which match 
-add the acceptable tiles to neighbors set
-i.e.
-tile_apple.sides.UP = set(1, 4)
-look through tiles
-    tile.banana.down = 0 -> don't add it to tile_apples neighbors
-    tile.orange.down = 1 -> add it!
-        tile.apple.neighbors[UP] += tile.orange
+    #Rotate image to reflect the sides
+    image = Image.open(new_tile.image_path)
+    image = image.rotate(num_pi_rotations * -90)
+    filepath, ext = os.path.splitext(tile.image_path)
+    basename = os.path.basename(filepath)
+    image_path = f"../tile_temp/{basename}{str(num_pi_rotations)}{ext}"
+    image.save(image_path)
+    new_tile.image_path = image_path
 
-Then we set up our cells...
+    #Rotate sides
+    #sides look like {UP: {1}, RIGHT: {1}, DOWN: {0}, LEFT: {1}}
+    if num_pi_rotations == 1:
+        new_tile.sides[UP] = tile.sides[LEFT]
+        new_tile.sides[RIGHT] = tile.sides[UP]
+        new_tile.sides[DOWN] = tile.sides[RIGHT]
+        new_tile.sides[LEFT] = tile.sides[DOWN]
+    elif num_pi_rotations == 2:
+        new_tile.sides[UP] = tile.sides[DOWN]
+        new_tile.sides[RIGHT] = tile.sides[LEFT]
+        new_tile.sides[DOWN] = tile.sides[UP]
+        new_tile.sides[LEFT] = tile.sides[RIGHT]
+    elif num_pi_rotations == 3:
+        new_tile.sides[UP] = tile.sides[RIGHT]
+        new_tile.sides[RIGHT] = tile.sides[DOWN]
+        new_tile.sides[DOWN] = tile.sides[LEFT]
+        new_tile.sides[LEFT] = tile.sides[UP]
 
-Then when we collapse...
-we pick a cell and collapse it,
-look at the neighbors and do the same check as before
-cell.options = cell.options & currentTile.neighbors[{direction}]
-
-
-Optimization:
-Have a separate data structure for keeping track of least entropic 
-cells and removes collapsed cells so that performance keeps up
-"""
+    return new_tile
