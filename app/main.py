@@ -66,45 +66,43 @@ def setup_tiles_set1():
 
 def setup_tiles_pcb():
     """
-    side definitions:
+    color definitions:
         GREY: 0
         GREEN: 1
-        LIGHT GREEN CONNECTOR: 2
-        LIGHT GREY CONNECTOR: 3
-        GREY THEN GREEN: 4
-        GREEN THEN GREY: 5
+        L GREEN: 2
+        L GREY: 3
     :return:
     """
-    #Full Green
-    TILES.append(Tile("../tile_sets/pcb/1.png",
-                      {UP: {1}, RIGHT: {1}, DOWN: {1}, LEFT: {1}}))
     #Full Grey
     TILES.append(Tile("../tile_sets/pcb/0.png",
-                      {UP: {0}, RIGHT: {0}, DOWN: {0}, LEFT: {0}}))
+                      {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
+    #Full Green
+    TILES.append(Tile("../tile_sets/pcb/1.png",
+                      {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
 
     #Set up base tiles
     BASE_TILES.append(Tile("../tile_sets/pcb/2.png",
-                           {UP: {1}, RIGHT: {2}, DOWN: {1}, LEFT: {1}}))
+                           {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "111"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/3.png",
-                           {UP: {1}, RIGHT: {3}, DOWN: {1}, LEFT: {3}}))
-    #BASE_TILES.append(Tile("../tile_sets/pcb/4.png",
-    #                       {UP: {4}, RIGHT: {2}, DOWN: {5}, LEFT: {0}}))
-    #BASE_TILES.append(Tile("../tile_sets/pcb/5.png",
-    #                       {UP: {4}, RIGHT: {1}, DOWN: {1}, LEFT: {5}}))
+                           {UP: "111", RIGHT: "131", DOWN: "111", LEFT: "131"}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/4.png",
+                           {UP: "011", RIGHT: "121", DOWN: "110", LEFT: "000"}))
+    BASE_TILES.append(Tile("../tile_sets/pcb/5.png",
+                           {UP: "011", RIGHT: "111", DOWN: "111", LEFT: "110"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/6.png",
-                           {UP: {1}, RIGHT: {2}, DOWN: {1}, LEFT: {2}}))
+                           {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/7.png",
-                           {UP: {3}, RIGHT: {2}, DOWN: {3}, LEFT: {2}}))
+                           {UP: "131", RIGHT: "121", DOWN: "131", LEFT: "121"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/8.png",
-                           {UP: {3}, RIGHT: {1}, DOWN: {2}, LEFT: {1}}))
+                           {UP: "131", RIGHT: "111", DOWN: "121", LEFT: "111"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/9.png",
-                           {UP: {2}, RIGHT: {2}, DOWN: {1}, LEFT: {2}}))
+                           {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "121"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/10.png",
-                           {UP: {2}, RIGHT: {2}, DOWN: {2}, LEFT: {2}}))
+                           {UP: "121", RIGHT: "121", DOWN: "121", LEFT: "121"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/11.png",
-                           {UP: {2}, RIGHT: {2}, DOWN: {1}, LEFT: {1}}))
+                           {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "111"}))
     BASE_TILES.append(Tile("../tile_sets/pcb/12.png",
-                           {UP: {1}, RIGHT: {2}, DOWN: {1}, LEFT: {2}}))
+                           {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
 
 
 def setup_tiles(tile_set):
