@@ -44,7 +44,7 @@ FramePerSec = pygame.time.Clock()
 FPS = 300
 
 #Grid
-GRID_DIM = 50
+GRID_DIM = 100
 grid = []
 
 #Tiles
@@ -53,15 +53,19 @@ ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
 FINISHED_COLLAPSING = False
 SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM, SCREEN_HEIGHT // GRID_DIM
 TILES = []
-BASE_TILES = []
-
+#Base tile's keys describe number of rotations to perform on the tile
+BASE_TILES = {
+    4: [],
+    2: [],
+    0: []
+}
+TILE_SET = "circles"
+TILE_WEIGHTS = {"black": 1000, "white": 1}
 
 def setup_tiles_set1():
-    #Blank tile is a special case
-    TILES.append(Tile("../tile_sets/set1/blank.png",
+    BASE_TILES[0].append(Tile("../tile_sets/set1/blank.png",
                       {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
-    #Set up base tiles
-    BASE_TILES.append(Tile("../tile_sets/set1/T.png",
+    BASE_TILES[4].append(Tile("../tile_sets/set1/T.png",
                            {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "1"}))
 
 def setup_tiles_pcb():
@@ -73,61 +77,60 @@ def setup_tiles_pcb():
         L GREY: 3
     :return:
     """
-    #Full Grey
-    TILES.append(Tile("../tile_sets/pcb/0.png",
+    BASE_TILES[0].append(Tile("../tile_sets/pcb/0.png",
                       {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
-    #Full Green
-    TILES.append(Tile("../tile_sets/pcb/1.png",
+    BASE_TILES[0].append(Tile("../tile_sets/pcb/1.png",
                       {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-
-    #Set up base tiles
-    BASE_TILES.append(Tile("../tile_sets/pcb/2.png",
+    BASE_TILES[4].append(Tile("../tile_sets/pcb/2.png",
                            {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "111"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/3.png",
+    BASE_TILES[2].append(Tile("../tile_sets/pcb/3.png",
                            {UP: "111", RIGHT: "131", DOWN: "111", LEFT: "131"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/4.png",
+    BASE_TILES[4].append(Tile("../tile_sets/pcb/4.png",
                            {UP: "011", RIGHT: "121", DOWN: "110", LEFT: "000"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/5.png",
+    BASE_TILES[4].append(Tile("../tile_sets/pcb/5.png",
                            {UP: "011", RIGHT: "111", DOWN: "111", LEFT: "110"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/6.png",
+    BASE_TILES[2].append(Tile("../tile_sets/pcb/6.png",
                            {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/7.png",
+    BASE_TILES[2].append(Tile("../tile_sets/pcb/7.png",
                            {UP: "131", RIGHT: "121", DOWN: "131", LEFT: "121"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/8.png",
+    BASE_TILES[4].append(Tile("../tile_sets/pcb/8.png",
                            {UP: "131", RIGHT: "111", DOWN: "121", LEFT: "111"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/9.png",
+    BASE_TILES[4].append(Tile("../tile_sets/pcb/9.png",
                            {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "121"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/10.png",
+    BASE_TILES[2].append(Tile("../tile_sets/pcb/10.png",
                            {UP: "121", RIGHT: "121", DOWN: "121", LEFT: "121"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/11.png",
+    BASE_TILES[4].append(Tile("../tile_sets/pcb/11.png",
                            {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "111"}))
-    BASE_TILES.append(Tile("../tile_sets/pcb/12.png",
+    BASE_TILES[2].append(Tile("../tile_sets/pcb/12.png",
                            {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
 
-def setup_tiles_circles():
+
+def setup_tiles_circles(black_weight = 1, white_weight = 1):
     """
     color definitions:
         black: 0
         white: 1
     :return:
     """
-    TILES.append(Tile("../tile_sets/circles/b.png",
-                      {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
-    BASE_TILES.append(Tile("../tile_sets/circles/b_half.png",
+    for _ in range(black_weight):
+        BASE_TILES[0].append(Tile("../tile_sets/circles/b.png",
+                          {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES[4].append(Tile("../tile_sets/circles/b_half.png",
                       {UP: "0", RIGHT: "1", DOWN: "1", LEFT: "1"}))
-    BASE_TILES.append(Tile("../tile_sets/circles/b_i.png",
+    BASE_TILES[2].append(Tile("../tile_sets/circles/b_i.png",
                       {UP: "0", RIGHT: "1", DOWN: "0", LEFT: "1"}))
-    BASE_TILES.append(Tile("../tile_sets/circles/b_quarter.png",
-                      {UP: "0", RIGHT: "0", DOWN: "1", LEFT: "1"}))
-    TILES.append(Tile("../tile_sets/circles/w.png",
-                      {UP: "1", RIGHT: "1", DOWN: "1", LEFT: "1"}))
-    BASE_TILES.append(Tile("../tile_sets/circles/w_half.png",
-                      {UP: "1", RIGHT: "0", DOWN: "0", LEFT: "0"}))
-    BASE_TILES.append(Tile("../tile_sets/circles/w_i.png",
-                      {UP: "1", RIGHT: "0", DOWN: "1", LEFT: "0"}))
-    BASE_TILES.append(Tile("../tile_sets/circles/w_quarter.png",
-                      {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "0"}))
+    BASE_TILES[4].append(Tile("../tile_sets/circles/b_quarter.png",
+                  {UP: "0", RIGHT: "0", DOWN: "1", LEFT: "1"}))
 
+    for _ in range(white_weight):
+        BASE_TILES[0].append(Tile("../tile_sets/circles/w.png",
+                          {UP: "1", RIGHT: "1", DOWN: "1", LEFT: "1"}))
+    BASE_TILES[4].append(Tile("../tile_sets/circles/w_half.png",
+                      {UP: "1", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES[2].append(Tile("../tile_sets/circles/w_i.png",
+                      {UP: "1", RIGHT: "0", DOWN: "1", LEFT: "0"}))
+    BASE_TILES[4].append(Tile("../tile_sets/circles/w_quarter.png",
+                      {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "0"}))
 
 def setup_tiles(tile_set):
     #TODO: Set the tile settings in another class so it is dynamic
@@ -136,15 +139,19 @@ def setup_tiles(tile_set):
     elif tile_set == "pcb":
         setup_tiles_pcb()
     elif tile_set == "circles":
-        setup_tiles_circles()
-    for tile in BASE_TILES:
-        for i in range(4): #TODO: Some tiles I only want to rotate once i.e. they are same if you 180 rotate them
-            rotated_tile = rotate_tile(tile, i)
-            TILES.append(rotated_tile)
+        setup_tiles_circles(TILE_WEIGHTS["black"], TILE_WEIGHTS["white"])
+    for num_rotations in BASE_TILES:
+        for tile in BASE_TILES[num_rotations]:
+            if num_rotations == 0:
+                TILES.append(tile)
+            else:
+                for i in range(num_rotations):
+                    rotated_tile = rotate_tile(tile, i)
+                    TILES.append(rotated_tile)
 
 
 def setup():
-    setup_tiles("circles")
+    setup_tiles(TILE_SET)
 
     #Set up neighbors for tiles
     for tile in TILES:

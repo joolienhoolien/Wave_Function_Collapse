@@ -34,15 +34,13 @@ class Cell(pygame.sprite.Sprite):
         self.sprite_width = width
         self.sprite_height = height
         self.image = pygame.image.load(self.default_tile.image_path).convert_alpha()
-        #TODO: I think the bug about the images being drawn funny is in this line
         self.image = pygame.transform.scale(self.image, (self.sprite_width, self.sprite_height))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
     def collapse(self):
-        #TODO: the class above needs to handle which tile we collapse into
         if not self.options:
-            self.update_tile(self.default_tile) #TODO how to handle default tile?
+            self.update_tile(self.default_tile)
         else:
             self.update_tile(random.choice(tuple(self.options)))
 
