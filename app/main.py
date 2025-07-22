@@ -133,6 +133,8 @@ def setup_tiles(tile_set):
 
 
 def setup():
+    global FINISHED_COLLAPSING
+    FINISHED_COLLAPSING = False
     setup_tiles(TILE_SET)
 
     #Set up neighbors for tiles
@@ -148,7 +150,6 @@ def setup():
 
 
 def draw_tiles():
-    #TODO: Bug with drawing tiles too many times? Think I saw this loop too much in debugging earlier in dev
     if DEBUG: print("drawing\n")
     count = 0
     for row in grid:
@@ -182,7 +183,10 @@ def collapse_tiles():
         # 2. From this list, randomly choose a tile to collapse
         to_collapse_data = random.choice(lowest_entropy_cells)
         cell, x, y = to_collapse_data
-        cell.collapse()
+        if not cell.collapse():
+            print(f"found contradiction in cell ({x},{y})")
+            FINISHED_COLLAPSING = True
+            return False, x, y
 
         # 3. Update neighboring tiles using intersection of rules and options
         if x != 0:
@@ -200,6 +204,7 @@ def collapse_tiles():
 
     else:
         FINISHED_COLLAPSING = True
+    return True, None, None
 
 def game_loop():
     global FINISHED_COLLAPSING
@@ -212,7 +217,19 @@ def game_loop():
 
         #If there remains a single tile not collapsed...
         if not FINISHED_COLLAPSING:
-            collapse_tiles()
+            collapsed, cell_x, cell_y = collapse_tiles()
+            if not collapsed:
+                print(f"Cannot complete this pattern...")
+                print(f"FAIL_CONDITION set to {FAIL_CONDITION}")
+                if FAIL_CONDITION == "END":
+                    print(f"Ending collapse")
+                elif FAIL_CONDITION == "RESET":
+                    print(f"Resetting collapse")
+                    setup()
+                #elif FAIL_CONDITION == "RESET_FROM_FAIL":
+                #    print(f"Resetting collapse from failure cell [{cell_x},{cell_y}]")
+                #    setup()
+                #    grid[cell_x][cell_y].collapse() #doesn't seem to cause the chain reaction i'd expect
 
         draw_tiles()
         pygame.display.update()

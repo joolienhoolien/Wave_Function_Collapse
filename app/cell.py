@@ -13,13 +13,34 @@ Cell class responsibilities:
             - Reduce options to empty set
             - Mark as collapsed
 """
+import os
 import random
+from PIL import Image
 from settings import *
 
-#TODO: Import from settings.py and have a field for "ALL_OPTIONS"
-#TODO: Have default tile also in here
-
 #or pass in "all_options" in constructor and assert it's populated
+def get_average_image_path(tile_types = None):
+    if tile_types:
+        #Get filepath
+        ext = os.path.splitext(tile_types[0].image_path)[1]
+        filepath = f"../tile_temp/default_{TILE_SET}{ext}"
+
+        #If we already generated this file... just load it
+        if os.path.exists(filepath):
+            return filepath
+
+        #... otherwise, generate it!
+        average_tile = Image.open(tile_types[0].image_path)
+        for i, tile in enumerate(tile_types):
+            if i == 0: continue
+            image = Image.open(tile.image_path)
+            average_tile = Image.blend(average_tile, image, 1.0/float(i+1))
+        average_tile.save(filepath)
+        return filepath
+    else:
+        return None
+
+
 class Cell(pygame.sprite.Sprite):
     def __init__(self, i, j, tile_types):
         super().__init__()
@@ -35,14 +56,14 @@ class Cell(pygame.sprite.Sprite):
         #Tile information
         self.collapsed = False
         self.options = set(tile_types)
-        self.default_tile = tile_types[0]
-        self.tile = self.default_tile
+        self.average_image_path = get_average_image_path(tile_types = tile_types)
+        self.tile = self.average_image_path
 
         #Image information
         self.x, self.y = x, y
         self.sprite_width = width
         self.sprite_height = height
-        self.image = pygame.image.load(self.default_tile.image_path).convert_alpha()
+        self.image = pygame.image.load(self.average_image_path).convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.sprite_width, self.sprite_height))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -52,9 +73,10 @@ class Cell(pygame.sprite.Sprite):
 
     def collapse(self):
         if not self.options:
-            self.update_tile(self.default_tile)
+            return False
         else:
-            self.update_tile(random.choice(tuple(self.options)))
+            self.update_tile(tile=random.choice(tuple(self.options)))
+            return True
 
     def update_tile(self, tile):
         self.collapsed = True
