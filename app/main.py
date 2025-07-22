@@ -28,39 +28,22 @@ cells and removes collapsed cells so that performance keeps up
 """
 
 import sys
-import pygame
 from pygame.locals import *
 import random
 from tile import Tile, rotate_tile
 from cell import Cell
+from settings import *
 
-#Display
-SCREEN_WIDTH, SCREEN_HEIGHT = 800,800
-DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-#DISPLAYSURF.fill(GREEN)
-
-#Frames
-FramePerSec = pygame.time.Clock()
-FPS = 300
-
-#Grid
-GRID_DIM = 100
+FINISHED_COLLAPSING = False
+TILES = []
 grid = []
 
-#Tiles
-BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
-ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
-FINISHED_COLLAPSING = False
-SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM, SCREEN_HEIGHT // GRID_DIM
-TILES = []
 #Base tile's keys describe number of rotations to perform on the tile
 BASE_TILES = {
     4: [],
     2: [],
     0: []
 }
-TILE_SET = "circles"
-TILE_WEIGHTS = {"black": 1000, "white": 1}
 
 def setup_tiles_set1():
     BASE_TILES[0].append(Tile("../tile_sets/set1/blank.png",
@@ -103,7 +86,6 @@ def setup_tiles_pcb():
                            {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "111"}))
     BASE_TILES[2].append(Tile("../tile_sets/pcb/12.png",
                            {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
-
 
 def setup_tiles_circles(black_weight = 1, white_weight = 1):
     """
@@ -162,23 +144,18 @@ def setup():
     grid = [[0 for _ in range(GRID_DIM)] for _ in range(GRID_DIM)]
     for i in range(len(grid)):
         for j in range(len(grid[i])):
-            cell_width = SCREEN_WIDTH / GRID_DIM
-            cell_x_center = cell_width / 2
-            x = cell_x_center + (cell_width * i)
-
-            cell_width = SCREEN_WIDTH / GRID_DIM
-            cell_y_center = cell_width / 2
-            y = cell_y_center + (cell_width * j)
-
-            grid[i][j] = Cell(x, y, TILES, SPRITE_SIZE_W, SPRITE_SIZE_H)
-            #print(x,y)
+            grid[i][j] = Cell(i, j, TILES)
 
 
 def draw_tiles():
     #TODO: Bug with drawing tiles too many times? Think I saw this loop too much in debugging earlier in dev
+    if DEBUG: print("drawing\n")
+    count = 0
     for row in grid:
         for cell in row:
             cell.draw(DISPLAYSURF)
+            count += 1
+    if DEBUG: print(f"drew {count} cells!~~~\n")
 
 
 def collapse_tiles():
@@ -193,7 +170,7 @@ def collapse_tiles():
             #Perhaps grid is a list of objects with x,y coord
                 #or dictionary but i dont think that will work
             #... and when we collapse something, we remove it from the array
-            if cell.collapsed or len(cell.options) > lowest_entropy:
+            if cell.is_collapsed() or len(cell.options) > lowest_entropy:
                 continue
             elif len(cell.options) == lowest_entropy:
                 lowest_entropy_cells.append((cell, i, j))

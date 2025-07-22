@@ -1,0 +1,23 @@
+import pygame
+
+#DEBUG
+DEBUG = False
+
+#Display
+SCREEN_WIDTH, SCREEN_HEIGHT = 400,400
+DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+#DISPLAYSURF.fill(GREEN)
+
+#Grid
+GRID_DIM = 4
+
+#Frames
+FramePerSec = pygame.time.Clock()
+FPS = 1
+
+#Tiles
+BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
+ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
+SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM, SCREEN_HEIGHT // GRID_DIM
+TILE_SET = "set1"
+TILE_WEIGHTS = {"black": 1000, "white": 1}

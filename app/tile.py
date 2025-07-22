@@ -11,8 +11,7 @@ import copy
 
 from PIL import Image
 import os
-
-BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
+from settings import UP, RIGHT, DOWN, LEFT
 
 #Constants should be imported by a settings.py file or config file of some sort
 class Tile:

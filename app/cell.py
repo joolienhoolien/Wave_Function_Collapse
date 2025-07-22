@@ -14,15 +14,24 @@ Cell class responsibilities:
             - Mark as collapsed
 """
 import random
-import pygame
+from settings import *
 
 #TODO: Import from settings.py and have a field for "ALL_OPTIONS"
 #TODO: Have default tile also in here
 
 #or pass in "all_options" in constructor and assert it's populated
 class Cell(pygame.sprite.Sprite):
-    def __init__(self, x, y, tile_types, width, height):
+    def __init__(self, i, j, tile_types):
         super().__init__()
+
+        width = SCREEN_WIDTH / GRID_DIM
+        x_center = width / 2
+        x = x_center + (width * i)
+
+        height = SCREEN_HEIGHT / GRID_DIM
+        y_center = height / 2
+        y = y_center + (height * j)
+
         #Tile information
         self.collapsed = False
         self.options = set(tile_types)
@@ -37,6 +46,9 @@ class Cell(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.sprite_width, self.sprite_height))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
+
+    def is_collapsed(self) -> bool:
+        return self.collapsed
 
     def collapse(self):
         if not self.options:
