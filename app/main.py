@@ -185,22 +185,27 @@ def collapse_tiles():
             return False, x, y
 
         # 3. Update neighboring tiles using intersection of rules and options
-        if x != 0:
-            cell_left = grid[x - 1][y]
-            if not cell_left.is_collapsed():
-                cell_left.update_options(cell_left.options & cell.tile.neighbors[RIGHT])
-        if x != GRID_DIM_WIDTH - 1:
-            cell_right = grid[x + 1][y]
-            if not cell_right.is_collapsed():
-                cell_right.update_options(cell_right.options & cell.tile.neighbors[LEFT])
-        if y != 0:
-            cell_up = grid[x][y - 1]
-            if not cell_up.is_collapsed():
-                cell_up.update_options(cell_up.options & cell.tile.neighbors[DOWN])
-        if y != GRID_DIM_HEIGHT - 1:
-            cell_down = grid[x][y + 1]
-            if not cell_down.is_collapsed():
-                cell_down.update_options(cell_down.options & cell.tile.neighbors[UP])
+        try:
+            if x != 0:
+                cell_left = grid[x - 1][y]
+                if not cell_left.is_collapsed():
+                    cell_left.update_options(cell_left.options & cell.tile.neighbors[RIGHT])
+            if x != GRID_DIM_WIDTH - 1:
+                cell_right = grid[x + 1][y]
+                if not cell_right.is_collapsed():
+                    cell_right.update_options(cell_right.options & cell.tile.neighbors[LEFT])
+            if y != 0:
+                cell_up = grid[x][y - 1]
+                if not cell_up.is_collapsed():
+                    cell_up.update_options(cell_up.options & cell.tile.neighbors[DOWN])
+            if y != GRID_DIM_HEIGHT - 1:
+                cell_down = grid[x][y + 1]
+                if not cell_down.is_collapsed():
+                    cell_down.update_options(cell_down.options & cell.tile.neighbors[UP])
+        except AttributeError:
+            print(f"found contradiction in cell ({x},{y})")
+            FINISHED_COLLAPSING = True
+            return False, x, y
 
     else:
         FINISHED_COLLAPSING = True

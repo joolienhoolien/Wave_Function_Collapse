@@ -17,22 +17,22 @@ FAIL_CONDITIONS are to direct the program what to do in case the wave collapses 
 FAIL_CONDITION = "RESET"
 
 #Display
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 16 * 100
+SCREEN_HEIGHT = 9 * 100
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 #DISPLAYSURF.fill(GREEN)
 
 #Grid
-GRID_DIM_WIDTH = 50
-GRID_DIM_HEIGHT = 50
+GRID_DIM_WIDTH =16 * 10
+GRID_DIM_HEIGHT = 9 * 10
 
 #Frames
 FramePerSec = pygame.time.Clock()
-FPS = 300
+FPS = 60
 
 #Tiles
 BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
 ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
 SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM_WIDTH, SCREEN_HEIGHT // GRID_DIM_HEIGHT
 TILE_SET = "circles"
-TILE_WEIGHTS = {"black": 100, "white": 1}
+TILE_WEIGHTS = {"black": 300, "white": 300}
