@@ -115,7 +115,6 @@ def setup_tiles_circles(black_weight = 1, white_weight = 1):
                       {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "0"}))
 
 def setup_tiles(tile_set):
-    #TODO: Set the tile settings in another class so it is dynamic
     if tile_set == "set1":
         setup_tiles_set1()
     elif tile_set == "pcb":
@@ -130,7 +129,6 @@ def setup_tiles(tile_set):
                 for i in range(num_rotations):
                     rotated_tile = rotate_tile(tile, i)
                     TILES.append(rotated_tile)
-
 
 def setup():
     global FINISHED_COLLAPSING
@@ -148,7 +146,6 @@ def setup():
         for j in range(len(grid[i])):
             grid[i][j] = Cell(i, j, TILES)
 
-
 def draw_tiles():
     if DEBUG: print("drawing\n")
     count = 0
@@ -157,7 +154,6 @@ def draw_tiles():
             cell.draw(DISPLAYSURF)
             count += 1
     if DEBUG: print(f"drew {count} cells!~~~\n")
-
 
 def collapse_tiles():
     global FINISHED_COLLAPSING
@@ -191,16 +187,20 @@ def collapse_tiles():
         # 3. Update neighboring tiles using intersection of rules and options
         if x != 0:
             cell_left = grid[x - 1][y]
-            cell_left.options = cell_left.options & cell.tile.neighbors[RIGHT]
+            if not cell_left.is_collapsed():
+                cell_left.update_options(cell_left.options & cell.tile.neighbors[RIGHT])
         if x != GRID_DIM_WIDTH - 1:
             cell_right = grid[x + 1][y]
-            cell_right.options = cell_right.options & cell.tile.neighbors[LEFT]
+            if not cell_right.is_collapsed():
+                cell_right.update_options(cell_right.options & cell.tile.neighbors[LEFT])
         if y != 0:
             cell_up = grid[x][y - 1]
-            cell_up.options = cell_up.options & cell.tile.neighbors[DOWN]
+            if not cell_up.is_collapsed():
+                cell_up.update_options(cell_up.options & cell.tile.neighbors[DOWN])
         if y != GRID_DIM_HEIGHT - 1:
             cell_down = grid[x][y + 1]
-            cell_down.options = cell_down.options & cell.tile.neighbors[UP]
+            if not cell_down.is_collapsed():
+                cell_down.update_options(cell_down.options & cell.tile.neighbors[UP])
 
     else:
         FINISHED_COLLAPSING = True

@@ -15,15 +15,17 @@ Cell class responsibilities:
 """
 import os
 import random
+import string
+
 from PIL import Image
 from settings import *
 
 #or pass in "all_options" in constructor and assert it's populated
-def get_average_image_path(tile_types = None):
+def get_average_image_path(tile_types = None, name="default"):
     if tile_types:
         #Get filepath
         ext = os.path.splitext(tile_types[0].image_path)[1]
-        filepath = f"../tile_temp/default_{TILE_SET}{ext}"
+        filepath = f"../tile_temp/{name}_{TILE_SET}{ext}"
 
         #If we already generated this file... just load it
         if os.path.exists(filepath):
@@ -68,6 +70,17 @@ class Cell(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
+    def update_options(self, options):
+        #Update the options
+        self.options = options
+
+        #Update the image based on remaining options
+        filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+        average_image_path = get_average_image_path(tile_types = list(options),
+                                                    name=filename)
+        self.update_image(image_path=average_image_path)
+
+
     def is_collapsed(self) -> bool:
         return self.collapsed
 
@@ -93,4 +106,5 @@ class Cell(pygame.sprite.Sprite):
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
+        if DEBUG: print(f"Drawing cell [{self.x}, {self.y}]")
 
