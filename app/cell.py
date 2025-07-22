@@ -24,11 +24,11 @@ class Cell(pygame.sprite.Sprite):
     def __init__(self, i, j, tile_types):
         super().__init__()
 
-        width = SCREEN_WIDTH / GRID_DIM
+        width = SCREEN_WIDTH / GRID_DIM_WIDTH
         x_center = width / 2
         x = x_center + (width * i)
 
-        height = SCREEN_HEIGHT / GRID_DIM
+        height = SCREEN_HEIGHT / GRID_DIM_HEIGHT
         y_center = height / 2
         y = y_center + (height * j)
 

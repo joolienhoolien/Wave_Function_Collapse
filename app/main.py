@@ -141,7 +141,7 @@ def setup():
 
     #Set up grid of cells
     global grid
-    grid = [[0 for _ in range(GRID_DIM)] for _ in range(GRID_DIM)]
+    grid = [[0 for _ in range(GRID_DIM_HEIGHT)] for _ in range(GRID_DIM_WIDTH)]
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             grid[i][j] = Cell(i, j, TILES)
@@ -188,13 +188,13 @@ def collapse_tiles():
         if x != 0:
             cell_left = grid[x - 1][y]
             cell_left.options = cell_left.options & cell.tile.neighbors[RIGHT]
-        if x != GRID_DIM - 1:
+        if x != GRID_DIM_WIDTH - 1:
             cell_right = grid[x + 1][y]
             cell_right.options = cell_right.options & cell.tile.neighbors[LEFT]
         if y != 0:
             cell_up = grid[x][y - 1]
             cell_up.options = cell_up.options & cell.tile.neighbors[DOWN]
-        if y != GRID_DIM - 1:
+        if y != GRID_DIM_HEIGHT - 1:
             cell_down = grid[x][y + 1]
             cell_down.options = cell_down.options & cell.tile.neighbors[UP]
 
