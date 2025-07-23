@@ -28,6 +28,8 @@ cells and removes collapsed cells so that performance keeps up
 """
 import json
 import sys
+from calendar import error
+
 from pygame.locals import *
 import random
 from tile import Tile, rotate_tile
@@ -46,11 +48,15 @@ BASE_TILES = {
 }
 
 def setup_tiles_from_json(filepath=TILE_SET_FILEPATH):
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    for tile in data['tile_set']:
-        sides = {i+1:value for i,(side,value) in enumerate(tile['sides'].items())}
-        BASE_TILES[tile['number_of_rotations']].append(Tile(tile['image_path'],sides))
+    try:
+        with open(filepath, 'r') as file:
+            data = json.load(file)
+        for tile in data['tile_set']:
+            sides = {i+1:value for i,(side,value) in enumerate(tile['sides'].items())}
+            BASE_TILES[tile['number_of_rotations']].append(Tile(tile['image_path'],sides))
+    except FileNotFoundError as error:
+        print(error)
+        raise
 
 def setup_tiles_set1():
     BASE_TILES[0].append(Tile("../tile_sets/set1/blank.png",
@@ -251,7 +257,6 @@ def setup_tiles_sproutlands_grass(land_weight=1, water_weight=10):
         BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__77.png",
                                       {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
 
-
 def setup_tiles(filepath=None, tile_set=None):
     if filepath:
         setup_tiles_from_json(filepath)
@@ -276,8 +281,8 @@ def setup_tiles(filepath=None, tile_set=None):
 def setup():
     global FINISHED_COLLAPSING
     FINISHED_COLLAPSING = False
-    #setup_tiles(TILE_SET)
-    setup_tiles(TILE_SET_FILEPATH)
+    #setup_tiles(tile_set=TILE_SET)
+    setup_tiles(filepath=TILE_SET_FILEPATH)
 
     #Set up neighbors for tiles
     for tile in TILES:
@@ -311,12 +316,12 @@ def collapse_tiles():
             #Perhaps grid is a list of objects with x,y coord
                 #or dictionary but i dont think that will work
             #... and when we collapse something, we remove it from the array
-            if cell.is_collapsed() or len(cell.options) > lowest_entropy:
+            if cell.is_collapsed() or len(cell.possible_neighbors) > lowest_entropy:
                 continue
-            elif len(cell.options) == lowest_entropy:
+            elif len(cell.possible_neighbors) == lowest_entropy:
                 lowest_entropy_cells.append((cell, i, j))
             else:
-                lowest_entropy = len(cell.options)
+                lowest_entropy = len(cell.possible_neighbors)
                 lowest_entropy_cells = [(cell, i, j)]
     if lowest_entropy_cells:
 
@@ -332,16 +337,16 @@ def collapse_tiles():
         try:
             cell_left = grid[(x - 1) % GRID_DIM_WIDTH][y]
             if not cell_left.is_collapsed():
-                cell_left.update_options(cell_left.options & cell.tile.neighbors[RIGHT])
+                cell_left.update_options(cell_left.possible_neighbors & cell.tile.neighbors[RIGHT])
             cell_right = grid[(x + 1) % GRID_DIM_WIDTH][y]
             if not cell_right.is_collapsed():
-                cell_right.update_options(cell_right.options & cell.tile.neighbors[LEFT])
+                cell_right.update_options(cell_right.possible_neighbors & cell.tile.neighbors[LEFT])
             cell_up = grid[x][(y - 1) % GRID_DIM_HEIGHT]
             if not cell_up.is_collapsed():
-                cell_up.update_options(cell_up.options & cell.tile.neighbors[DOWN])
+                cell_up.update_options(cell_up.possible_neighbors & cell.tile.neighbors[DOWN])
             cell_down = grid[x][(y + 1) % GRID_DIM_HEIGHT]
             if not cell_down.is_collapsed():
-                cell_down.update_options(cell_down.options & cell.tile.neighbors[UP])
+                cell_down.update_options(cell_down.possible_neighbors & cell.tile.neighbors[UP])
         except AttributeError:
             print(f"found contradiction in cell ({x},{y})")
             FINISHED_COLLAPSING = True

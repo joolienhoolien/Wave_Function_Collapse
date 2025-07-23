@@ -8,9 +8,7 @@ Tile class responsibilities:
     - Used as a blueprint when collapsing cells
 """
 import copy
-
 from PIL import Image
-import os
 from settings import UP, RIGHT, DOWN, LEFT
 
 #Constants should be imported by a settings.py file or config file of some sort
@@ -25,6 +23,8 @@ class Tile:
                           RIGHT: set()}
         if image_path: self.image = Image.open(image_path)
         elif image: self.image = image
+
+
     #TODO: Can be optimized to O(nlogn) instead of O(n^2)
     #Currently this will be called by a for loop so it checks each tile against each other tile,
     #   redundantly checking both directions for each tile twice

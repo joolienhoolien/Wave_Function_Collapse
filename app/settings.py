@@ -23,8 +23,8 @@ DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 #DISPLAYSURF.fill(GREEN)
 
 #Grid
-GRID_DIM_WIDTH =16
-GRID_DIM_HEIGHT = 9
+GRID_DIM_WIDTH =16 * 5
+GRID_DIM_HEIGHT = 9 * 5
 
 #Frames
 FramePerSec = pygame.time.Clock()
@@ -38,3 +38,4 @@ SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM_WIDTH, SCREEN_HEIGHT // 
 TILE_SET = "circles"
 TILE_WEIGHTS = {"black": 1, "white": 1}
 TILE_SET_FILEPATH = f"../tile_sets/{TILE_SET}/{TILE_SET}.json"
+DEFAULT_TILE = None
