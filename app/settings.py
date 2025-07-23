@@ -23,8 +23,8 @@ DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 #DISPLAYSURF.fill(GREEN)
 
 #Grid
-GRID_DIM_WIDTH =16 * 5
-GRID_DIM_HEIGHT = 9 * 5
+GRID_DIM_WIDTH =16 * 2
+GRID_DIM_HEIGHT = 9 * 2
 
 #Frames
 FramePerSec = pygame.time.Clock()

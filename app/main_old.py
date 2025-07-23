@@ -58,7 +58,7 @@ import sys
 
 from pygame.locals import *
 import random
-from tile import Tile, rotate_tile
+from tile import Tile, copy_tile_and_rotate
 from cell import Cell
 from settings import *
 
@@ -301,7 +301,7 @@ def setup_tiles(filepath=None, tile_set=None):
                 TILES.append(tile)
             else:
                 for i in range(num_rotations):
-                    rotated_tile = rotate_tile(tile, i)
+                    rotated_tile = copy_tile_and_rotate(tile, i)
                     TILES.append(rotated_tile)
 
 def setup():

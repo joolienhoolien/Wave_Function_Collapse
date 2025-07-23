@@ -46,7 +46,7 @@ class Tile:
             if other_tile.sides[RIGHT] == self.sides[LEFT][::-1]:
                 self.neighbors[RIGHT].add(other_tile)
 
-def rotate_tile(tile: Tile, num_pi_rotations: int) -> Tile:
+def copy_tile_and_rotate(tile: Tile, num_pi_rotations: int) -> Tile:
     #Rotate sides
     sides = copy.deepcopy(tile.sides)
     if num_pi_rotations == 1:
