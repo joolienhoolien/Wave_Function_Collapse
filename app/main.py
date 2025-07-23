@@ -1,34 +1,60 @@
 """
-In the setup() phase of the program
-we need to take in a set of base tiles
-alter them (rotate, flip, I think that's it)
-store list of all tiles in main.py.
-
-Then, once we have the list, we need to go through it
-for each tile, we look for other tiles which match
-add the acceptable tiles to neighbors set
-i.e.
-tile_apple.sides.UP = set(1, 4)
-look through tiles
-    tile.banana.down = 0 -> don't add it to tile_apples neighbors
-    tile.orange.down = 1 -> add it!
-        tile.apple.neighbors[UP] += tile.orange
-
-Then we set up our cells...
-
-Then when we collapse...
-we pick a cell and collapse it,
-look at the neighbors and do the same check as before
-cell.options = cell.options & currentTile.neighbors[{direction}]
-
-
-Optimization:
-Have a separate data structure for keeping track of least entropic
-cells and removes collapsed cells so that performance keeps up
+#Algorithm steps:
+1. Create tiles
+    1a. Set up tile prototypes
+        - Read from a JSON file
+        - Create Tile objects
+            Tile's have an **image path**
+    1b. Set up tile permutations
+        - Make a new tile using a prototype
+            - Rotate tiles based on a json field
+            - images, and sides
+    1c. Set up tile neighbors
+        - For each tile, look at each other tile and compare sockets in opposite directions
+            - If the sockets match, they can be neighbors
+2. Create a 2d grid of nodes
+    2a. For each grid[i][j] (based on settings dimensions)...
+        - Create a **data object (unnamed)** which holds:
+            - the **possibility space** (aka which tiles can it be?)
+            - MAYBE also it's own [i][j] for when we need to look at it's neighbors. unsure.
+                - At the start, every node on the grid can be every tile.
+current state: we have a set of Tiles, and a grid of full possibilities. Nothing is rendered to the screen.
+We probably want to return this information to the caller - which is likely a frontend.
+Ex: It says "Please set me up for this tile set"
+    ... maybe we want to be able to start via a button that says "start". Or we want to display the different tile options
+    ... or we want to let them set constraints. This is when it would happen. Or weights!
+3. Adjust anything in the front end. For now this step will be glossed over.
+    One detail is that when this step is over, the front end should be rendering the initial state.
+4. Solve the puzzle / collapse the wave
+    Render the starting image, maybe handled in step 3
+    While the puzzle is solvable and unsolved:
+        4a. Collapse a random node from the set of lowest entropy nodes (at the start this is the full set of nodes)
+            If there is a node with 0 options, and collapsed=False, the is not solvable. Exit this loop and return failure
+            4a.i. When a node is told to be collapsed...
+                Collapse the tile
+                    - Set it to collapsed=True
+                    - Set it's image
+                    - Set it's options to set()
+        4b. Propagate:
+            Add it's neighbors to the stack
+                While stack:
+                    currNode = stack.pop
+                    if not collapsed:
+                        temp_options = options
+                        Calculate options
+                            #Look up,down,left,right and set options = intersection(options, union(other_node.options[opposite_direction]))
+                                ex: node_up = [currNode.x][currNode.y - 1]
+                                currNode.options = currNode.options & union(node_up.options[down])
+                                #Maybe have a function for calculating possible neighbors at the node level?
+                        if temp_options == currNode.options,
+                            return
+                        else:
+                            add neighbors to stack
+        4c. Render the current image / return information to front end to render
+5. Stop solving and return control to the front end. Maybe we can save the image or run again or something
 """
 import json
 import sys
-from calendar import error
 
 from pygame.locals import *
 import random
@@ -316,12 +342,12 @@ def collapse_tiles():
             #Perhaps grid is a list of objects with x,y coord
                 #or dictionary but i dont think that will work
             #... and when we collapse something, we remove it from the array
-            if cell.is_collapsed() or len(cell.possible_neighbors) > lowest_entropy:
+            if cell.is_collapsed() or len(cell.options) > lowest_entropy:
                 continue
-            elif len(cell.possible_neighbors) == lowest_entropy:
+            elif len(cell.options) == lowest_entropy:
                 lowest_entropy_cells.append((cell, i, j))
             else:
-                lowest_entropy = len(cell.possible_neighbors)
+                lowest_entropy = len(cell.options)
                 lowest_entropy_cells = [(cell, i, j)]
     if lowest_entropy_cells:
 
@@ -337,16 +363,16 @@ def collapse_tiles():
         try:
             cell_left = grid[(x - 1) % GRID_DIM_WIDTH][y]
             if not cell_left.is_collapsed():
-                cell_left.update_options(cell_left.possible_neighbors & cell.tile.neighbors[RIGHT])
+                cell_left.update_options(cell_left.options & cell.tile.neighbors[RIGHT])
             cell_right = grid[(x + 1) % GRID_DIM_WIDTH][y]
             if not cell_right.is_collapsed():
-                cell_right.update_options(cell_right.possible_neighbors & cell.tile.neighbors[LEFT])
+                cell_right.update_options(cell_right.options & cell.tile.neighbors[LEFT])
             cell_up = grid[x][(y - 1) % GRID_DIM_HEIGHT]
             if not cell_up.is_collapsed():
-                cell_up.update_options(cell_up.possible_neighbors & cell.tile.neighbors[DOWN])
+                cell_up.update_options(cell_up.options & cell.tile.neighbors[DOWN])
             cell_down = grid[x][(y + 1) % GRID_DIM_HEIGHT]
             if not cell_down.is_collapsed():
-                cell_down.update_options(cell_down.possible_neighbors & cell.tile.neighbors[UP])
+                cell_down.update_options(cell_down.options & cell.tile.neighbors[UP])
         except AttributeError:
             print(f"found contradiction in cell ({x},{y})")
             FINISHED_COLLAPSING = True

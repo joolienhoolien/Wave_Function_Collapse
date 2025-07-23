@@ -61,7 +61,7 @@ class Cell(pygame.sprite.Sprite):
 
         #Tile information
         self.collapsed = False
-        self.possible_neighbors = set(tile_types)
+        self.options = set(tile_types)
         self.average_image = get_average_image(tiles=tile_types, name="DEFAULT")
         self.tile = self.average_image
 
@@ -77,7 +77,7 @@ class Cell(pygame.sprite.Sprite):
 
     def update_options(self, options):
         #Update the options
-        self.possible_neighbors = options
+        self.options = options
 
         #Update the image based on remaining options
         #filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
@@ -89,15 +89,15 @@ class Cell(pygame.sprite.Sprite):
         return self.collapsed
 
     def collapse(self):
-        if not self.possible_neighbors:
+        if not self.options:
             return False
         else:
-            self.update_tile(tile=random.choice(tuple(self.possible_neighbors)))
+            self.update_tile(tile=random.choice(tuple(self.options)))
             return True
 
     def update_tile(self, tile):
         self.collapsed = True
-        self.possible_neighbors = set()
+        self.options = set()
         self.update_image(tile.image)
         self.tile = tile
 
