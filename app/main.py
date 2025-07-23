@@ -26,7 +26,7 @@ Optimization:
 Have a separate data structure for keeping track of least entropic
 cells and removes collapsed cells so that performance keeps up
 """
-
+import json
 import sys
 from pygame.locals import *
 import random
@@ -44,6 +44,13 @@ BASE_TILES = {
     2: [],
     0: []
 }
+
+def setup_tiles_from_json(filepath=TILE_SET_FILEPATH):
+    with open(filepath, 'r') as file:
+        data = json.load(file)
+    for tile in data['tile_set']:
+        sides = {i+1:value for i,(side,value) in enumerate(tile['sides'].items())}
+        BASE_TILES[tile['number_of_rotations']].append(Tile(tile['image_path'],sides))
 
 def setup_tiles_set1():
     BASE_TILES[0].append(Tile("../tile_sets/set1/blank.png",
@@ -245,16 +252,18 @@ def setup_tiles_sproutlands_grass(land_weight=1, water_weight=10):
                                       {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
 
 
-
-def setup_tiles(tile_set):
-    if tile_set == "set1":
-        setup_tiles_set1()
-    elif tile_set == "pcb":
-        setup_tiles_pcb()
-    elif tile_set == "circles":
-        setup_tiles_circles(TILE_WEIGHTS["black"], TILE_WEIGHTS["white"])
-    elif tile_set == "sproutlands_grass":
-        setup_tiles_sproutlands_grass()
+def setup_tiles(filepath=None, tile_set=None):
+    if filepath:
+        setup_tiles_from_json(filepath)
+    elif tile_set:
+        if tile_set == "set1":
+            setup_tiles_set1()
+        elif tile_set == "pcb":
+            setup_tiles_pcb()
+        elif tile_set == "circles":
+            setup_tiles_circles(TILE_WEIGHTS["black"], TILE_WEIGHTS["white"])
+        elif tile_set == "sproutlands_grass":
+            setup_tiles_sproutlands_grass()
     for num_rotations in BASE_TILES:
         for tile in BASE_TILES[num_rotations]:
             if num_rotations == 0:
@@ -267,7 +276,8 @@ def setup_tiles(tile_set):
 def setup():
     global FINISHED_COLLAPSING
     FINISHED_COLLAPSING = False
-    setup_tiles(TILE_SET)
+    #setup_tiles(TILE_SET)
+    setup_tiles(TILE_SET_FILEPATH)
 
     #Set up neighbors for tiles
     for tile in TILES:
