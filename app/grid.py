@@ -47,7 +47,7 @@ def permute_tiles(base_tiles):
 def set_new_grid(all_tiles, width, height):
     # Set up neighbors for tiles
     for tile in all_tiles:
-        tile.set_neighbors(all_tiles)
+        tile.set_valid_neighbors(all_tiles)
 
     # Set up grid of nodes
     grid = [[0 for _ in range(height)] for _ in range(width)]

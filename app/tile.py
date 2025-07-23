@@ -17,10 +17,10 @@ class Tile:
         #Sides describes the tags of the side. i.e. building a map it could be "wood", "tree", "unwalkable"
         self.sides = sides
         #self.image_path = image_path
-        self.neighbors = {UP: set(),
-                          DOWN: set(),
-                          LEFT: set(),
-                          RIGHT: set()}
+        self.valid_neighbors = {UP: set(),
+                                DOWN: set(),
+                                LEFT: set(),
+                                RIGHT: set()}
         if image_path: self.image = Image.open(image_path)
         elif image: self.image = image
 
@@ -31,20 +31,20 @@ class Tile:
     #   i.e. check tile 0 against tile 1 on first loop, then checks 1 against 0 on second loop
     #   Could maybe just have a check for "if this tile is in my neighbors already, skip"?
     #   Use two pointers to iterate through
-    def set_neighbors(self, tiles) -> None:
+    def set_valid_neighbors(self, tiles) -> None:
         for other_tile in tiles:
             #DOWN
             if other_tile.sides[DOWN] == self.sides[UP][::-1]:
-                self.neighbors[DOWN].add(other_tile)
+                self.valid_neighbors[DOWN].add(other_tile)
             #UP
             if other_tile.sides[UP] == self.sides[DOWN][::-1]:
-                self.neighbors[UP].add(other_tile)
+                self.valid_neighbors[UP].add(other_tile)
             #RIGHT
             if other_tile.sides[LEFT] == self.sides[RIGHT][::-1]:
-                self.neighbors[LEFT].add(other_tile)
+                self.valid_neighbors[LEFT].add(other_tile)
             #LEFT
             if other_tile.sides[RIGHT] == self.sides[LEFT][::-1]:
-                self.neighbors[RIGHT].add(other_tile)
+                self.valid_neighbors[RIGHT].add(other_tile)
 
 def copy_tile_and_rotate(tile: Tile, num_pi_rotations: int) -> Tile:
     #Rotate sides

@@ -312,7 +312,7 @@ def setup():
 
     #Set up neighbors for tiles
     for tile in TILES:
-        tile.set_neighbors(TILES)
+        tile.set_valid_neighbors(TILES)
 
     #Set up grid of cells
     global grid
@@ -363,16 +363,16 @@ def collapse_tiles():
         try:
             cell_left = grid[(x - 1) % GRID_DIM_WIDTH][y]
             if not cell_left.is_collapsed():
-                cell_left.update_options(cell_left.options & cell.tile.neighbors[RIGHT])
+                cell_left.update_options(cell_left.options & cell.tile.valid_neighbors[RIGHT])
             cell_right = grid[(x + 1) % GRID_DIM_WIDTH][y]
             if not cell_right.is_collapsed():
-                cell_right.update_options(cell_right.options & cell.tile.neighbors[LEFT])
+                cell_right.update_options(cell_right.options & cell.tile.valid_neighbors[LEFT])
             cell_up = grid[x][(y - 1) % GRID_DIM_HEIGHT]
             if not cell_up.is_collapsed():
-                cell_up.update_options(cell_up.options & cell.tile.neighbors[DOWN])
+                cell_up.update_options(cell_up.options & cell.tile.valid_neighbors[DOWN])
             cell_down = grid[x][(y + 1) % GRID_DIM_HEIGHT]
             if not cell_down.is_collapsed():
-                cell_down.update_options(cell_down.options & cell.tile.neighbors[UP])
+                cell_down.update_options(cell_down.options & cell.tile.valid_neighbors[UP])
         except AttributeError:
             print(f"found contradiction in cell ({x},{y})")
             FINISHED_COLLAPSING = True
