@@ -25,12 +25,12 @@ class Grid:
         lowest_entropy_nodes = []
         for row in self.grid:
             for node in row:
-                if node.is_collapsed() or len(node.tile_options) > lowest_entropy:
+                if node.is_collapsed() or len(node.get_tile_options()) > lowest_entropy:
                     continue
-                elif len(node.tile_options) == lowest_entropy:
+                elif len(node.get_tile_options()) == lowest_entropy:
                     lowest_entropy_nodes.append(node)
                 else:
-                    lowest_entropy = len(node.tile_options)
+                    lowest_entropy = len(node.get_tile_options())
                     lowest_entropy_nodes = [node]
 
         # 2. From this list, randomly choose a tile to collapse
@@ -74,48 +74,48 @@ class Grid:
 
                         # Calculate new options
                         #LEFT
-                        temp_options = curr_node.tile_options
+                        temp_options = curr_node.get_tile_options()
                         tile_union = set()
                         node_left = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
-                        for tile in node_left.tile_options:
+                        for tile in node_left.get_tile_options():
                             tile_union = tile_union | tile.valid_neighbors[LEFT]
-                        curr_node.tile_options = curr_node.tile_options & tile_union
+                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
                         # Check if updated
-                        if not temp_options == curr_node.tile_options:
+                        if not temp_options == curr_node.get_tile_options():
                             stack.append(node_left)
 
                         #RIGHT
-                        temp_options = curr_node.tile_options
+                        temp_options = curr_node.get_tile_options()
                         tile_union = set()
                         node_right = self.grid[(curr_node.x + 1) % self.width][curr_node.y]
-                        for tile in node_right.tile_options:
+                        for tile in node_right.get_tile_options():
                             tile_union = tile_union | tile.valid_neighbors[RIGHT]
-                        curr_node.tile_options = curr_node.tile_options & tile_union
+                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
                         # Check if updated
-                        if not temp_options == curr_node.tile_options:
+                        if not temp_options == curr_node.get_tile_options():
                             stack.append(node_right)
 
                         #UP
-                        temp_options = curr_node.tile_options
+                        temp_options = curr_node.get_tile_options()
                         tile_union = set()
                         node_up = self.grid[curr_node.x][(curr_node.y - 1) % self.height]
-                        for tile in node_up.tile_options:
+                        for tile in node_up.get_tile_options():
                             tile_union = tile_union | tile.valid_neighbors[UP]
-                        curr_node.tile_options = curr_node.tile_options & tile_union
+                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
                         # Check if updated
-                        if not temp_options == curr_node.tile_options:
+                        if not temp_options == curr_node.get_tile_options():
                             stack.append(node_up)
 
                         #DOWN
-                        temp_options = curr_node.tile_options
+                        temp_options = curr_node.get_tile_options()
                         tile_union = set()
                         node_down = self.grid[curr_node.x][(curr_node.y + 1) % self.height]
-                        for tile in node_down.tile_options:
+                        for tile in node_down.get_tile_options():
                             tile_union = tile_union | tile.valid_neighbors[DOWN]
-                        curr_node.tile_options = curr_node.tile_options & tile_union
+                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
 
                         # Check if updated
-                        if not temp_options == curr_node.tile_options:
+                        if not temp_options == curr_node.get_tile_options():
                             stack.append(node_down)
             except AttributeError:
                     print(f"found contradiction in cell ({node.x},{node.y})")
