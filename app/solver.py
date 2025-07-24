@@ -35,3 +35,11 @@ class Solver:
     #get/set
     def is_solved(self):
         return self.grid.finished_collapsing
+
+if __name__ == "__main__":
+    solver = Solver()
+    while not solver.is_solved():
+        solver.solve_next()
+    for row in solver.grid.grid:
+        for node in row:
+            print(node)

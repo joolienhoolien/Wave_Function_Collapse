@@ -22,6 +22,8 @@ class Node:
         self.tile_options = set(tile_options)
         self.collapsed = False
         self.tile = None
+    def __str__(self):
+        return f'[{self.x}][{self.y}]: {self.tile}'
 
     def collapse(self):
         if not self.tile_options:
@@ -36,7 +38,8 @@ class Node:
 
     def set_tile(self, tile):
         self.collapsed = True
-        self.tile_options = set(tile)
+        self.tile_options = set()
+        self.tile_options.add(tile)
         self.tile = tile
 
     def set_tile_options(self, tile_options):

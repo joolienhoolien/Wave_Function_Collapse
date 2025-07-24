@@ -1,5 +1,3 @@
-import pygame
-
 #DEBUG
 DEBUG = False
 
@@ -19,15 +17,15 @@ FAIL_CONDITION = "RESET"
 #Display
 SCREEN_WIDTH = 16 * 100
 SCREEN_HEIGHT = 9 * 100
-DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+#DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 #DISPLAYSURF.fill(GREEN)
 
 #Grid
-GRID_DIM_WIDTH =16 * 2
-GRID_DIM_HEIGHT = 9 * 2
+GRID_DIM_WIDTH = 5
+GRID_DIM_HEIGHT = 5
 
 #Frames
-FramePerSec = pygame.time.Clock()
+#FramePerSec = pygame.time.Clock()
 FPS = 60
 
 #Tiles
@@ -35,7 +33,7 @@ BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4
 #TILE_CONVERSION = {"UP" : 1, "RIGHT" : 2, "DOWN" : 3, "LEFT" : 4}
 ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
 SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM_WIDTH, SCREEN_HEIGHT // GRID_DIM_HEIGHT
-TILE_SET = "circles"
+TILE_SET = "set1"
 TILE_WEIGHTS = {"black": 1, "white": 1}
 TILE_SET_FILEPATH = f"../tile_sets/{TILE_SET}/{TILE_SET}.json"
 DEFAULT_TILE = None

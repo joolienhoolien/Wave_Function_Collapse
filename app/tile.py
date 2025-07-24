@@ -24,7 +24,8 @@ class Tile:
         if image_path: self.image = Image.open(image_path)
         elif image: self.image = image
 
-
+    def __str__(self):
+        return f"{self.sides}"
     #TODO: Can be optimized to O(nlogn) instead of O(n^2)
     #Currently this will be called by a for loop so it checks each tile against each other tile,
     #   redundantly checking both directions for each tile twice
