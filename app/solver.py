@@ -36,10 +36,14 @@ class Solver:
     def is_solved(self):
         return self.grid.finished_collapsing
 
+    def get_grid(self):
+        return self.grid.grid
+
 if __name__ == "__main__":
     solver = Solver()
     while not solver.is_solved():
         solver.solve_next()
+        solver.get_grid()
     for row in solver.grid.grid:
         for node in row:
             print(node)

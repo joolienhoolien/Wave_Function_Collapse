@@ -12,21 +12,15 @@ FAIL_CONDITIONS are to direct the program what to do in case the wave collapses 
     - NOT IMPLEMENTED "BACKTRACK" - move backwards from the failure point and try new combinations
 """
 
-FAIL_CONDITION = "RESET"
+FAIL_CONDITION = "END"
 
 #Display
 SCREEN_WIDTH = 16 * 100
 SCREEN_HEIGHT = 9 * 100
-#DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-#DISPLAYSURF.fill(GREEN)
 
 #Grid
-GRID_DIM_WIDTH = 5
-GRID_DIM_HEIGHT = 5
-
-#Frames
-#FramePerSec = pygame.time.Clock()
-FPS = 60
+GRID_DIM_WIDTH = 16
+GRID_DIM_HEIGHT = 9
 
 #Tiles
 BLANK, UP, RIGHT, DOWN, LEFT = 0, 1, 2, 3, 4

@@ -13,8 +13,7 @@ Cell class responsibilities:
             - Reduce options to empty set
             - Mark as collapsed
 """
-import random
-
+import pygame
 from PIL import Image
 
 from app.tile import Tile
@@ -47,8 +46,8 @@ def get_average_image(tiles = None, name=None):
         return None
 
 
-class Cell(pygame.sprite.Sprite):
-    def __init__(self, i, j, tile_types):
+class NodeSprite(pygame.sprite.Sprite):
+    def __init__(self, i, j, tile_options):
         super().__init__()
 
         width = SCREEN_WIDTH / GRID_DIM_WIDTH
@@ -59,53 +58,24 @@ class Cell(pygame.sprite.Sprite):
         y_center = height / 2
         y = y_center + (height * j)
 
-        #Tile information
-        self.collapsed = False
-        self.options = set(tile_types)
-        self.average_image = get_average_image(tiles=tile_types, name="DEFAULT")
-        self.tile = self.average_image
-
         #Image information
-        self.x, self.y = x, y
+        self.average_image = get_average_image(tiles=tile_options, name="DEFAULT")
         self.sprite_width = width
         self.sprite_height = height
+        self.x, self.y = x, y
         #self.image = self.average_image.load
         self.image = pygame.image.fromstring(self.average_image.tobytes(), self.average_image.size, self.average_image.mode).convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.sprite_width, self.sprite_height))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
-    def update_options(self, options):
-        #Update the options
-        self.options = options
-
-        #Update the image based on remaining options
-        #filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
-        average_image = get_average_image(tiles= list(options))
-        self.update_image(image=average_image)
-
-
-    def is_collapsed(self) -> bool:
-        return self.collapsed
-
-    def collapse(self):
-        if not self.options:
-            return False
-        else:
-            self.update_tile(tile=random.choice(tuple(self.options)))
-            return True
-
-    def update_tile(self, tile):
-        self.collapsed = True
-        self.options = set()
-        self.update_image(tile.image)
-        self.tile = tile
-
-    def update_image(self, image, **kwargs):
+    def update_image(self, tile_options, **kwargs):
         width = kwargs.get('width', self.sprite_width)
         height = kwargs.get('height', self.sprite_height)
-        self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (width, height))
+        image = get_average_image(tiles=tile_options)
+        if image:
+            self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (width, height))
         self.rect.center = (self.x, self.y)
 
     def draw(self, surface):

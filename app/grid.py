@@ -3,6 +3,7 @@ import random
 from tile import Tile, copy_tile_and_rotate
 from node import Node
 import json
+from settings import *
 
 
 class Grid:
@@ -36,6 +37,7 @@ class Grid:
         if lowest_entropy_nodes:
             to_collapse_data = random.choice(lowest_entropy_nodes)
             node = to_collapse_data
+            if DEBUG: print(f"Collapsing {to_collapse_data}")
             if not node.collapse():
                 print(f"found contradiction in node ({node.x},{node.y})")
                 self.finished_collapsing = True

@@ -59,7 +59,7 @@ import sys
 from pygame.locals import *
 import random
 from tile import Tile, copy_tile_and_rotate
-from cell import Cell
+from cell import Grid_Sprite
 from settings import *
 
 FINISHED_COLLAPSING = False
@@ -319,7 +319,7 @@ def setup():
     grid = [[0 for _ in range(GRID_DIM_HEIGHT)] for _ in range(GRID_DIM_WIDTH)]
     for i in range(len(grid)):
         for j in range(len(grid[i])):
-            grid[i][j] = Cell(i, j, TILES)
+            grid[i][j] = Grid_Sprite(i, j, TILES)
 
 def draw_tiles():
     if DEBUG: print("drawing\n")
@@ -342,12 +342,12 @@ def collapse_tiles():
             #Perhaps grid is a list of objects with x,y coord
                 #or dictionary but i dont think that will work
             #... and when we collapse something, we remove it from the array
-            if cell.is_collapsed() or len(cell.options) > lowest_entropy:
+            if cell.is_collapsed() or len(cell.tile_options) > lowest_entropy:
                 continue
-            elif len(cell.options) == lowest_entropy:
+            elif len(cell.tile_options) == lowest_entropy:
                 lowest_entropy_cells.append((cell, i, j))
             else:
-                lowest_entropy = len(cell.options)
+                lowest_entropy = len(cell.tile_options)
                 lowest_entropy_cells = [(cell, i, j)]
     if lowest_entropy_cells:
 
@@ -363,16 +363,16 @@ def collapse_tiles():
         try:
             cell_left = grid[(x - 1) % GRID_DIM_WIDTH][y]
             if not cell_left.is_collapsed():
-                cell_left.update_options(cell_left.options & cell.tile.valid_neighbors[RIGHT])
+                cell_left.update_options(cell_left.tile_options & cell.tile.valid_neighbors[RIGHT])
             cell_right = grid[(x + 1) % GRID_DIM_WIDTH][y]
             if not cell_right.is_collapsed():
-                cell_right.update_options(cell_right.options & cell.tile.valid_neighbors[LEFT])
+                cell_right.update_options(cell_right.tile_options & cell.tile.valid_neighbors[LEFT])
             cell_up = grid[x][(y - 1) % GRID_DIM_HEIGHT]
             if not cell_up.is_collapsed():
-                cell_up.update_options(cell_up.options & cell.tile.valid_neighbors[DOWN])
+                cell_up.update_options(cell_up.tile_options & cell.tile.valid_neighbors[DOWN])
             cell_down = grid[x][(y + 1) % GRID_DIM_HEIGHT]
             if not cell_down.is_collapsed():
-                cell_down.update_options(cell_down.options & cell.tile.valid_neighbors[UP])
+                cell_down.update_options(cell_down.tile_options & cell.tile.valid_neighbors[UP])
         except AttributeError:
             print(f"found contradiction in cell ({x},{y})")
             FINISHED_COLLAPSING = True

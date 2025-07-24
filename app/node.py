@@ -36,6 +36,9 @@ class Node:
     def is_collapsed(self):
         return self.collapsed
 
+    def get_tile_options(self):
+        return self.tile_options
+
     def set_tile(self, tile):
         self.collapsed = True
         self.tile_options = set()
