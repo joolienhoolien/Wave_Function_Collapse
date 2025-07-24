@@ -9,7 +9,7 @@
         "DOWN": "0",
         "LEFT": "0"
       },
-      "image_path" : "../tile_sets/set1/blank.png",
+      "image_path" : "blank.png",
       "number_of_rotations": 0
     },
     {
@@ -20,7 +20,7 @@
         "DOWN": "0",
         "LEFT": "1"
       },
-      "image_path" : "../tile_sets/set1/T.png",
+      "image_path" : "T.png",
       "number_of_rotations": 4
     }
   ]

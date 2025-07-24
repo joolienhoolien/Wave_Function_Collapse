@@ -9,7 +9,7 @@ from settings import *
 class Solver:
     def __init__(self):
         #TODO: read settings from solver_settings.json
-        tile_set_filepath = TILE_SET_FILEPATH
+        tile_set_filepath = TILE_SET_JSON
         self.grid = Grid(tile_set_filepath, GRID_DIM_WIDTH, GRID_DIM_HEIGHT)
 
     def solve_next(self):

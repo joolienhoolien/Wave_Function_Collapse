@@ -85,10 +85,10 @@ def setup_tiles_from_json(filepath=TILE_SET_FILEPATH):
         raise
 
 def setup_tiles_set1():
-    BASE_TILES[0].append(Tile("../tile_sets/set1/blank.png",
-                      {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
-    BASE_TILES[4].append(Tile("../tile_sets/set1/T.png",
-                           {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "1"}))
+    BASE_TILES[0].append(Tile("../base_tiles/set1/blank.png",
+                              {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES[4].append(Tile("../base_tiles/set1/T.png",
+                              {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "1"}))
 
 def setup_tiles_pcb():
     """
@@ -99,32 +99,32 @@ def setup_tiles_pcb():
         L GREY: 3
     :return:
     """
-    BASE_TILES[0].append(Tile("../tile_sets/pcb/0.png",
-                      {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/pcb/1.png",
-                      {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[4].append(Tile("../tile_sets/pcb/2.png",
-                           {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[2].append(Tile("../tile_sets/pcb/3.png",
-                           {UP: "111", RIGHT: "131", DOWN: "111", LEFT: "131"}))
-    BASE_TILES[4].append(Tile("../tile_sets/pcb/4.png",
-                           {UP: "011", RIGHT: "121", DOWN: "110", LEFT: "000"}))
-    BASE_TILES[4].append(Tile("../tile_sets/pcb/5.png",
-                           {UP: "011", RIGHT: "111", DOWN: "111", LEFT: "110"}))
-    BASE_TILES[2].append(Tile("../tile_sets/pcb/6.png",
-                           {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
-    BASE_TILES[2].append(Tile("../tile_sets/pcb/7.png",
-                           {UP: "131", RIGHT: "121", DOWN: "131", LEFT: "121"}))
-    BASE_TILES[4].append(Tile("../tile_sets/pcb/8.png",
-                           {UP: "131", RIGHT: "111", DOWN: "121", LEFT: "111"}))
-    BASE_TILES[4].append(Tile("../tile_sets/pcb/9.png",
-                           {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "121"}))
-    BASE_TILES[2].append(Tile("../tile_sets/pcb/10.png",
-                           {UP: "121", RIGHT: "121", DOWN: "121", LEFT: "121"}))
-    BASE_TILES[4].append(Tile("../tile_sets/pcb/11.png",
-                           {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[2].append(Tile("../tile_sets/pcb/12.png",
-                           {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
+    BASE_TILES[0].append(Tile("../base_tiles/pcb/0.png",
+                              {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/pcb/1.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[4].append(Tile("../base_tiles/pcb/2.png",
+                              {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[2].append(Tile("../base_tiles/pcb/3.png",
+                              {UP: "111", RIGHT: "131", DOWN: "111", LEFT: "131"}))
+    BASE_TILES[4].append(Tile("../base_tiles/pcb/4.png",
+                              {UP: "011", RIGHT: "121", DOWN: "110", LEFT: "000"}))
+    BASE_TILES[4].append(Tile("../base_tiles/pcb/5.png",
+                              {UP: "011", RIGHT: "111", DOWN: "111", LEFT: "110"}))
+    BASE_TILES[2].append(Tile("../base_tiles/pcb/6.png",
+                              {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
+    BASE_TILES[2].append(Tile("../base_tiles/pcb/7.png",
+                              {UP: "131", RIGHT: "121", DOWN: "131", LEFT: "121"}))
+    BASE_TILES[4].append(Tile("../base_tiles/pcb/8.png",
+                              {UP: "131", RIGHT: "111", DOWN: "121", LEFT: "111"}))
+    BASE_TILES[4].append(Tile("../base_tiles/pcb/9.png",
+                              {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "121"}))
+    BASE_TILES[2].append(Tile("../base_tiles/pcb/10.png",
+                              {UP: "121", RIGHT: "121", DOWN: "121", LEFT: "121"}))
+    BASE_TILES[4].append(Tile("../base_tiles/pcb/11.png",
+                              {UP: "121", RIGHT: "121", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[2].append(Tile("../base_tiles/pcb/12.png",
+                              {UP: "111", RIGHT: "121", DOWN: "111", LEFT: "121"}))
 
 def setup_tiles_circles(black_weight = 1, white_weight = 1):
     """
@@ -134,24 +134,24 @@ def setup_tiles_circles(black_weight = 1, white_weight = 1):
     :return:
     """
     for _ in range(black_weight):
-        BASE_TILES[0].append(Tile("../tile_sets/circles/b.png",
-                          {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
-    BASE_TILES[4].append(Tile("../tile_sets/circles/b_half.png",
-                      {UP: "0", RIGHT: "1", DOWN: "1", LEFT: "1"}))
-    BASE_TILES[2].append(Tile("../tile_sets/circles/b_i.png",
-                      {UP: "0", RIGHT: "1", DOWN: "0", LEFT: "1"}))
-    BASE_TILES[4].append(Tile("../tile_sets/circles/b_quarter.png",
-                  {UP: "0", RIGHT: "0", DOWN: "1", LEFT: "1"}))
+        BASE_TILES[0].append(Tile("../base_tiles/circles/b.png",
+                                  {UP: "0", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES[4].append(Tile("../base_tiles/circles/b_half.png",
+                              {UP: "0", RIGHT: "1", DOWN: "1", LEFT: "1"}))
+    BASE_TILES[2].append(Tile("../base_tiles/circles/b_i.png",
+                              {UP: "0", RIGHT: "1", DOWN: "0", LEFT: "1"}))
+    BASE_TILES[4].append(Tile("../base_tiles/circles/b_quarter.png",
+                              {UP: "0", RIGHT: "0", DOWN: "1", LEFT: "1"}))
 
     for _ in range(white_weight):
-        BASE_TILES[0].append(Tile("../tile_sets/circles/w.png",
-                          {UP: "1", RIGHT: "1", DOWN: "1", LEFT: "1"}))
-    BASE_TILES[4].append(Tile("../tile_sets/circles/w_half.png",
-                      {UP: "1", RIGHT: "0", DOWN: "0", LEFT: "0"}))
-    BASE_TILES[2].append(Tile("../tile_sets/circles/w_i.png",
-                      {UP: "1", RIGHT: "0", DOWN: "1", LEFT: "0"}))
-    BASE_TILES[4].append(Tile("../tile_sets/circles/w_quarter.png",
-                      {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "0"}))
+        BASE_TILES[0].append(Tile("../base_tiles/circles/w.png",
+                                  {UP: "1", RIGHT: "1", DOWN: "1", LEFT: "1"}))
+    BASE_TILES[4].append(Tile("../base_tiles/circles/w_half.png",
+                              {UP: "1", RIGHT: "0", DOWN: "0", LEFT: "0"}))
+    BASE_TILES[2].append(Tile("../base_tiles/circles/w_i.png",
+                              {UP: "1", RIGHT: "0", DOWN: "1", LEFT: "0"}))
+    BASE_TILES[4].append(Tile("../base_tiles/circles/w_quarter.png",
+                              {UP: "1", RIGHT: "1", DOWN: "0", LEFT: "0"}))
 
 def setup_tiles_sproutlands_grass(land_weight=1, water_weight=10):
     """
@@ -161,127 +161,127 @@ def setup_tiles_sproutlands_grass(land_weight=1, water_weight=10):
     :return:
     """
     for _ in range(land_weight): pass
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__1.png",
-                                  {UP: "000", RIGHT: "011", DOWN: "110", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__2.png",
-                                  {UP: "000", RIGHT: "011", DOWN: "111", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__3.png",
-                                  {UP: "000", RIGHT: "000", DOWN: "011", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__4.png",
-                                  {UP: "000", RIGHT: "000", DOWN: "010", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__5.png",
-                                  {UP: "000", RIGHT: "010", DOWN: "010", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__6.png",
-                                  {UP: "000", RIGHT: "010", DOWN: "011", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__7.png",
-                                  {UP: "000", RIGHT: "011", DOWN: "110", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__8.png",
-                                  {UP: "000", RIGHT: "000", DOWN: "010", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__9.png",
-                                  {UP: "000", RIGHT: "010", DOWN: "010", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__10.png",
-                                  {UP: "110", RIGHT: "011", DOWN: "110", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__12.png",
-                                  {UP: "011", RIGHT: "111", DOWN: "110", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__13.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__14.png",
-                                  {UP: "110", RIGHT: "000", DOWN: "011", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__15.png",
-                                  {UP: "010", RIGHT: "000", DOWN: "010", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__16.png",
-                                  {UP: "011", RIGHT: "110", DOWN: "010", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__17.png",
-                                  {UP: "111", RIGHT: "110", DOWN: "011", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__18.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "110", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__19.png",
-                                  {UP: "110", RIGHT: "000", DOWN: "010", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__20.png",
-                                  {UP: "111", RIGHT: "110", DOWN: "010", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__21.png",
-                                  {UP: "011", RIGHT: "110", DOWN: "011", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__23.png",
-                                  {UP: "011", RIGHT: "110", DOWN: "000", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__24.png",
-                                  {UP: "111", RIGHT: "110", DOWN: "000", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__25.png",
-                                  {UP: "110", RIGHT: "000", DOWN: "000", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__26.png",
-                                  {UP: "010", RIGHT: "000", DOWN: "000", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__27.png",
-                                  {UP: "010", RIGHT: "011", DOWN: "110", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__28.png",
-                                  {UP: "110", RIGHT: "011", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__29.png",
-                                  {UP: "011", RIGHT: "111", DOWN: "111", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__30.png",
-                                  {UP: "010", RIGHT: "000", DOWN: "011", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__31.png",
-                                  {UP: "010", RIGHT: "011", DOWN: "111", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__32.png",
-                                  {UP: "010", RIGHT: "011", DOWN: "110", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__33.png",
-                                  {UP: "010", RIGHT: "010", DOWN: "011", LEFT: "110"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__34.png",
-                                  {UP: "000", RIGHT: "010", DOWN: "000", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__35.png",
-                                  {UP: "000", RIGHT: "010", DOWN: "000", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__36.png",
-                                  {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__37.png",
-                                  {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__38.png",
-                                  {UP: "010", RIGHT: "010", DOWN: "000", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__39.png",
-                                  {UP: "110", RIGHT: "010", DOWN: "000", LEFT: "100"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__40.png",
-                                  {UP: "011", RIGHT: "110", DOWN: "000", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__41.png",
-                                  {UP: "010", RIGHT: "000", DOWN: "000", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__42.png",
-                                  {UP: "010", RIGHT: "010", DOWN: "000", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__43.png",
-                                  {UP: "011", RIGHT: "110", DOWN: "010", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__44.png",
-                                  {UP: "110", RIGHT: "010", DOWN: "010", LEFT: "011"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__49.png",
-                                  {UP: "010", RIGHT: "010", DOWN: "010", LEFT: "000"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__50.png",
-                                  {UP: "110", RIGHT: "010", DOWN: "011", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__51.png",
-                                  {UP: "011", RIGHT: "111", DOWN: "110", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__52.png",
-                                  {UP: "010", RIGHT: "000", DOWN: "010", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__53.png",
-                                  {UP: "010", RIGHT: "010", DOWN: "010", LEFT: "010"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__56.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__57.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__58.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__59.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__60.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__61.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__67.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__68.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__69.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__70.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__71.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
-    BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__72.png",
-                                  {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__1.png",
+                              {UP: "000", RIGHT: "011", DOWN: "110", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__2.png",
+                              {UP: "000", RIGHT: "011", DOWN: "111", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__3.png",
+                              {UP: "000", RIGHT: "000", DOWN: "011", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__4.png",
+                              {UP: "000", RIGHT: "000", DOWN: "010", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__5.png",
+                              {UP: "000", RIGHT: "010", DOWN: "010", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__6.png",
+                              {UP: "000", RIGHT: "010", DOWN: "011", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__7.png",
+                              {UP: "000", RIGHT: "011", DOWN: "110", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__8.png",
+                              {UP: "000", RIGHT: "000", DOWN: "010", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__9.png",
+                              {UP: "000", RIGHT: "010", DOWN: "010", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__10.png",
+                              {UP: "110", RIGHT: "011", DOWN: "110", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__12.png",
+                              {UP: "011", RIGHT: "111", DOWN: "110", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__13.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__14.png",
+                              {UP: "110", RIGHT: "000", DOWN: "011", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__15.png",
+                              {UP: "010", RIGHT: "000", DOWN: "010", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__16.png",
+                              {UP: "011", RIGHT: "110", DOWN: "010", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__17.png",
+                              {UP: "111", RIGHT: "110", DOWN: "011", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__18.png",
+                              {UP: "111", RIGHT: "111", DOWN: "110", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__19.png",
+                              {UP: "110", RIGHT: "000", DOWN: "010", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__20.png",
+                              {UP: "111", RIGHT: "110", DOWN: "010", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__21.png",
+                              {UP: "011", RIGHT: "110", DOWN: "011", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__23.png",
+                              {UP: "011", RIGHT: "110", DOWN: "000", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__24.png",
+                              {UP: "111", RIGHT: "110", DOWN: "000", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__25.png",
+                              {UP: "110", RIGHT: "000", DOWN: "000", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__26.png",
+                              {UP: "010", RIGHT: "000", DOWN: "000", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__27.png",
+                              {UP: "010", RIGHT: "011", DOWN: "110", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__28.png",
+                              {UP: "110", RIGHT: "011", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__29.png",
+                              {UP: "011", RIGHT: "111", DOWN: "111", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__30.png",
+                              {UP: "010", RIGHT: "000", DOWN: "011", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__31.png",
+                              {UP: "010", RIGHT: "011", DOWN: "111", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__32.png",
+                              {UP: "010", RIGHT: "011", DOWN: "110", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__33.png",
+                              {UP: "010", RIGHT: "010", DOWN: "011", LEFT: "110"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__34.png",
+                              {UP: "000", RIGHT: "010", DOWN: "000", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__35.png",
+                              {UP: "000", RIGHT: "010", DOWN: "000", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__36.png",
+                              {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__37.png",
+                              {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__38.png",
+                              {UP: "010", RIGHT: "010", DOWN: "000", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__39.png",
+                              {UP: "110", RIGHT: "010", DOWN: "000", LEFT: "100"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__40.png",
+                              {UP: "011", RIGHT: "110", DOWN: "000", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__41.png",
+                              {UP: "010", RIGHT: "000", DOWN: "000", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__42.png",
+                              {UP: "010", RIGHT: "010", DOWN: "000", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__43.png",
+                              {UP: "011", RIGHT: "110", DOWN: "010", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__44.png",
+                              {UP: "110", RIGHT: "010", DOWN: "010", LEFT: "011"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__49.png",
+                              {UP: "010", RIGHT: "010", DOWN: "010", LEFT: "000"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__50.png",
+                              {UP: "110", RIGHT: "010", DOWN: "011", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__51.png",
+                              {UP: "011", RIGHT: "111", DOWN: "110", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__52.png",
+                              {UP: "010", RIGHT: "000", DOWN: "010", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__53.png",
+                              {UP: "010", RIGHT: "010", DOWN: "010", LEFT: "010"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__56.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__57.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__58.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__59.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__60.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__61.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__67.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__68.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__69.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__70.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__71.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
+    BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__72.png",
+                              {UP: "111", RIGHT: "111", DOWN: "111", LEFT: "111"}))
     for _ in range(water_weight):
-        BASE_TILES[0].append(Tile("../tile_sets/sprout lands/grass_tiles_v2/slices/tiles__77.png",
-                                      {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
+        BASE_TILES[0].append(Tile("../base_tiles/sprout lands/grass_tiles_v2/slices/tiles__77.png",
+                                  {UP: "000", RIGHT: "000", DOWN: "000", LEFT: "000"}))
 
 def setup_tiles(filepath=None, tile_set=None):
     if filepath:

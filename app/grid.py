@@ -129,16 +129,13 @@ class Grid:
 
 def import_tileset(filepath):
     try:
-        base_tiles = {
-            4: [],
-            2: [],
-            0: []
-        }
+        base_tiles = []
         with open(filepath, 'r') as file:
             data = json.load(file)
         for tile in data['tile_set']:
             sides = {i + 1: value for i, (side, value) in enumerate(tile['sides'].items())}
-            base_tiles[tile['number_of_rotations']].append(Tile(tile['image_path'], sides))
+            base_tiles.append(Tile(image_path=tile['image_path'], sides=sides,
+                                                                rotations=tile['number_of_rotations']))
         return base_tiles
     except FileNotFoundError as error:
         print(error)
@@ -147,13 +144,12 @@ def import_tileset(filepath):
 
 def permute_tiles(base_tiles):
     permuted_tiles = []
-    for num_rotations in base_tiles:
-        for tile in base_tiles[num_rotations]:
-            if num_rotations == 0:
-                permuted_tiles.append(tile)
-            else:
-                for i in range(num_rotations):
-                    permuted_tiles.append(copy_tile_and_rotate(tile, i))
+    for tile in base_tiles:
+        if tile.rotations == 0:
+            permuted_tiles.append(tile)
+        else:
+            for rotation in range(tile.rotations):
+                permuted_tiles.append(copy_tile_and_rotate(tile, rotation))
     return permuted_tiles
 
 

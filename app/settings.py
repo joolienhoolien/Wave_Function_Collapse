@@ -7,7 +7,7 @@ FAIL_CONDITIONS are to direct the program what to do in case the wave collapses 
  A contradiction occurs when there is a cell with no possible tiles, and would only result in an improper image.
  Options for FAIL_CONDITION: 
     - "END" - end the program and print to command line.
-    - "RESET" - reset the board and try again at a random cell.
+    - NOT IMPLEMENTED "RESET" - reset the board and try again at a random cell.
     - NOT IMPLEMENTED "RESET_FROM_FAIL" - reset the board to default and rerun, starting from the failed cell.
     - NOT IMPLEMENTED "BACKTRACK" - move backwards from the failure point and try new combinations
 """
@@ -29,5 +29,6 @@ ALL_OPTIONS = {BLANK, UP, RIGHT, DOWN, LEFT}
 SPRITE_SIZE_W, SPRITE_SIZE_H = SCREEN_WIDTH // GRID_DIM_WIDTH, SCREEN_HEIGHT // GRID_DIM_HEIGHT
 TILE_SET = "set1"
 TILE_WEIGHTS = {"black": 1, "white": 1}
-TILE_SET_FILEPATH = f"../tile_sets/{TILE_SET}/{TILE_SET}.json"
+TILE_SET_FILEPATH_BASE = f"../base_tiles/{TILE_SET}/"
+TILE_SET_JSON = f"{TILE_SET_FILEPATH_BASE}{TILE_SET}.json"
 DEFAULT_TILE = None

@@ -14,36 +14,8 @@ Cell class responsibilities:
             - Mark as collapsed
 """
 import pygame
-from PIL import Image
 
-from app.tile import Tile
 from settings import *
-
-#or pass in "all_options" in constructor and assert it's populated
-def get_average_image(tiles = None, name=None):
-    if tiles:
-        global DEFAULT_TILE
-        #Get filepath
-    #    ext = os.path.splitext(tile_types[0].image_path)[1]
-    #    filepath = f"../tile_temp/{name}_{TILE_SET}{ext}"
-
-        #If we already generated this tile... return tiles image
-        if name == "DEFAULT" and type(DEFAULT_TILE) is Tile:
-            return DEFAULT_TILE.image
-
-        #Generate average image
-        averaged_image = tiles[0].image
-        for i, tile in enumerate(tiles):
-            if i == 0: continue
-            image = tile.image
-            averaged_image = Image.blend(averaged_image, image, 1.0/float(i))
-
-        #If we intend to use this as our default tile, save it for future reference
-        if name == "DEFAULT":
-            DEFAULT_TILE = Tile(image=averaged_image)
-        return averaged_image
-    else:
-        return None
 
 
 class NodeSprite(pygame.sprite.Sprite):
@@ -58,27 +30,40 @@ class NodeSprite(pygame.sprite.Sprite):
         y_center = height / 2
         y = y_center + (height * j)
 
-        #Image information
-        self.average_image = get_average_image(tiles=tile_options, name="DEFAULT")
         self.sprite_width = width
         self.sprite_height = height
+
+        #All possible image states
+        self.images = []
+        for tile_option in tile_options:
+            image = pygame.image.load(tile_option.image_path).convert_alpha()
+            image = pygame.transform.scale(image, (self.sprite_width, self.sprite_height))
+            image = pygame.transform.rotate(image, -90 * tile_option.rotations)
+            self.images.append(image)
+
+        #Positioning
+        self.rect = self.images[0].get_rect()
         self.x, self.y = x, y
-        #self.image = self.average_image.load
-        self.image = pygame.image.fromstring(self.average_image.tobytes(), self.average_image.size, self.average_image.mode).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (self.sprite_width, self.sprite_height))
-        self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
-    def update_image(self, tile_options, **kwargs):
-        width = kwargs.get('width', self.sprite_width)
-        height = kwargs.get('height', self.sprite_height)
-        image = get_average_image(tiles=tile_options)
-        if image:
-            self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (width, height))
+    def update(self, tile_options):
+        if len(tile_options) == 0: return
+        self.images = []
+        for tile_option in tile_options:
+            image = pygame.image.load(tile_option.image_path).convert_alpha()
+            image = pygame.transform.scale(image, (self.sprite_width, self.sprite_height))
+            image = pygame.transform.rotate(image, -90 * tile_option.rotations)
+            self.images.append(image)
+
+        #Positioning
+        self.rect = self.images[0].get_rect()
         self.rect.center = (self.x, self.y)
 
     def draw(self, surface):
-        surface.blit(self.image, self.rect)
+        if len(self.images) == 1:
+            surface.blit(self.images[0], self.rect)
+        else:
+            image = pygame.transform.average_surfaces(self.images)
+            surface.blit(image, self.rect)
         if DEBUG: print(f"Drawing cell [{self.x}, {self.y}]")
 

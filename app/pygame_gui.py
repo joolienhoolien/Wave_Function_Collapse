@@ -23,7 +23,7 @@ def draw_sprites():
 def update_sprites(grid_of_sprites):
     for i, _ in enumerate(SPRITES):
         for j, sprite in enumerate(SPRITES[i]):
-            sprite.update_image(list(grid_of_sprites[i][j].get_tile_options()))
+            sprite.update(list(grid_of_sprites[i][j].get_tile_options()))
 
 def setup_sprites(grid_of_sprites):
     return [[NodeSprite(i, j, list(node.get_tile_options())) for j,node in enumerate(grid_of_sprites[i])] for i,_ in enumerate(grid_of_sprites)]
@@ -54,7 +54,7 @@ if __name__ == "__main__":
                 draw_sprites()
         else:
             if DEBUG: print("Solved!")
-        pygame.display.update()
+        pygame.display.flip()
         FramePerSec.tick(FPS)
     #can have other solver methods for slower solving potentially.
         #or just other arguments in the solve method
