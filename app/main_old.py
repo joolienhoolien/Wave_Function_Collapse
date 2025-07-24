@@ -14,9 +14,9 @@
             - If the sockets match, they can be neighbors
 2. Create a 2d grid of nodes
     2a. For each grid[i][j] (based on settings dimensions)...
-        - Create a **data object (unnamed)** which holds:
+        - Create a node which holds:
             - the **possibility space** (aka which tiles can it be?)
-            - MAYBE also it's own [i][j] for when we need to look at it's neighbors. unsure.
+            - [i][j] for when we need to look at it's neighbors.
                 - At the start, every node on the grid can be every tile.
 current state: we have a set of Tiles, and a grid of full possibilities. Nothing is rendered to the screen.
 We probably want to return this information to the caller - which is likely a frontend.
@@ -25,7 +25,7 @@ Ex: It says "Please set me up for this tile set"
     ... or we want to let them set constraints. This is when it would happen. Or weights!
 3. Adjust anything in the front end. For now this step will be glossed over.
     One detail is that when this step is over, the front end should be rendering the initial state.
-4. Solve the puzzle / collapse the wave
+4. Solver.solve() the puzzle / collapse the wave
     Render the starting image, maybe handled in step 3
     While the puzzle is solvable and unsolved:
         4a. Collapse a random node from the set of lowest entropy nodes (at the start this is the full set of nodes)
