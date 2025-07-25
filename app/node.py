@@ -42,6 +42,12 @@ class Node:
     def get_tile_options(self):
         return self.tile_options
 
+    def get_valid_neighbors(self, direction):
+        result = []
+        for tile in self.tile_options:
+            result = result + list(tile.valid_neighbors[direction])
+        return result
+
     def set_tile_options(self, tile_options):
         self.tile_options = tile_options
         self.updated = True

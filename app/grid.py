@@ -43,37 +43,61 @@ class Grid:
                 self.finished_collapsing = True
                 return False, node.x, node.y
 
-            # 3. Update neighboring tiles using intersection of rules and options
+            # 3. Propagate
             try:
                 UP, RIGHT, DOWN, LEFT = 1, 2, 3, 4
 
-                stack = []
-
                 #Add neighbors to stack if not collapsed
-                node_left = self.grid[(node.x - 1) % self.width][node.y]
+                """node_left = self.grid[(node.x - 1) % self.width][node.y]
                 if not node_left.is_collapsed():
                     stack.append(node_left)
-                    #node_left.set_tile_options(node_left.tile_options & node.tile.valid_neighbors[RIGHT])
                 node_right = self.grid[(node.x + 1) % self.width][node.y]
                 if not node_right.is_collapsed():
                     stack.append(node_right)
-                    #node_right.set_tile_options(node_right.options & node.tile.valid_neighbors[LEFT])
                 node_up = self.grid[node.x][(node.y - 1) % self.height]
                 if not node_up.is_collapsed():
                     stack.append(node_up)
-                    #node_up.set_tile_options(node_up.options & node.tile.valid_neighbors[DOWN])
                 node_down = self.grid[node.x][(node.y + 1) % self.height]
                 if not node_down.is_collapsed():
                     stack.append(node_down)
-                    #node_down.set_tile_options(node_down.options & node.tile.valid_neighbors[UP])
+                """
 
                 #Propagate
+                stack = [node]
                 while stack:
                     curr_node = stack.pop()
-                    if not curr_node.is_collapsed():
+                    for direction in [UP, RIGHT, DOWN, LEFT]:
+                        other_node = None
+                        if direction == LEFT:
+                            other_node = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
+                        elif direction == RIGHT:
+                            other_node = self.grid[(curr_node.x + 1) % self.width][curr_node.y]
+                        elif direction == UP:
+                            other_node = self.grid[curr_node.x][(curr_node.y - 1) % self.height]
+                        elif direction == DOWN:
+                            other_node = self.grid[curr_node.x][(curr_node.y + 1) % self.height]
+                        other_tiles = other_node.get_tile_options()
+                        possible_neighbors = curr_node.get_valid_neighbors(direction)
+                        if len(possible_neighbors) == 0: continue
+                        #possible_neighbors = possible_neighbors[0]
 
-                        # Calculate new options
-                        #LEFT
+                        #other_node == other_coords
+                        #other_tiles == otehr_possible_prototypes
+                        #possible_neighbors = curr_node
+
+                        for other_tile in other_tiles:
+                            if not other_tile in possible_neighbors:
+                                other_tile_options = set()
+                                other_tile_options.add(other_tile)
+                                new_options = other_tiles - other_tile_options
+                                other_node.set_tile_options(tile_options=new_options & other_node.get_tile_options())
+                                if not other_node in stack:
+                                    stack.append(other_node)
+
+
+
+
+                        """#LEFT
                         temp_options = curr_node.get_tile_options()
                         tile_union = set()
                         node_left = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
@@ -116,7 +140,7 @@ class Grid:
 
                         # Check if updated
                         if not temp_options == curr_node.get_tile_options():
-                            stack.append(node_down)
+                            stack.append(node_down)"""
             except AttributeError:
                     print(f"found contradiction in cell ({node.x},{node.y})")
                     self.finished_collapsing = True

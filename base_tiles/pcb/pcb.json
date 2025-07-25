@@ -1,0 +1,83 @@
+{
+  "set_name": "pcb",
+  "tile_set": [
+    {
+      "id" : 0,
+      "sides": {"UP": "000", "RIGHT": "000", "DOWN": "000", "LEFT": "000"},
+      "image_path" : "0.png",
+      "number_of_rotations": 0
+    },
+    {
+      "id" : 1,
+      "sides": {"UP": "111", "RIGHT": "111", "DOWN": "111", "LEFT": "111"},
+      "image_path" : "1.png",
+      "number_of_rotations": 0
+    },
+    {
+      "id" : 2,
+      "sides": {"UP": "111", "RIGHT": "121", "DOWN": "111", "LEFT": "111"},
+      "image_path" : "2.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 3,
+      "sides": {"UP": "111", "RIGHT": "131", "DOWN": "111", "LEFT": "131"},
+      "image_path" : "3.png",
+      "number_of_rotations": 2
+    },
+    {
+      "id" : 4,
+      "sides": {"UP": "011", "RIGHT": "121", "DOWN": "110", "LEFT": "000"},
+      "image_path" : "4.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 5,
+      "sides": {"UP": "011", "RIGHT": "111", "DOWN": "111", "LEFT": "110"},
+      "image_path" : "5.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 6,
+      "sides": {"UP": "111", "RIGHT": "121", "DOWN": "111", "LEFT": "121"},
+      "image_path" : "6.png",
+      "number_of_rotations": 2
+    },
+    {
+      "id" : 7,
+      "sides": {"UP": "131", "RIGHT": "121", "DOWN": "131", "LEFT": "121"},
+      "image_path" : "7.png",
+      "number_of_rotations": 2
+    },
+    {
+      "id" : 8,
+      "sides": {"UP": "131", "RIGHT": "111", "DOWN": "121", "LEFT": "111"},
+      "image_path" : "8.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 9,
+      "sides": {"UP": "121", "RIGHT": "121", "DOWN": "111", "LEFT": "121"},
+      "image_path" : "9.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 10,
+      "sides": {"UP": "121", "RIGHT": "121", "DOWN": "121", "LEFT": "121"},
+      "image_path" : "10.png",
+      "number_of_rotations": 2
+    },
+    {
+      "id" : 11,
+      "sides": {"UP": "121", "RIGHT": "121", "DOWN": "111", "LEFT": "111"},
+      "image_path" : "11.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 12,
+      "sides": {"UP": "111", "RIGHT": "121", "DOWN": "111", "LEFT": "121"},
+      "image_path" : "12.png",
+      "number_of_rotations": 2
+    }
+  ]
+}

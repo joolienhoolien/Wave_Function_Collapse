@@ -10,24 +10,10 @@ FPS = 60
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 SPRITE_GROUP = pygame.sprite.Group()
 
-def draw_sprites():
-    #if DEBUG: print("drawing\n")
-    SPRITE_GROUP.draw(DISPLAYSURF)
-    #for sprite in SPRITE_GROUP:
-    #    sprite.draw(DISPLAYSURF)
-    #if DEBUG: print(f"drew {count} cells!~~~\n")
-
-def update_sprites():
-    SPRITE_GROUP.update()
-    #for i, _ in enumerate(SPRITES):
-    #    for j, sprite in enumerate(SPRITES[i]):
-    #        sprite.update(list(grid_of_sprites[i][j].get_tile_options()))
-
 def setup_sprites(grid):
     for i, row in enumerate(grid):
         for j, node in enumerate(row):
             SPRITE_GROUP.add(NodeSprite(i, j, node))
-    #SPRITE_GROUP.add([[NodeSprite(i, j, list(node.get_tile_options())) for j,node in enumerate(grid_of_sprites[i])] for i,_ in enumerate(grid_of_sprites)])
 
 
 if __name__ == "__main__":
@@ -51,8 +37,8 @@ if __name__ == "__main__":
 
         if not solver.is_solved():
             if solver.solve_next():
-                update_sprites()
-                draw_sprites()
+                SPRITE_GROUP.update()
+                SPRITE_GROUP.draw(DISPLAYSURF)
         else:
             if DEBUG: print("Solved!")
         pygame.display.flip()

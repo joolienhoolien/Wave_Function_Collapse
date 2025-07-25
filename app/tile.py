@@ -42,16 +42,16 @@ class Tile:
         for other_tile in tiles:
             #DOWN
             if other_tile.sides[DOWN] == self.sides[UP][::-1]:
-                self.valid_neighbors[DOWN].add(other_tile)
+                self.valid_neighbors[UP].add(other_tile)
             #UP
             if other_tile.sides[UP] == self.sides[DOWN][::-1]:
-                self.valid_neighbors[UP].add(other_tile)
+                self.valid_neighbors[DOWN].add(other_tile)
             #RIGHT
             if other_tile.sides[LEFT] == self.sides[RIGHT][::-1]:
-                self.valid_neighbors[LEFT].add(other_tile)
+                self.valid_neighbors[RIGHT].add(other_tile)
             #LEFT
             if other_tile.sides[RIGHT] == self.sides[LEFT][::-1]:
-                self.valid_neighbors[RIGHT].add(other_tile)
+                self.valid_neighbors[LEFT].add(other_tile)
 
 def copy_tile_and_rotate(tile: Tile, rotations: int) -> Tile:
     sides = copy.deepcopy(tile.sides)
