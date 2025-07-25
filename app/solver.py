@@ -4,13 +4,25 @@ Responsible for:
     - Creating and managing the grid
 """
 from grid import Grid
-from settings import *
+import configparser
+
+
+def get_json_path(config):
+    base_path = f"../{config['tiles']['TILE_SET_FOLDER']}"
+    tile_set_name = config["tiles"]["TILE_SET_NAME"]
+    tile_set_filepath = f"{base_path}/{tile_set_name}"
+    return f"{tile_set_filepath}/{tile_set_name}.json"
+
 
 class Solver:
     def __init__(self):
-        #TODO: read settings from solver_settings.json
-        tile_set_filepath = TILE_SET_JSON
-        self.grid = Grid(tile_set_filepath, GRID_DIM_WIDTH, GRID_DIM_HEIGHT)
+        config = configparser.ConfigParser()
+        config.read('../settings.ini')
+
+        self.grid = Grid(get_json_path(config),
+                         int(config['grid']['GRID_DIM_WIDTH']),
+                         int(config['grid']['GRID_DIM_HEIGHT']))
+        self.fail_condition = config['contradiction']['FAIL_CONDITION']
 
     def solve_next(self):
         # If there remains a single tile not collapsed...
@@ -18,8 +30,8 @@ class Solver:
             collapsed, x, y = self.grid.collapse_next_tile()
             if not collapsed:
                 print(f"Cannot complete this pattern...")
-                print(f"FAIL_CONDITION set to {FAIL_CONDITION}")
-                if FAIL_CONDITION == "END":
+                print(f"FAIL_CONDITION set to {self.fail_condition}")
+                if self.fail_condition == "END":
                     print(f"Ending collapse")
                     return False
                 #elif FAIL_CONDITION == "RESET":

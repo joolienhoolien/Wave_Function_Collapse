@@ -10,7 +10,6 @@ Tile class responsibilities:
     - Used as a blueprint when collapsing cells
 """
 import copy
-from PIL import Image
 from settings import UP, RIGHT, DOWN, LEFT, TILE_SET_FILEPATH_BASE
 
 #Constants should be imported by a settings.py file or config file of some sort
