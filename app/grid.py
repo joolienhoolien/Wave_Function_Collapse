@@ -1,6 +1,6 @@
 import random
 
-from tile import Tile, copy_tile_and_rotate
+from tile import Tile
 from node import Node
 import json
 from settings import *
@@ -47,21 +47,6 @@ class Grid:
             try:
                 UP, RIGHT, DOWN, LEFT = 1, 2, 3, 4
 
-                #Add neighbors to stack if not collapsed
-                """node_left = self.grid[(node.x - 1) % self.width][node.y]
-                if not node_left.is_collapsed():
-                    stack.append(node_left)
-                node_right = self.grid[(node.x + 1) % self.width][node.y]
-                if not node_right.is_collapsed():
-                    stack.append(node_right)
-                node_up = self.grid[node.x][(node.y - 1) % self.height]
-                if not node_up.is_collapsed():
-                    stack.append(node_up)
-                node_down = self.grid[node.x][(node.y + 1) % self.height]
-                if not node_down.is_collapsed():
-                    stack.append(node_down)
-                """
-
                 #Propagate
                 stack = [node]
                 while stack:
@@ -79,11 +64,6 @@ class Grid:
                         other_tiles = other_node.get_tile_options()
                         possible_neighbors = curr_node.get_valid_neighbors(direction)
                         if len(possible_neighbors) == 0: continue
-                        #possible_neighbors = possible_neighbors[0]
-
-                        #other_node == other_coords
-                        #other_tiles == otehr_possible_prototypes
-                        #possible_neighbors = curr_node
 
                         for other_tile in other_tiles:
                             if not other_tile in possible_neighbors:
@@ -93,54 +73,6 @@ class Grid:
                                 other_node.set_tile_options(tile_options=new_options & other_node.get_tile_options())
                                 if not other_node in stack:
                                     stack.append(other_node)
-
-
-
-
-                        """#LEFT
-                        temp_options = curr_node.get_tile_options()
-                        tile_union = set()
-                        node_left = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
-                        for tile in node_left.get_tile_options():
-                            tile_union = tile_union | tile.valid_neighbors[LEFT]
-                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
-                        # Check if updated
-                        if not temp_options == curr_node.get_tile_options():
-                            stack.append(node_left)
-
-                        #RIGHT
-                        temp_options = curr_node.get_tile_options()
-                        tile_union = set()
-                        node_right = self.grid[(curr_node.x + 1) % self.width][curr_node.y]
-                        for tile in node_right.get_tile_options():
-                            tile_union = tile_union | tile.valid_neighbors[RIGHT]
-                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
-                        # Check if updated
-                        if not temp_options == curr_node.get_tile_options():
-                            stack.append(node_right)
-
-                        #UP
-                        temp_options = curr_node.get_tile_options()
-                        tile_union = set()
-                        node_up = self.grid[curr_node.x][(curr_node.y - 1) % self.height]
-                        for tile in node_up.get_tile_options():
-                            tile_union = tile_union | tile.valid_neighbors[UP]
-                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
-                        # Check if updated
-                        if not temp_options == curr_node.get_tile_options():
-                            stack.append(node_up)
-
-                        #DOWN
-                        temp_options = curr_node.get_tile_options()
-                        tile_union = set()
-                        node_down = self.grid[curr_node.x][(curr_node.y + 1) % self.height]
-                        for tile in node_down.get_tile_options():
-                            tile_union = tile_union | tile.valid_neighbors[DOWN]
-                        curr_node.set_tile_options(curr_node.get_tile_options() & tile_union)
-
-                        # Check if updated
-                        if not temp_options == curr_node.get_tile_options():
-                            stack.append(node_down)"""
             except AttributeError:
                     print(f"found contradiction in cell ({node.x},{node.y})")
                     self.finished_collapsing = True
@@ -173,7 +105,7 @@ def permute_tiles(base_tiles):
             permuted_tiles.append(tile)
         else:
             for rotation in range(tile.rotations):
-                permuted_tiles.append(copy_tile_and_rotate(tile, rotation))
+                permuted_tiles.append(tile.copy_tile_and_rotate(rotation))
     return permuted_tiles
 
 

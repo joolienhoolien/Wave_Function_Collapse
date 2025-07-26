@@ -3,8 +3,13 @@ import sys
 from pygame.locals import *
 from solver import Solver
 from nodesprite import NodeSprite
-from settings import *
+import configparser
 
+config = configparser.ConfigParser()
+config.read('../settings.ini')
+SCREEN_WIDTH = int(config['display']['SCREEN_WIDTH'])
+SCREEN_HEIGHT = int(config['display']['SCREEN_HEIGHT'])
+DEBUG = config.getboolean('debug','DEBUG')
 FramePerSec = pygame.time.Clock()
 FPS = 60
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))

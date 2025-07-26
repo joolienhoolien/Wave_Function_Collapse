@@ -10,19 +10,30 @@ Tile class responsibilities:
     - Used as a blueprint when collapsing cells
 """
 import copy
-from settings import UP, RIGHT, DOWN, LEFT, TILE_SET_FILEPATH_BASE
+import configparser
+from typing import Self
+
 
 #Constants should be imported by a settings.py file or config file of some sort
 class Tile:
     def __init__(self, image_path: str, sides, rotations=0, full_image_path=False):
         #Sides describes the tags of the side. i.e. building a map it could be "wood", "tree", "unwalkable"
+        config = configparser.ConfigParser()
+        config.read('../settings.ini')
+        self.up = int(config['tiles']['UP'])
+        self.right = int(config['tiles']['RIGHT'])
+        self.left = int(config['tiles']['LEFT'])
+        self.down = int(config['tiles']['DOWN'])
         self.sides = sides
-        self.valid_neighbors = {UP: set(),
-                                DOWN: set(),
-                                LEFT: set(),
-                                RIGHT: set()}
+        self.valid_neighbors = {self.up: set(),
+                                self.down: set(),
+                                self.left: set(),
+                                self.right: set()}
         if not full_image_path:
-            self.image_path = f"{TILE_SET_FILEPATH_BASE}{image_path}"
+            base_path = f"../{config['tiles']['TILE_SET_FOLDER']}"
+            tile_set_name = config["tiles"]["TILE_SET_NAME"]
+            tile_set_filepath = f"{base_path}/{tile_set_name}"
+            self.image_path = f"{tile_set_filepath}/{image_path}"
         else:
             self.image_path = f"{image_path}"
         self.rotations = rotations
@@ -40,33 +51,33 @@ class Tile:
     def set_valid_neighbors(self, tiles) -> None:
         for other_tile in tiles:
             #DOWN
-            if other_tile.sides[DOWN] == self.sides[UP][::-1]:
-                self.valid_neighbors[UP].add(other_tile)
+            if other_tile.sides[self.down] == self.sides[self.up][::-1]:
+                self.valid_neighbors[self.up].add(other_tile)
             #UP
-            if other_tile.sides[UP] == self.sides[DOWN][::-1]:
-                self.valid_neighbors[DOWN].add(other_tile)
+            if other_tile.sides[self.up] == self.sides[self.down][::-1]:
+                self.valid_neighbors[self.down].add(other_tile)
             #RIGHT
-            if other_tile.sides[LEFT] == self.sides[RIGHT][::-1]:
-                self.valid_neighbors[RIGHT].add(other_tile)
+            if other_tile.sides[self.left] == self.sides[self.right][::-1]:
+                self.valid_neighbors[self.right].add(other_tile)
             #LEFT
-            if other_tile.sides[RIGHT] == self.sides[LEFT][::-1]:
-                self.valid_neighbors[LEFT].add(other_tile)
+            if other_tile.sides[self.right] == self.sides[self.left][::-1]:
+                self.valid_neighbors[self.left].add(other_tile)
 
-def copy_tile_and_rotate(tile: Tile, rotations: int) -> Tile:
-    sides = copy.deepcopy(tile.sides)
-    if rotations == 1:
-        sides[UP] = tile.sides[LEFT]
-        sides[RIGHT] = tile.sides[UP]
-        sides[DOWN] = tile.sides[RIGHT]
-        sides[LEFT] = tile.sides[DOWN]
-    elif rotations == 2:
-        sides[UP] = tile.sides[DOWN]
-        sides[RIGHT] = tile.sides[LEFT]
-        sides[DOWN] = tile.sides[UP]
-        sides[LEFT] = tile.sides[RIGHT]
-    elif rotations == 3:
-        sides[UP] = tile.sides[RIGHT]
-        sides[RIGHT] = tile.sides[DOWN]
-        sides[DOWN] = tile.sides[LEFT]
-        sides[LEFT] = tile.sides[UP]
-    return Tile(sides=sides, image_path=tile.image_path, rotations=rotations, full_image_path=True)
+    def copy_tile_and_rotate(self, rotations: int) -> Self:
+        sides = copy.deepcopy(self.sides)
+        if rotations == 1:
+            sides[self.up] = self.sides[self.left]
+            sides[self.right] = self.sides[self.up]
+            sides[self.down] = self.sides[self.right]
+            sides[self.left] = self.sides[self.down]
+        elif rotations == 2:
+            sides[self.up] = self.sides[self.down]
+            sides[self.right] = self.sides[self.left]
+            sides[self.down] = self.sides[self.up]
+            sides[self.left] = self.sides[self.right]
+        elif rotations == 3:
+            sides[self.up] = self.sides[self.right]
+            sides[self.right] = self.sides[self.down]
+            sides[self.down] = self.sides[self.left]
+            sides[self.left] = self.sides[self.up]
+        return Tile(sides=sides, image_path=self.image_path, rotations=rotations, full_image_path=True)
