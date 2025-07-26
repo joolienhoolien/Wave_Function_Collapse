@@ -1,15 +1,17 @@
 import pygame
 import sys
 from pygame.locals import *
-from solver import Solver
+from app.solver.solver import Solver
 from nodesprite import NodeSprite
 import configparser
 
-config = configparser.ConfigParser()
-config.read('../settings.ini')
-SCREEN_WIDTH = int(config['display']['SCREEN_WIDTH'])
-SCREEN_HEIGHT = int(config['display']['SCREEN_HEIGHT'])
-DEBUG = config.getboolean('debug','DEBUG')
+CONFIG = configparser.ConfigParser()
+CONFIG.read('../../settings.ini')
+SCREEN_WIDTH = int(CONFIG['display']['SCREEN_WIDTH'])
+SCREEN_HEIGHT = int(CONFIG['display']['SCREEN_HEIGHT'])
+SPRITE_WIDTH = int(CONFIG['display']['SCREEN_WIDTH']) // int(CONFIG['grid']['GRID_DIM_WIDTH'])
+SPRITE_HEIGHT = int(CONFIG['display']['SCREEN_HEIGHT']) // int(CONFIG['grid']['GRID_DIM_HEIGHT'])
+DEBUG = CONFIG.getboolean('debug','DEBUG')
 FramePerSec = pygame.time.Clock()
 FPS = 60
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -18,7 +20,7 @@ SPRITE_GROUP = pygame.sprite.Group()
 def setup_sprites(grid):
     for i, row in enumerate(grid):
         for j, node in enumerate(row):
-            SPRITE_GROUP.add(NodeSprite(i, j, node))
+            SPRITE_GROUP.add(NodeSprite(i, j, node, SPRITE_WIDTH, SPRITE_HEIGHT, debug=DEBUG))
 
 
 if __name__ == "__main__":
@@ -27,7 +29,7 @@ if __name__ == "__main__":
     #Maybe you click "solve puzzle!" then it goes to the following code...
     #Step 1 and 2 - create tiles and a grid
     if DEBUG: print("Starting...")
-    solver = Solver()
+    solver = Solver(debug=DEBUG)
     if DEBUG: print("setting up sprites array...")
     setup_sprites(solver.get_grid())
 

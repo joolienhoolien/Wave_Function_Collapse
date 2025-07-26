@@ -15,21 +15,15 @@ Cell class responsibilities:
 """
 import pygame
 
-from settings import *
-
 
 class NodeSprite(pygame.sprite.Sprite):
-    def __init__(self, i, j, node):
+    def __init__(self, i, j, node, width, height, debug=False):
         super().__init__()
         self.node = node
+        self.debug = debug
 
-        width = SCREEN_WIDTH / GRID_DIM_WIDTH
-        x_center = width / 2
-        x = x_center + (width * i)
-
-        height = SCREEN_HEIGHT / GRID_DIM_HEIGHT
-        y_center = height / 2
-        y = y_center + (height * j)
+        self.x = (width / 2) + (width * i)
+        self.y = (height / 2) + (height * j)
 
         self.sprite_width = width
         self.sprite_height = height
@@ -45,8 +39,7 @@ class NodeSprite(pygame.sprite.Sprite):
 
         #Positioning
         self.rect = self.images[0].get_rect()
-        self.x, self.y = x, y
-        self.rect.center = (x, y)
+        self.rect.center = (self.x, self.y)
 
     def update(self):
         if self.node.get_reset_updated():
@@ -65,5 +58,5 @@ class NodeSprite(pygame.sprite.Sprite):
 
     def draw(self, surface):
         surface.blit(self.image)
-        if DEBUG: print(f"Drawing cell [{self.x}, {self.y}]")
+        if self.debug: print(f"Drawing cell [{self.x}, {self.y}]")
 

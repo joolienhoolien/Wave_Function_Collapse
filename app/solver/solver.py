@@ -3,26 +3,28 @@ Responsible for:
     - Settings (grid dimensions, fail condition, tile_set)
     - Creating and managing the grid
 """
-from grid import Grid
+from app.solver.grid import Grid
 import configparser
 
 
 def get_json_path(config):
-    base_path = f"../{config['tiles']['TILE_SET_FOLDER']}"
+    base_path = f"../../{config['tiles']['TILE_SET_FOLDER']}"
     tile_set_name = config["tiles"]["TILE_SET_NAME"]
     tile_set_filepath = f"{base_path}/{tile_set_name}"
     return f"{tile_set_filepath}/{tile_set_name}.json"
 
 
 class Solver:
-    def __init__(self):
+    def __init__(self, debug=False):
         config = configparser.ConfigParser()
-        config.read('../settings.ini')
+        config.read('../../settings.ini')
 
         self.grid = Grid(get_json_path(config),
                          int(config['grid']['GRID_DIM_WIDTH']),
-                         int(config['grid']['GRID_DIM_HEIGHT']))
+                         int(config['grid']['GRID_DIM_HEIGHT']),
+                         debug=debug)
         self.fail_condition = config['contradiction']['FAIL_CONDITION']
+        self.debug=debug
 
     def solve_next(self):
         # If there remains a single tile not collapsed...

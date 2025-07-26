@@ -1,19 +1,19 @@
 import random
 
-from tile import Tile
-from node import Node
+from app.solver.tile import Tile
+from app.solver.node import Node
 import json
-from settings import *
 
 
 class Grid:
-    def __init__(self, tile_set_filepath, width, height):
+    def __init__(self, tile_set_filepath, width, height, debug=False):
         self.finished_collapsing = False
         self.base_tiles = import_tileset(tile_set_filepath)
         self.all_tiles = permute_tiles(self.base_tiles)
         self.grid = set_new_grid(self.all_tiles, width, height)
         self.width = width
         self.height = height
+        self.debug=debug
 
     #Get/set
     def is_finished_collapsing(self):
@@ -37,7 +37,7 @@ class Grid:
         if lowest_entropy_nodes:
             to_collapse_data = random.choice(lowest_entropy_nodes)
             node = to_collapse_data
-            if DEBUG: print(f"Collapsing {to_collapse_data}")
+            if self.debug: print(f"Collapsing {to_collapse_data}")
             if not node.collapse():
                 print(f"found contradiction in node ({node.x},{node.y})")
                 self.finished_collapsing = True

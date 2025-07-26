@@ -14,31 +14,25 @@ import configparser
 from typing import Self
 
 
-#Constants should be imported by a settings.py file or config file of some sort
 class Tile:
-    def __init__(self, image_path: str, sides, rotations=0, full_image_path=False):
-        #Sides describes the tags of the side. i.e. building a map it could be "wood", "tree", "unwalkable"
-        config = configparser.ConfigParser()
-        config.read('../settings.ini')
+    def __init__(self, image_path: str, sides, rotations=0, full_image_path=False, config=None):
+        if config is None:
+            config = configparser.ConfigParser()
+            config.read('../../settings.ini')
         self.up = int(config['tiles']['UP'])
         self.right = int(config['tiles']['RIGHT'])
         self.left = int(config['tiles']['LEFT'])
         self.down = int(config['tiles']['DOWN'])
+        if not full_image_path:
+            self.image_path = f"../../{config['tiles']['TILE_SET_FOLDER']}/{config["tiles"]["TILE_SET_NAME"]}/{image_path}"
+        else:
+            self.image_path = f"{image_path}"
         self.sides = sides
         self.valid_neighbors = {self.up: set(),
                                 self.down: set(),
                                 self.left: set(),
                                 self.right: set()}
-        if not full_image_path:
-            base_path = f"../{config['tiles']['TILE_SET_FOLDER']}"
-            tile_set_name = config["tiles"]["TILE_SET_NAME"]
-            tile_set_filepath = f"{base_path}/{tile_set_name}"
-            self.image_path = f"{tile_set_filepath}/{image_path}"
-        else:
-            self.image_path = f"{image_path}"
         self.rotations = rotations
-        #if image_path: self.image = Image.open(image_path)
-        #elif image: self.image = image
 
     def __str__(self):
         return f"{self.sides}"
