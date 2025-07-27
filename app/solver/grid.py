@@ -5,20 +5,33 @@ import json
 
 
 class Grid:
-    def __init__(self, tile_set_filepath, width, height, debug=False):
+    """
+    A collection of data used for solving a wave function collapse problem.
+    """
+    def __init__(self, tile_set_filepath, width, height, directions, debug=False):
+        """
+        Instance of a grid used for wave function collapse
+            finished_collapsing: Whether the grid has been collapsed or not
+            grid: the 2d grid of nodes representing the wave
+            width, height: dimensions of the 2d grid
+            all_tiles: set of all tiles after permutations
+        """
         self.finished_collapsing = False
         self.base_tiles = import_tileset(tile_set_filepath)
         self.all_tiles = permute_tiles(self.base_tiles)
         self.grid = set_new_grid(self.all_tiles, width, height)
         self.width = width
         self.height = height
-        self.debug=debug
+        self.debug = debug
+        self.directions = directions
 
     #Get/set
     def is_finished_collapsing(self):
+        """Returns whether the grid is finished collapsing"""
         return self.finished_collapsing
 
     def get_lowest_entropy_nodes(self):
+        """Helper function that returns a list of nodes with lowest entropy."""
         lowest_entropy = len(self.all_tiles)
         lowest_entropy_nodes = []
         for row in self.grid:
@@ -33,22 +46,26 @@ class Grid:
         return lowest_entropy_nodes
 
     def propagate(self, node: Node):
-        try:
-            UP, RIGHT, DOWN, LEFT = 1, 2, 3, 4
+        """When a node is collapsed, this function is called. Propagates the collapse to neighboring nodes.
+        Parameters:
+            node: the collapsed node
 
+        Returns:
+            True if the propagation was successful, False otherwise."""
+        try:
             # Propagate
             stack = [node]
             while stack:
                 curr_node = stack.pop()
-                for direction in [UP, RIGHT, DOWN, LEFT]:
+                for direction in self.directions:
                     other_node = None
-                    if direction == LEFT:
+                    if direction == "left":
                         other_node = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
-                    elif direction == RIGHT:
+                    elif direction == "right":
                         other_node = self.grid[(curr_node.x + 1) % self.width][curr_node.y]
-                    elif direction == UP:
+                    elif direction == "up":
                         other_node = self.grid[curr_node.x][(curr_node.y - 1) % self.height]
-                    elif direction == DOWN:
+                    elif direction == "down":
                         other_node = self.grid[curr_node.x][(curr_node.y + 1) % self.height]
                     other_tiles = other_node.get_tile_options()
                     possible_neighbors = curr_node.get_valid_neighbors(direction)
@@ -69,6 +86,10 @@ class Grid:
             return False
 
     def collapse_next_tile(self):
+        """Collapse the next tile on the grid.
+        Returns:
+            True if we are out of nodes to collapse or the node was collapsed successfully.
+            False if there was an issue collapsing."""
         # 1. Obtain a list of tiles coordinates such that they have the least amount of options
         lowest_entropy_nodes = self.get_lowest_entropy_nodes()
         if not lowest_entropy_nodes:
@@ -87,12 +108,17 @@ class Grid:
 
 
 def import_tileset(filepath):
+    """Given a filepath to the tileset, creates a set of base tiles.
+    Parameters:
+        filepath: the filepath to the tileset
+    Returns:
+        Set of base tiles."""
     try:
         base_tiles = []
         with open(filepath, 'r') as file:
             data = json.load(file)
         for tile in data['tile_set']:
-            sides = {i + 1: value for i, (side, value) in enumerate(tile['sides'].items())}
+            sides = {side.lower(): value for i, (side, value) in enumerate(tile['sides'].items())}
             base_tiles.append(Tile(image_path=tile['image_path'], sides=sides,
                                                                 rotations=tile['number_of_rotations']))
         return base_tiles
@@ -102,6 +128,11 @@ def import_tileset(filepath):
 
 
 def permute_tiles(base_tiles):
+    """Given a set of basic tiles, permutes them base on the instructions on the tile itself.
+    Parameters:
+        base_tiles: List of base tiles to be permuted
+    Returns:
+        list of permuted tiles"""
     permuted_tiles = []
     for tile in base_tiles:
         if tile.rotations == 0:
@@ -113,6 +144,11 @@ def permute_tiles(base_tiles):
 
 
 def set_new_grid(all_tiles, width, height):
+    """Initialized the grid.
+    Parameters:
+        all_tiles: set of all tiles after permutations
+        width: width of the grid
+        height: height of the grid"""
     # Set up neighbors for tiles
     for tile in all_tiles:
         tile.set_valid_neighbors(all_tiles)

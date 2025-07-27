@@ -1,77 +1,92 @@
-"""
-Tile class responsibilities:
-    - Define a set of rules for a tile
-        - Holds an image path pointing to disk
-        - Holds info on side types (i.e. UP = connection, DOWN = blank)
-        - Holds info on which other tiles are valid neighbors
-            This is set up after every tile is created.
-        - Holds info on how many rotations
-            - Useful for whatever class is rendering the images.
-    - Used as a blueprint when collapsing cells
-"""
 import copy
 import configparser
 from typing import Self
 
 
 class Tile:
+    """
+    Prototype class for defining a set of rules for a tile. Think of it like a blueprint for a node.
+    A node will have a list of tiles which represents the different superpositions of tiles it can be.
+    """
     def __init__(self, image_path: str, sides, rotations=0, full_image_path=False, config=None):
+        """
+        - Define a set of rules for a tile
+            - Holds an image path pointing to disk
+            - Holds info on side types (i.e. UP = connection, DOWN = blank)
+            - Holds info on which other tiles are valid neighbors
+                This is set up after every tile is created.
+            - Holds info on how many rotations
+                - Useful for whatever class is rendering the images.
+        - Used as a blueprint when collapsing cells
+        :param sides: definition for the side. Tiles are valid next to each other when their sides match.
+        :param rotations: How many permutations of this tile by rotation are there?
+        :param image_path: The file name of the image
+        :param full_image_path: Full path pointing to the image on disk
+        :param config: configParser used to read settings.ini for initialization
+        """
         if config is None:
             config = configparser.ConfigParser()
             config.read('../../settings.ini')
-        self.up = int(config['tiles']['UP'])
-        self.right = int(config['tiles']['RIGHT'])
-        self.left = int(config['tiles']['LEFT'])
-        self.down = int(config['tiles']['DOWN'])
         if not full_image_path:
             self.image_path = f"../../{config['tiles']['TILE_SET_FOLDER']}/{config["tiles"]["TILE_SET_NAME"]}/{image_path}"
         else:
             self.image_path = f"{image_path}"
         self.sides = sides
-        self.valid_neighbors = {self.up: set(),
-                                self.down: set(),
-                                self.left: set(),
-                                self.right: set()}
         self.rotations = rotations
 
+        #Directions
+        self.valid_neighbors = {direction:set() for direction in sides}
+        self.directions = (config['tiles']['DIRECTIONS']).split(',')
+
+
     def __str__(self):
+        """Lists the sides definition"""
         return f"{self.sides}"
-    #TODO: Can be optimized to O(nlogn) instead of O(n^2)
-    #Currently this will be called by a for loop so it checks each tile against each other tile,
-    #   redundantly checking both directions for each tile twice
-    #   i.e. check tile 0 against tile 1 on first loop, then checks 1 against 0 on second loop
-    #   Could maybe just have a check for "if this tile is in my neighbors already, skip"?
-    #   Use two pointers to iterate through
+
+
     def set_valid_neighbors(self, tiles) -> None:
+        """
+        Given a set of tiles, sets up a list of valid neighbors for this tile by comparing their sides.
+        Parameter:
+            tiles: a set of tiles
+        """
+        up, right, down, left = self.directions
         for other_tile in tiles:
             #DOWN
-            if other_tile.sides[self.down] == self.sides[self.up][::-1]:
-                self.valid_neighbors[self.up].add(other_tile)
+            if other_tile.sides[down] == self.sides[up][::-1]:
+                self.valid_neighbors[up].add(other_tile)
             #UP
-            if other_tile.sides[self.up] == self.sides[self.down][::-1]:
-                self.valid_neighbors[self.down].add(other_tile)
+            if other_tile.sides[up] == self.sides[down][::-1]:
+                self.valid_neighbors[down].add(other_tile)
             #RIGHT
-            if other_tile.sides[self.left] == self.sides[self.right][::-1]:
-                self.valid_neighbors[self.right].add(other_tile)
+            if other_tile.sides[left] == self.sides[right][::-1]:
+                self.valid_neighbors[right].add(other_tile)
             #LEFT
-            if other_tile.sides[self.right] == self.sides[self.left][::-1]:
-                self.valid_neighbors[self.left].add(other_tile)
+            if other_tile.sides[right] == self.sides[left][::-1]:
+                self.valid_neighbors[left].add(other_tile)
 
     def copy_tile_and_rotate(self, rotations: int) -> Self:
+        """
+        Given a number of times to rotate, rotates the tile.
+        :param rotations: Number of times to rotate
+        :return:
+            New tile instance after rotation
+        """
         sides = copy.deepcopy(self.sides)
+        up, right, down, left = self.directions
         if rotations == 1:
-            sides[self.up] = self.sides[self.left]
-            sides[self.right] = self.sides[self.up]
-            sides[self.down] = self.sides[self.right]
-            sides[self.left] = self.sides[self.down]
+            sides[up] = self.sides[left]
+            sides[right] = self.sides[up]
+            sides[down] = self.sides[right]
+            sides[left] = self.sides[down]
         elif rotations == 2:
-            sides[self.up] = self.sides[self.down]
-            sides[self.right] = self.sides[self.left]
-            sides[self.down] = self.sides[self.up]
-            sides[self.left] = self.sides[self.right]
+            sides[up] = self.sides[down]
+            sides[right] = self.sides[left]
+            sides[down] = self.sides[up]
+            sides[left] = self.sides[right]
         elif rotations == 3:
-            sides[self.up] = self.sides[self.right]
-            sides[self.right] = self.sides[self.down]
-            sides[self.down] = self.sides[self.left]
-            sides[self.left] = self.sides[self.up]
+            sides[up] = self.sides[right]
+            sides[right] = self.sides[down]
+            sides[down] = self.sides[left]
+            sides[left] = self.sides[up]
         return Tile(sides=sides, image_path=self.image_path, rotations=rotations, full_image_path=True)

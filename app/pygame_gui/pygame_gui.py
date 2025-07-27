@@ -1,3 +1,7 @@
+"""
+GUI for interacting with wave function collapse backend.
+"""
+
 from typing import List
 import pygame
 import sys
@@ -9,6 +13,7 @@ import configparser
 
 
 def setup_sprites(grid: List[List[Node]], width, height, debug=False) -> pygame.sprite.Group:
+    """Sets up sprite group for rendering wave function collapse using pygame engine."""
     if debug: print("setting up sprites...")
     sprite_width = width // len(grid)
     sprite_height = height // len(grid[0])
