@@ -1,5 +1,4 @@
 import random
-
 from app.solver.tile import Tile
 from app.solver.node import Node
 import json
@@ -19,68 +18,72 @@ class Grid:
     def is_finished_collapsing(self):
         return self.finished_collapsing
 
-    def collapse_next_tile(self):
-        # 1. Obtain a list of tiles coordinates such that they have the least amount of options
+    def get_lowest_entropy_nodes(self):
         lowest_entropy = len(self.all_tiles)
         lowest_entropy_nodes = []
         for row in self.grid:
             for node in row:
-                if node.is_collapsed() or len(node.get_tile_options()) > lowest_entropy:
+                if node.is_collapsed() or (options := len(node.get_tile_options())) > lowest_entropy:
                     continue
-                elif len(node.get_tile_options()) == lowest_entropy:
+                elif options == lowest_entropy:
                     lowest_entropy_nodes.append(node)
                 else:
-                    lowest_entropy = len(node.get_tile_options())
+                    lowest_entropy = options
                     lowest_entropy_nodes = [node]
+        return lowest_entropy_nodes
+
+    def propagate(self, node: Node):
+        try:
+            UP, RIGHT, DOWN, LEFT = 1, 2, 3, 4
+
+            # Propagate
+            stack = [node]
+            while stack:
+                curr_node = stack.pop()
+                for direction in [UP, RIGHT, DOWN, LEFT]:
+                    other_node = None
+                    if direction == LEFT:
+                        other_node = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
+                    elif direction == RIGHT:
+                        other_node = self.grid[(curr_node.x + 1) % self.width][curr_node.y]
+                    elif direction == UP:
+                        other_node = self.grid[curr_node.x][(curr_node.y - 1) % self.height]
+                    elif direction == DOWN:
+                        other_node = self.grid[curr_node.x][(curr_node.y + 1) % self.height]
+                    other_tiles = other_node.get_tile_options()
+                    possible_neighbors = curr_node.get_valid_neighbors(direction)
+                    if len(possible_neighbors) == 0: continue
+
+                    for other_tile in other_tiles:
+                        if not other_tile in possible_neighbors:
+                            other_tile_options = set()
+                            other_tile_options.add(other_tile)
+                            new_options = other_tiles - other_tile_options
+                            other_node.set_tile_options(tile_options=new_options & other_node.get_tile_options())
+                            if not other_node in stack:
+                                stack.append(other_node)
+            return True
+        except AttributeError:
+            print(f"found contradiction in cell ({node.x},{node.y})")
+            self.finished_collapsing = True
+            return False
+
+    def collapse_next_tile(self):
+        # 1. Obtain a list of tiles coordinates such that they have the least amount of options
+        lowest_entropy_nodes = self.get_lowest_entropy_nodes()
+        if not lowest_entropy_nodes:
+            self.finished_collapsing = True
+            return True
 
         # 2. From this list, randomly choose a tile to collapse
-        if lowest_entropy_nodes:
-            to_collapse_data = random.choice(lowest_entropy_nodes)
-            node = to_collapse_data
-            if self.debug: print(f"Collapsing {to_collapse_data}")
-            if not node.collapse():
-                print(f"found contradiction in node ({node.x},{node.y})")
-                self.finished_collapsing = True
-                return False, node.x, node.y
-
-            # 3. Propagate
-            try:
-                UP, RIGHT, DOWN, LEFT = 1, 2, 3, 4
-
-                #Propagate
-                stack = [node]
-                while stack:
-                    curr_node = stack.pop()
-                    for direction in [UP, RIGHT, DOWN, LEFT]:
-                        other_node = None
-                        if direction == LEFT:
-                            other_node = self.grid[(curr_node.x - 1) % self.width][curr_node.y]
-                        elif direction == RIGHT:
-                            other_node = self.grid[(curr_node.x + 1) % self.width][curr_node.y]
-                        elif direction == UP:
-                            other_node = self.grid[curr_node.x][(curr_node.y - 1) % self.height]
-                        elif direction == DOWN:
-                            other_node = self.grid[curr_node.x][(curr_node.y + 1) % self.height]
-                        other_tiles = other_node.get_tile_options()
-                        possible_neighbors = curr_node.get_valid_neighbors(direction)
-                        if len(possible_neighbors) == 0: continue
-
-                        for other_tile in other_tiles:
-                            if not other_tile in possible_neighbors:
-                                other_tile_options = set()
-                                other_tile_options.add(other_tile)
-                                new_options = other_tiles - other_tile_options
-                                other_node.set_tile_options(tile_options=new_options & other_node.get_tile_options())
-                                if not other_node in stack:
-                                    stack.append(other_node)
-            except AttributeError:
-                    print(f"found contradiction in cell ({node.x},{node.y})")
-                    self.finished_collapsing = True
-                    return False, node.x, node.y
-        #2.b: we are out of nodes to collapse.
-        else:
+        node = random.choice(lowest_entropy_nodes)
+        if self.debug: print(f"Collapsing {node}")
+        if not node.collapse():
+            print(f"found contradiction in node ({node.x},{node.y})")
             self.finished_collapsing = True
-        return True, None, None
+            return False
+
+        return self.propagate(node)
 
 
 def import_tileset(filepath):

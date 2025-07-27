@@ -18,6 +18,7 @@ class Solver:
     def __init__(self, debug=False):
         config = configparser.ConfigParser()
         config.read('../../settings.ini')
+        if debug: print("Creating solver...")
 
         self.grid = Grid(get_json_path(config),
                          int(config['grid']['GRID_DIM_WIDTH']),
@@ -29,7 +30,7 @@ class Solver:
     def solve_next(self):
         # If there remains a single tile not collapsed...
         if not self.grid.finished_collapsing:
-            collapsed, x, y = self.grid.collapse_next_tile()
+            collapsed = self.grid.collapse_next_tile()
             if not collapsed:
                 print(f"Cannot complete this pattern...")
                 print(f"FAIL_CONDITION set to {self.fail_condition}")
