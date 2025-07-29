@@ -34,7 +34,6 @@ class Node:
             return False
         return self.set_tile(tile=random.choice(tuple(self.tile_options)))
 
-    #Get/set
     def is_collapsed(self):
         """Returns if the tile is collapsed or not"""
         return self.collapsed

@@ -20,13 +20,14 @@ class Tile:
         - Used as a blueprint when collapsing cells
         :param sides: definition for the side. Tiles are valid next to each other when their sides match.
         :param rotations: How many permutations of this tile by rotation are there?
-        :param image_path: The file name of the image
-        :param full_image_path: Full path pointing to the image on disk
+        :param image_path: The file name of the image or full path, depending on full_image_path parameter.
+        :param full_image_path: Boolean detailing if image_path is a full path or just the filename
         :param config: configParser used to read settings.ini for initialization
         """
         if config is None:
             config = configparser.ConfigParser()
             config.read('../../settings.ini')
+        self.config = config
         if not full_image_path:
             self.image_path = f"../../{config['tiles']['TILE_SET_FOLDER']}/{config["tiles"]["TILE_SET_NAME"]}/{image_path}"
         else:
@@ -89,4 +90,4 @@ class Tile:
             sides[right] = self.sides[down]
             sides[down] = self.sides[left]
             sides[left] = self.sides[up]
-        return Tile(sides=sides, image_path=self.image_path, rotations=rotations, full_image_path=True)
+        return Tile(sides=sides, image_path=self.image_path, rotations=rotations, full_image_path=True, config=self.config)

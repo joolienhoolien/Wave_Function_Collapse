@@ -1,0 +1,45 @@
+{
+  "set_name": "tests",
+  "tile_set": [
+    {
+      "id" : 1,
+      "sides": {
+        "UP": "0",
+        "RIGHT": "0",
+        "DOWN": "0",
+        "LEFT": "0"
+      },
+      "image_path" : "blank.png",
+      "number_of_rotations": 0
+    },
+    {
+      "id" : 2,
+      "sides": {
+        "UP": "1",
+        "RIGHT": "1",
+        "DOWN": "0",
+        "LEFT": "1"
+      },
+      "image_path" : "T.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 3,
+      "sides": {"UP": "0", "RIGHT": "1", "DOWN": "0", "LEFT": "1"},
+      "image_path" : "b_i.png",
+      "number_of_rotations": 2
+    },
+    {
+      "id" : 4,
+      "sides": {"UP": "011", "RIGHT": "121", "DOWN": "110", "LEFT": "000"},
+      "image_path" : "4.png",
+      "number_of_rotations": 4
+    },
+    {
+      "id" : 5,
+      "sides": {"UP": "011", "RIGHT": "111", "DOWN": "111", "LEFT": "110"},
+      "image_path" : "5.png",
+      "number_of_rotations": 4
+    }
+  ]
+}
