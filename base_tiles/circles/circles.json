@@ -5,7 +5,8 @@
       "id" : 1,
       "sides": {"UP": "0", "RIGHT": "0", "DOWN": "0", "LEFT": "0"},
       "image_path" : "b.png",
-      "number_of_rotations": 0
+      "number_of_rotations": 0,
+      "weight": 100
     },
     {
       "id" : 2,

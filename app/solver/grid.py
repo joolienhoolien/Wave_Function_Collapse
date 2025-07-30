@@ -152,8 +152,14 @@ def import_tileset(filepath):
             data = json.load(file)
         for tile in data['tile_set']:
             sides = {side.lower(): value for i, (side, value) in enumerate(tile['sides'].items())}
-            base_tiles.append(Tile(image_path=tile['image_path'], sides=sides,
-                                                                rotations=tile['number_of_rotations']))
+            try:
+                weight = tile['weight']
+            except KeyError as error:
+                weight = 1
+            base_tiles.append(Tile(image_path=tile['image_path'],
+                                   sides=sides,
+                                   rotations=tile['number_of_rotations'],
+                                   weight=weight))
         return base_tiles
     except FileNotFoundError as error:
         print(error)

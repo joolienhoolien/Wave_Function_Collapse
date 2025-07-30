@@ -32,7 +32,12 @@ class Node:
         self.updated = True
         if not self.tile_options:
             return False
-        return self.set_tile(tile=random.choice(tuple(self.tile_options)))
+        tile_options_tuple = tuple(self.tile_options)
+        tile_options_weights = [tile.weight for tile in tile_options_tuple]
+        tile = random.choices(population=tile_options_tuple,
+                              weights=tile_options_weights,
+                              k=1)[0]
+        return self.set_tile(tile=tile)
 
     def is_collapsed(self):
         """Returns if the tile is collapsed or not"""
