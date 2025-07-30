@@ -42,7 +42,7 @@ class Solver:
         """
         # If there remains a single tile not collapsed...
         if not self.grid.finished_collapsing:
-            collapsed = self.grid.collapse_next()
+            collapsed = self.grid.collapse_node()
             if not collapsed or self.grid.failed_collapsing:
                 print(f"Cannot complete this pattern...")
                 print(f"FAIL_CONDITION set to {self.fail_condition}")
@@ -56,7 +56,11 @@ class Solver:
                 elif self.fail_condition == "RESET_FROM_FAIL":
                     print(f"Resetting collapse from failure cell...")
                     self.reset()
-                    self.grid.collapse_node(collapsed.x, collapsed.y)
+                    self.grid.collapse_node(coordinates=(collapsed.x, collapsed.y))
+                    return False
+                elif self.fail_condition == "BACKTRACK":
+                    print(f"Backtracking...")
+                    self.grid.backtrack()
                     return False
         return True
 

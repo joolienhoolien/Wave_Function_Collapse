@@ -25,6 +25,7 @@ class Grid:
         self.debug = debug
         self.directions = directions
         self.failed_collapsing = False
+        #self.history = []
 
     #Get/set
     def is_finished_collapsing(self):
@@ -86,39 +87,34 @@ class Grid:
             self.finished_collapsing = True
             return False
 
-    def collapse_node(self, x, y):
-        """
-        Collapse a specific tile on the grid.
-        Returns:
-            True if we are out of nodes to collapse or the node was collapsed successfully.
-            False if there was an issue collapsing.
-        """
-        node = self.grid[x][y]
-        if not node.collapse():
-            return False
-
-        return self.propagate(node)
-
-    def collapse_next(self):
+    def collapse_node(self, coordinates=None, tile_options=None):
         """Collapse the next tile on the grid.
         Returns:
             True if we are out of nodes to collapse or the node was collapsed successfully.
             False if there was an issue collapsing."""
-        # 1. Obtain a list of tiles coordinates such that they have the least amount of options
-        lowest_entropy_nodes = self.get_lowest_entropy_nodes()
-        if not lowest_entropy_nodes:
-            self.finished_collapsing = True
-            return True
+        if coordinates is None:
+            # 1. Obtain a list of tiles coordinates such that they have the least amount of options
+            lowest_entropy_nodes = self.get_lowest_entropy_nodes()
+            if not lowest_entropy_nodes:
+                self.finished_collapsing = True
+                return True
 
-        # 2. From this list, randomly choose a tile to collapse
-        node = random.choice(lowest_entropy_nodes)
-        if not node.collapse():
+            # 2. From this list, randomly choose a tile to collapse
+            node = random.choice(lowest_entropy_nodes)
+        else:
+            node = self.grid[coordinates[0]][coordinates[1]]
+        if not node.collapse(tile_options=tile_options):
             print(f"found contradiction in node ({node.x},{node.y})")
             self.finished_collapsing = True
             self.failed_collapsing = True
             return node
 
-        return node if self.propagate(node) else None
+        propagate = self.propagate(node)
+        if propagate:
+           # self.history.append((node, ))
+            return node
+        else:
+            return None
 
     def set_new_grid(self):
         """Initialized the grid.
@@ -138,7 +134,23 @@ class Grid:
         self.finished_collapsing = False
         self.failed_collapsing = False
         self.grid = self.set_new_grid()
+        #self.history = []
         return True
+
+    def backtrack(self):
+        while self.history:
+            last_node, remaining_choices = self.history.pop()
+            #1. Undo last move
+            last_node.reset_tile(self.all_tiles)
+            self.propagate(last_node)
+
+            #2. If last node has more choices, choose a different choice
+            if remaining_choices:
+                self.collapse_node(tile_options=remaining_choices)
+
+                #Exit this loop
+                return True
+        return False
 
 def import_tileset(filepath):
     """Given a filepath to the tileset, creates a set of base tiles.
