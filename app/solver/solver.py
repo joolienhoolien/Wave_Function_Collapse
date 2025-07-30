@@ -30,7 +30,7 @@ class Solver:
                          int(config['grid']['GRID_DIM_HEIGHT']),
                          (config['tiles']['DIRECTIONS']).split(','),
                          debug=debug)
-        self.fail_condition = config['contradiction']['FAIL_CONDITION']
+        self.fail_condition = str(config['contradiction']['FAIL_CONDITION'])
         self.debug=debug
 
     def solve_next(self):
@@ -42,22 +42,29 @@ class Solver:
         """
         # If there remains a single tile not collapsed...
         if not self.grid.finished_collapsing:
-            collapsed = self.grid.collapse_next_tile()
-            if not collapsed:
+            collapsed = self.grid.collapse_next()
+            if not collapsed or self.grid.failed_collapsing:
                 print(f"Cannot complete this pattern...")
                 print(f"FAIL_CONDITION set to {self.fail_condition}")
                 if self.fail_condition == "END":
                     print(f"Ending collapse")
                     return False
-                #elif FAIL_CONDITION == "RESET":
-                #    print(f"Resetting collapse")
-                #    setup()
-                # elif FAIL_CONDITION == "RESET_FROM_FAIL":
-                #    print(f"Resetting collapse from failure cell [{x},{y}]")
-                #    setup()
-                #    grid[x][y].collapse() #doesn't seem to cause the chain reaction i'd expect
+                elif self.fail_condition == "RESET":
+                    print(f"Resetting collapse")
+                    self.reset()
+                    return False
+                elif self.fail_condition == "RESET_FROM_FAIL":
+                    print(f"Resetting collapse from failure cell...")
+                    self.reset()
+                    self.grid.collapse_node(collapsed.x, collapsed.y)
+                    return False
         return True
 
+    def reset(self):
+        """
+        Resets the grid without redefining the tiles.
+        """
+        return self.grid.reset()
 
     #get/set
     def is_solved(self):

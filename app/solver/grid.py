@@ -19,11 +19,12 @@ class Grid:
         self.finished_collapsing = False
         self.base_tiles = import_tileset(tile_set_filepath)
         self.all_tiles = permute_tiles(self.base_tiles)
-        self.grid = set_new_grid(self.all_tiles, width, height)
         self.width = width
         self.height = height
+        self.grid = self.set_new_grid()
         self.debug = debug
         self.directions = directions
+        self.failed_collapsing = False
 
     #Get/set
     def is_finished_collapsing(self):
@@ -85,7 +86,20 @@ class Grid:
             self.finished_collapsing = True
             return False
 
-    def collapse_next_tile(self):
+    def collapse_node(self, x, y):
+        """
+        Collapse a specific tile on the grid.
+        Returns:
+            True if we are out of nodes to collapse or the node was collapsed successfully.
+            False if there was an issue collapsing.
+        """
+        node = self.grid[x][y]
+        if not node.collapse():
+            return False
+
+        return self.propagate(node)
+
+    def collapse_next(self):
         """Collapse the next tile on the grid.
         Returns:
             True if we are out of nodes to collapse or the node was collapsed successfully.
@@ -98,14 +112,33 @@ class Grid:
 
         # 2. From this list, randomly choose a tile to collapse
         node = random.choice(lowest_entropy_nodes)
-        if self.debug: print(f"Collapsing {node}")
         if not node.collapse():
             print(f"found contradiction in node ({node.x},{node.y})")
             self.finished_collapsing = True
-            return False
+            self.failed_collapsing = True
+            return node
 
-        return self.propagate(node)
+        return node if self.propagate(node) else None
 
+    def set_new_grid(self):
+        """Initialized the grid.
+        Parameters:
+            all_tiles: set of all tiles after permutations
+            width: width of the grid
+            height: height of the grid"""
+        # Set up neighbors for tiles
+        for tile in self.all_tiles:
+            tile.set_valid_neighbors(self.all_tiles)
+
+        # Set up grid of nodes
+        grid = [[Node(i, j, self.all_tiles) for j in range(self.height)] for i in range(self.width)]
+        return grid
+
+    def reset(self):
+        self.finished_collapsing = False
+        self.failed_collapsing = False
+        self.grid = self.set_new_grid()
+        return True
 
 def import_tileset(filepath):
     """Given a filepath to the tileset, creates a set of base tiles.
@@ -142,20 +175,6 @@ def permute_tiles(base_tiles):
                 permuted_tiles.append(tile.copy_tile_and_rotate(rotation))
     return permuted_tiles
 
-
-def set_new_grid(all_tiles, width, height):
-    """Initialized the grid.
-    Parameters:
-        all_tiles: set of all tiles after permutations
-        width: width of the grid
-        height: height of the grid"""
-    # Set up neighbors for tiles
-    for tile in all_tiles:
-        tile.set_valid_neighbors(all_tiles)
-
-    # Set up grid of nodes
-    grid = [[Node(i, j, all_tiles) for j in range(height)] for i in range(width)]
-    return grid
 
 
 
