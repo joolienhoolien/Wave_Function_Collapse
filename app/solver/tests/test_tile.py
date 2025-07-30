@@ -1,6 +1,6 @@
 import configparser
 import pytest
-from app.solver.tile import Tile
+from ..tile import Tile
 
 
 @pytest.fixture
@@ -171,7 +171,8 @@ def test_valid_neighbors_no_permutes(setup_valid_neighbors):
     assert len(setup_valid_neighbors[2].valid_neighbors['left']) == 0
     assert len(setup_valid_neighbors[3].valid_neighbors['up']) == 1
 
-def test_valid_neighbors_with_permutes(setup_valid_neighbors):
+@pytest.fixture()
+def setup_valid_neighbors_with_permutes(setup_valid_neighbors):
     permuted_tiles = []
     for tile in setup_valid_neighbors:
         if tile.rotations == 0:
@@ -198,7 +199,10 @@ def test_valid_neighbors_with_permutes(setup_valid_neighbors):
         elif (tile.image_path == "../../base_tiles/tests/5.png" and
                 tile.sides == {"up": "011", "right": "111", "down": "111", "left": "110"}):
             pcb2 = tile
+    yield [blank, t, circle1, pcb1, pcb2]
 
+def test_valid_neighbors_with_permutes(setup_valid_neighbors_with_permutes):
+    blank, t, circle1, pcb1, pcb2 = setup_valid_neighbors_with_permutes
     assert blank is not None
     assert t is not None
     assert circle1 is not None

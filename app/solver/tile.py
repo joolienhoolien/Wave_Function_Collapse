@@ -29,7 +29,8 @@ class Tile:
             config.read('../../settings.ini')
         self.config = config
         if not full_image_path:
-            self.image_path = f"../../{config['tiles']['TILE_SET_FOLDER']}/{config["tiles"]["TILE_SET_NAME"]}/{image_path}"
+            self.image_path = (f"../../{config['tiles']['TILE_SET_FOLDER']}/"
+                               f"{config["tiles"]["TILE_SET_NAME"]}/{image_path}")
         else:
             self.image_path = f"{image_path}"
         self.sides = sides
