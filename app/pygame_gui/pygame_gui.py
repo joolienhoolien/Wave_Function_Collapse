@@ -46,6 +46,7 @@ if __name__ == "__main__":
 
     #Solve the wave
     if debug: print("Solving...")
+    solved = False
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -59,7 +60,8 @@ if __name__ == "__main__":
             elif solver.fail_condition == "RESET" or solver.fail_condition == "RESET_FROM_FAIL":
                 #solver.reset()
                 sprite_group = setup_sprites(solver.get_grid(), screen_width, screen_height)
-        else:
+        elif not solved:
+            solved = True
             if debug: print("Solved!")
 
         #Update gui after each step
