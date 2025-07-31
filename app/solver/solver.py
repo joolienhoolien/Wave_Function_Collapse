@@ -58,10 +58,6 @@ class Solver:
                     self.reset()
                     self.grid.collapse_node(coordinates=(collapsed.x, collapsed.y))
                     return False
-                elif self.fail_condition == "BACKTRACK":
-                    print(f"Backtracking...")
-                    self.grid.backtrack()
-                    return False
         return True
 
     def reset(self):

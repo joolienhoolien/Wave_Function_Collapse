@@ -58,7 +58,6 @@ if __name__ == "__main__":
                 sprite_group.update()
                 sprite_group.draw(display_surf)
             elif solver.fail_condition == "RESET" or solver.fail_condition == "RESET_FROM_FAIL":
-                #solver.reset()
                 sprite_group = setup_sprites(solver.get_grid(), screen_width, screen_height)
         elif not solved:
             solved = True
