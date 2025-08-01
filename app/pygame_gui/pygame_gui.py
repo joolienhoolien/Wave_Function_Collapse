@@ -44,6 +44,12 @@ if __name__ == "__main__":
     solver = Solver(debug=debug)
     sprite_group = setup_sprites(solver.get_grid(), screen_width, screen_height)
 
+    #TODO: Temporary for selecting a node to collapse initially.vv
+    #test_tile = solver.grid.all_tiles[3]
+    #solver.constrain(coordinates=(0,0), tile_options=test_tile)
+    #solver.constrain(coordinates=(2,0), tile_options=test_tile)
+    #TODO: Temporary ^^
+
     #Solve the wave
     if debug: print("Solving...")
     solved = False

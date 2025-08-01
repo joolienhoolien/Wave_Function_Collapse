@@ -33,6 +33,9 @@ class Solver:
         self.fail_condition = str(config['contradiction']['FAIL_CONDITION'])
         self.debug=debug
 
+    def constrain(self, coordinates, tile_options):
+        self.grid.collapse_node(coordinates, tile_options)
+
     def solve_next(self):
         """
         Solve the next step of the collapse.

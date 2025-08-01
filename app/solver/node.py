@@ -24,7 +24,7 @@ class Node:
         """String representation of the node."""
         return f'[{self.x}][{self.y}]: {self.tile}'
 
-    def collapse(self, illegal_tiles=None):
+    def collapse(self, tile_options=None):
         """Collapse the node by randomly choosing from it's list of tile options.
         Returns:
             False if no options remain
@@ -32,9 +32,9 @@ class Node:
         self.updated = True
         if not self.tile_options:
             return False
-
-        if not illegal_tiles: illegal_tiles = set()
-        tile_options_tuple = tuple(self.tile_options - illegal_tiles)
+        tile_options_tuple = tuple(self.tile_options)
+        if tile_options:
+            tile_options_tuple = tuple(tile_options)
 
         tile_options_weights = [tile.weight for tile in tile_options_tuple]
         tile = random.choices(population=tile_options_tuple,
