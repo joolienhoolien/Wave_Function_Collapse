@@ -187,7 +187,11 @@ def import_tileset(filepath):
                                    sides=sides,
                                    rotations=tile['number_of_rotations'],
                                    weight=weight))
-        constraints = data['constraints']
+        try:
+            constraints = data['constraints']
+        except KeyError:
+            print('no constraints found')
+            constraints = dict()
         return base_tiles, constraints
     except FileNotFoundError as error:
         print(error)

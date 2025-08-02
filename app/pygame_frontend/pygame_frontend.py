@@ -1,7 +1,6 @@
 """
 Frontend for visualization of wave function collapse.
 """
-
 from typing import List
 import pygame
 import sys

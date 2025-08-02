@@ -1,0 +1,812 @@
+{
+  "set_name": "grass_tiles",
+  "tile_set": [
+    {
+      "id" : 1,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "011",
+        "DOWN": "110",
+        "LEFT": "000"
+      },
+      "weight": 1,
+      "image_path" : "tiles__1.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 2,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "011",
+        "DOWN": "111",
+        "LEFT": "110"
+      },
+      "weight": 1,
+      "image_path" : "tiles__2.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 3,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "001",
+        "LEFT": "110"
+      },
+      "weight": 1,
+      "image_path" : "tiles__3.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 4,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "010",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__4.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 5,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "010",
+        "DOWN": "010",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__5.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 6,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "010",
+        "DOWN": "011",
+        "LEFT": "110"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__6.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 7,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "011",
+        "DOWN": "110",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__7.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 8,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "010",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__8.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 9,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "010",
+        "DOWN": "010",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__9.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 10,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "011",
+        "DOWN": "110",
+        "LEFT": "011"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__10.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 12,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "111",
+        "DOWN": "110",
+        "LEFT": "000"
+      },
+      "weight": 1,
+      "image_path" : "tiles__12.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 13,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__13.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 14,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "000",
+        "DOWN": "011",
+        "LEFT": "111"
+      },
+      "weight": 1,
+      "image_path" : "tiles__14.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 15,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "000",
+        "DOWN": "010",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__15.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 16,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "110",
+        "DOWN": "010",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__16.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 17,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "110",
+        "DOWN": "011",
+        "LEFT": "111"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__17.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 18,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "110",
+        "LEFT": "011"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__18.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 19,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "000",
+        "DOWN": "010",
+        "LEFT": "011"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__19.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 20,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "110",
+        "DOWN": "010",
+        "LEFT": "011"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__20.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 21,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "110",
+        "DOWN": "011",
+        "LEFT": "110"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__21.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 23,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "110",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 1,
+      "image_path" : "tiles__23.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 24,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "110",
+        "DOWN": "000",
+        "LEFT": "011"
+      },
+      "weight": 1,
+      "image_path" : "tiles__24.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 25,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "011"
+      },
+      "weight": 1,
+      "image_path" : "tiles__25.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 26,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__26.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 27,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "011",
+        "DOWN": "110",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__27.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 28,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "011",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__28.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 29,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "110"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__29.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 30,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "000",
+        "DOWN": "011",
+        "LEFT": "110"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__30.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 31,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "011",
+        "DOWN": "111",
+        "LEFT": "110"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__31.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 32,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "011",
+        "DOWN": "110",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__32.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 33,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "010",
+        "DOWN": "011",
+        "LEFT": "110"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__33.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 34,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "010",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 1,
+      "image_path" : "tiles__34.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 35,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "010",
+        "DOWN": "000",
+        "LEFT": "010"
+      },
+      "weight": 1,
+      "image_path" : "tiles__35.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 36,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "010"
+      },
+      "weight": 1,
+      "image_path" : "tiles__36.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 37,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 0.05,
+      "image_path" : "tiles__37.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 38,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "010",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__38.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 39,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "010",
+        "DOWN": "000",
+        "LEFT": "011"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__39.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 40,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "110",
+        "DOWN": "000",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__40.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 41,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__41.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 42,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "010",
+        "DOWN": "000",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__42.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 43,
+      "sides": {
+        "UP": "011",
+        "RIGHT": "110",
+        "DOWN": "010",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__43.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 44,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "010",
+        "DOWN": "010",
+        "LEFT": "011"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__44.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 49,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "010",
+        "DOWN": "010",
+        "LEFT": "000"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__49.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 50,
+      "sides": {
+        "UP": "110",
+        "RIGHT": "010",
+        "DOWN": "011",
+        "LEFT": "111"
+      },
+      "weight": 1,
+      "image_path" : "tiles__50.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 51,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "111",
+        "DOWN": "110",
+        "LEFT": "010"
+      },
+      "weight": 1,
+      "image_path" : "tiles__51.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 52,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "000",
+        "DOWN": "010",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__52.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 53,
+      "sides": {
+        "UP": "010",
+        "RIGHT": "010",
+        "DOWN": "010",
+        "LEFT": "010"
+      },
+      "weight": 0.1,
+      "image_path" : "tiles__53.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 56,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__56.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 57,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__57.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 58,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 25,
+      "image_path" : "tiles__58.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 59,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__59.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 60,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 25,
+      "image_path" : "tiles__60.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 61,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__61.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 67,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__67.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 68,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 25,
+      "image_path" : "tiles__68.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 70,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 25,
+      "image_path" : "tiles__70.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 71,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__71.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 72,
+      "sides": {
+        "UP": "111",
+        "RIGHT": "111",
+        "DOWN": "111",
+        "LEFT": "111"
+      },
+      "weight": 10,
+      "image_path" : "tiles__72.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 101,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 50,
+      "image_path" : "Water_1.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 102,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 50,
+      "image_path" : "Water_2.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 103,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 50,
+      "image_path" : "Water_3.png",
+      "number_of_rotations": 0
+    },
+
+    {
+      "id" : 104,
+      "sides": {
+        "UP": "000",
+        "RIGHT": "000",
+        "DOWN": "000",
+        "LEFT": "000"
+      },
+      "weight": 50,
+      "image_path" : "Water_4.png",
+      "number_of_rotations": 0
+    }
+  ],
+  "constraints": [
+  ]
+}
