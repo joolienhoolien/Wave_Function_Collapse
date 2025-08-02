@@ -1,11 +1,12 @@
 # 2D Wave Function Collapse Visualizer
 Generates an image using a 2D grid of tiles. Utilizes the wave function collapse 
 algorithm in two dimensions. The image is generated "randomly" and will be novel and unique.
+This could be used to generate unique maps for video games, visualize graphs or to create beautiful images!
 
 Here are some examples:
-#### Circles tile set, no constraints, default tile weights
+#### Circles tile set from [mxgmn](https://github.com/mxgmn/WaveFunctionCollapse), no constraints, default tile weights
 ![circles_aug_2.gif](output/gifs/circles_aug_2.gif)
-#### Grass Tiles tile set, no constraints, heavily weighted for landlocked or water tiles
+#### Grass Tiles tile set by [Cup Nooble](https://cupnooble.itch.io/sprout-lands-asset-pack), no constraints, heavily weighted for landlocked or water tiles to create continents and oceans
 ![sprout_lands_1.gif](output/gifs/sprout_lands_1.gif)
 # Installation
 Simply clone the repository and install the requirements listed below in `technologies used and requirements`.
