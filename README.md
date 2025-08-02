@@ -21,6 +21,34 @@ To use it without any modifications, simply run `pygame_frontend.py` or `solver.
 - `solver.py` runs without updating any images and only generates CLI information about the grid. This is the "backend class"
 If you want to change any settings (tile set, constraints, weights, etc) see the below section `Advanced Usage`
 
+# Algorithm
+This is an explanation of my implementation of the wave function collapse algorithm.
+1. Create tile prototypes 
+   1. Read `settings.ini` and the `base_tiles` `JSON` to create the tile prototypes.
+2. Set up the grid 
+   1. For each tile, we perform any permutations (rotations) to create our `all_tiles` tile set.
+   2. Initialize a node for each position on the grid
+      1. Before we can set up the nodes, we set each tile's possible neighbors based on their sockets.
+      2. Each node starts with every tile option as a possibility, so the `tile_options` are set to `all_tiles` at this stage
+   3. Apply any constraints to the grid
+3. Setup the pygame visuals.
+   1. Each node on the grid is associated with a `NodeSprite` object on the frontend. 
+When a node is updated, the corresponding `NodeSprite` is visually updated.
+4. While the solution is not yet solved...
+   1. Find the list of nodes with the least amount of tile options and randomly choose one node.
+   2. Collapse this node
+      1. Choose a random tile from the tile options and set the node's tile to this tile.
+      2. Propagate this choice
+         1. For each neighbor to the node, limit the remaining choices based on the tile we just chose.
+         2. For each of those neighbors *which were updated in the last step*, propagate.
+         3. Any node that is updated in this step is flagged so that the visualizer will be updated as well.
+   3. Draw the new board state
+   4. If we find a failure during this while loop, we detect it and perform the corresponding fail step to reset the state.
+      1. if "RESET" -> go back to step 2. 
+      2. if "RESET_FROM_FAIL" -> first set the node we found a contradiction, then go to step 2
+5. Once the solution has been found, do nothing.
+
+
 # Tilesets
 The package comes with a few tilesets. They are found in `base_tiles`.
 Within each set contains the images and a `JSON` file containing a set of rules.
@@ -49,9 +77,39 @@ compare Tile A's "up" and tile B's "down". However "1234a" != "fdb" (reverse of 
 
 
 ## Constraints
+A constraint can be defined as a set of extra rules imposed on the grid. The current implementation
+is such that a constraint sets a specific node on the grid to a specific tile. 
+Constraints are read into the program via the tile set's `JSON` under the `constraints` section as a list
+of tile_id and rotation combinations, with a field defining which nodes that tile affects.
+
+![img.png](img.png)
+
+## Weights
+Each tile read in from the tile set `JSON` has a weight associated with it (defaulting to 1 if no weight specified).
+This weight is taken into account when choosing the next tile to collapse.
+When a node is chosen to collapse (as detailed by the `algorithm` section), the set of tile options remaining is grabbed.
+The program then randomly chooses which tile option to select for the node. 
+*The weight of the tile determines the likelihood it will be chosen at this stage*.
+- Example: We have 3 tiles: A, B, C. A and B have weight = 1, but C has weight = 998.
+- We collapse a node and it's options are A, B, C
+- When we randomly choose between A, B, C, the likelihood is as follows:
+  - A has a 1/1000 chance
+  - B has a 1/1000 chance
+  - C has a 998/1000 chance
+
+By changing the weights, the pattern can be influenced to favor certain tiles.
+This is useful if you would like to have more islands in a tileset with water/land, have more
+black in a black/white tileset, etc.
 
 ## Failures / Contradictions
-
+It is very common in certain tilesets for the wave collapse sequence to arrive at a contradiction.
+This is when there is a tile which has *0 valid remaining moves*. Thus, the sequence is invalid and the
+image cannot complete as is.
+There are some ways to deal with this happening. 
+The options for my program can be adjusted using the `FAIL_CONDITION` setting in settings.ini
+- "END" - end the program and print to command line.
+- "RESET" - reset the board and try again at a random cell.
+- "RESET_FROM_FAIL" - reset the board to default and rerun, starting from the failed cell.
 
 # Advanced Usage
 ### Changing the tileset
