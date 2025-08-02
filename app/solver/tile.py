@@ -8,7 +8,7 @@ class Tile:
     Prototype class for defining a set of rules for a tile. Think of it like a blueprint for a node.
     A node will have a list of tiles which represents the different superpositions of tiles it can be.
     """
-    def __init__(self, image_path: str, sides, rotations=0, full_image_path=False, config=None, weight=1):
+    def __init__(self, ext_id: int, image_path: str, sides, rotations=0, full_image_path=False, config=None, weight=1):
         """
         - Define a set of rules for a tile
             - Holds an image path pointing to disk
