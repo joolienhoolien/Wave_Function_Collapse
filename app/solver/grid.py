@@ -17,14 +17,16 @@ class Grid:
             all_tiles: set of all tiles after permutations
         """
         self.finished_collapsing = False
-        self.base_tiles = import_tileset(tile_set_filepath)
-        self.all_tiles = permute_tiles(self.base_tiles)
+        self.constraints = dict()
+        self.base_tiles, constraints = import_tileset(tile_set_filepath)
+        self.all_tiles = self.permute_tiles(constraints)
         self.width = width
         self.height = height
         self.grid = self.set_new_grid()
         self.debug = debug
         self.directions = directions
         self.failed_collapsing = False
+        self.apply_constraints()
 
     #Get/set
     def is_finished_collapsing(self):
@@ -82,7 +84,8 @@ class Grid:
                             if not other_node in stack:
                                 stack.append(other_node)
             return True
-        except AttributeError:
+        except AttributeError as error:
+            print(error)
             print(f"found contradiction in cell ({node.x},{node.y})")
             self.finished_collapsing = True
             return False
@@ -114,24 +117,53 @@ class Grid:
         return node if self.propagate(node) else None
 
     def set_new_grid(self):
-        """Initialized the grid.
-        Parameters:
-            all_tiles: set of all tiles after permutations
-            width: width of the grid
-            height: height of the grid"""
+        """Initialized the grid."""
         # Set up neighbors for tiles
         for tile in self.all_tiles:
             tile.set_valid_neighbors(self.all_tiles)
 
         # Set up grid of nodes
-        grid = [[Node(i, j, self.all_tiles) for j in range(self.height)] for i in range(self.width)]
-        return grid
+        return [[Node(i, j, self.all_tiles) for j in range(self.height)] for i in range(self.width)]
 
     def reset(self):
         self.finished_collapsing = False
         self.failed_collapsing = False
         self.grid = self.set_new_grid()
+        self.apply_constraints()
         return True
+
+    def permute_tiles(self, constraints):
+        """Given a set of basic tiles, permutes them base on the instructions on the tile itself.
+        Parameters:
+            constraints: List of constraints to be added to grids self.constraint add we create the permuted tiles
+        Returns:
+            list of permuted tiles"""
+        permuted_tiles = []
+        for tile in self.base_tiles:
+            if tile.rotations == 0:
+                permuted_tiles.append(tile)
+            else:
+                for rotation in range(tile.rotations):
+                    new_tile = tile.copy_tile_and_rotate(rotation)
+                    permuted_tiles.append(new_tile)
+
+                    for constraint in constraints:
+                        if new_tile.id == constraint["tile_id"] and new_tile.rotations == constraint["rotations"]:
+                            self.add_constraint(new_tile, constraint["nodes_to_constrain"])
+        return permuted_tiles
+
+    def add_constraint(self, tile, coordinates):
+        """Adds a constraint to the grid."""
+        for coordinate in coordinates:
+            if self.constraints.get(tile):
+                self.constraints[tile].append(tuple(coordinate))
+            else:
+                self.constraints[tile] = [tuple(coordinate)]
+
+    def apply_constraints(self):
+        for tile, coordinates in self.constraints.items():
+            for coordinate in coordinates:
+                self.collapse_node(coordinate, tile)
 
 
 def import_tileset(filepath):
@@ -148,32 +180,20 @@ def import_tileset(filepath):
             sides = {side.lower(): value for i, (side, value) in enumerate(tile['sides'].items())}
             try:
                 weight = tile['weight']
-            except KeyError as error:
+            except KeyError:
                 weight = 1
-            base_tiles.append(Tile(image_path=tile['image_path'],
+            base_tiles.append(Tile(ext_id = tile['id'],
+                                   image_path=tile['image_path'],
                                    sides=sides,
                                    rotations=tile['number_of_rotations'],
                                    weight=weight))
-        return base_tiles
+        constraints = data['constraints']
+        return base_tiles, constraints
     except FileNotFoundError as error:
         print(error)
         raise
 
 
-def permute_tiles(base_tiles):
-    """Given a set of basic tiles, permutes them base on the instructions on the tile itself.
-    Parameters:
-        base_tiles: List of base tiles to be permuted
-    Returns:
-        list of permuted tiles"""
-    permuted_tiles = []
-    for tile in base_tiles:
-        if tile.rotations == 0:
-            permuted_tiles.append(tile)
-        else:
-            for rotation in range(tile.rotations):
-                permuted_tiles.append(tile.copy_tile_and_rotate(rotation))
-    return permuted_tiles
 
 
 

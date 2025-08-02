@@ -1,5 +1,5 @@
 """
-GUI for interacting with wave function collapse backend.
+Frontend for visualization of wave function collapse.
 """
 
 from typing import List
@@ -35,23 +35,16 @@ if __name__ == "__main__":
     screen_width = int(config['display']['SCREEN_WIDTH'])
     screen_height = int(config['display']['SCREEN_HEIGHT'])
     display_surf = pygame.display.set_mode((screen_width, screen_height))
+    pygame.display.set_caption('Wave Function Collapse')
     frame_per_sec = pygame.time.Clock()
     fps = int(config['pygame']['FPS'])
-
-    #TODO: Intro GUI
 
     #Initialize grid, sprites, tiles, and prepare for solving
     solver = Solver(debug=debug)
     sprite_group = setup_sprites(solver.get_grid(), screen_width, screen_height)
 
-    #TODO: Temporary for selecting a node to collapse initially.vv
-    #test_tile = solver.grid.all_tiles[3]
-    #solver.constrain(coordinates=(0,0), tile_options=test_tile)
-    #solver.constrain(coordinates=(2,0), tile_options=test_tile)
-    #TODO: Temporary ^^
-
     #Solve the wave
-    if debug: print("Solving...")
+    print("Solving...")
     solved = False
     while True:
         for event in pygame.event.get():
@@ -73,4 +66,4 @@ if __name__ == "__main__":
         pygame.display.flip()
         frame_per_sec.tick(fps)
 
-    #TODO: Save the file, run again, etc
+        #TODO: Save the file, run again, etc

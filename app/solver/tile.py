@@ -33,6 +33,7 @@ class Tile:
                                f"{config["tiles"]["TILE_SET_NAME"]}/{image_path}")
         else:
             self.image_path = f"{image_path}"
+        self.id = ext_id
         self.sides = sides
         self.rotations = rotations
         self.weight = weight
@@ -44,7 +45,7 @@ class Tile:
 
     def __str__(self):
         """Lists the sides definition"""
-        return f"{self.sides}"
+        return f"Tile({self.id}_{self.rotations}_{self.sides})"
 
 
     def set_valid_neighbors(self, tiles) -> None:
@@ -92,6 +93,6 @@ class Tile:
             sides[right] = self.sides[down]
             sides[down] = self.sides[left]
             sides[left] = self.sides[up]
-        return Tile(sides=sides, image_path=self.image_path,
+        return Tile(ext_id=self.id, sides=sides, image_path=self.image_path,
                     rotations=rotations, full_image_path=True,
                     config=self.config, weight=self.weight)
