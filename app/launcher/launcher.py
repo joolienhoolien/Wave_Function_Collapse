@@ -3,7 +3,7 @@ import configparser
 
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QApplication, QPushButton, QGridLayout, QComboBox, QCheckBox, QWidget, \
-    QToolBar, QStatusBar
+    QToolBar, QStatusBar, QLabel
 from app.pygame_frontend.pygame_frontend import PygameFrontEnd
 
 
@@ -28,8 +28,6 @@ class MainWindow(QMainWindow):
 
 
     def start(self):
-        #TODO: Write settings file
-
         #Run wfc
         wfc = PygameFrontEnd()
         wfc.solve_wave()
@@ -44,19 +42,37 @@ class Settings(QWidget):
 
         grid = QGridLayout()
 
-        #Instantiate Widgets
-        self.debug_checkbox = QCheckBox("Debug")
+        #Debug
+        debug_label = QLabel("Debug:", self)
+        self.debug_checkbox = QCheckBox()
         self.debug_checkbox.setChecked(self.config.getboolean('debug', 'DEBUG'))
         self.debug_checkbox.stateChanged.connect(self.toggle_debug)
 
+        #Fail Condition
+        fail_condition_label = QLabel("Fail Condition:", self)
+        self.fail_condition_combo = QComboBox()
+        fail_condition_options = self.config['contradiction']['FAIL_CONDITION_OPTIONS'].split(',')
+        self.fail_condition_combo.addItems(fail_condition_options)
+        fail_condition = self.config['contradiction']['FAIL_CONDITION']
+        self.fail_condition_combo.setCurrentText(fail_condition)
+        self.fail_condition_combo.currentTextChanged.connect(self.change_fail_condition)
 
         #Construct Grid
-        grid.addWidget(self.debug_checkbox, 0, 0)
-
+        grid.addWidget(debug_label, 0, 0)
+        grid.addWidget(self.debug_checkbox, 0, 1)
+        grid.addWidget(fail_condition_label, 1, 0)
+        grid.addWidget(self.fail_condition_combo, 1, 1)
         self.setLayout(grid)
 
     def toggle_debug(self):
         self.config['debug']['DEBUG'] = str(self.debug_checkbox.isChecked())
+        self.write()
+
+    def change_fail_condition(self):
+        self.config['contradiction']['FAIL_CONDITION'] = self.fail_condition_combo.currentText()
+        self.write()
+
+    def write(self):
         with open('../../settings.ini', 'w') as configfile:
             self.config.write(configfile)
 
