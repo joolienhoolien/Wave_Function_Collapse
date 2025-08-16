@@ -1,9 +1,9 @@
 import sys
 import configparser
 
-from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import QMainWindow, QApplication, QPushButton, QGridLayout, QComboBox, QCheckBox, QWidget, \
-    QToolBar, QStatusBar, QLabel, QSpinBox, QLineEdit
+from PyQt6.QtWidgets import (QMainWindow, QApplication, QPushButton, QGridLayout,
+                             QComboBox, QCheckBox, QWidget,
+                             QStatusBar, QLabel, QSpinBox)
 from app.pygame_frontend.pygame_frontend import PygameFrontEnd
 
 
@@ -40,7 +40,6 @@ class Settings(QWidget):
         self.config = configparser.ConfigParser()
         self.config.read('../../settings.ini')
 
-        grid = QGridLayout()
 
         #Debug
         debug_label = QLabel("Debug:", self)
@@ -99,6 +98,7 @@ class Settings(QWidget):
         self.tile_set_combo.currentTextChanged.connect(self.change_tile_set)
 
         #Construct Grid
+        grid = QGridLayout()
         grid.addWidget(debug_label, 0, 0)
         grid.addWidget(self.debug_checkbox, 0, 1)
         grid.addWidget(fail_condition_label, 1, 0)
@@ -152,7 +152,6 @@ def main():
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
-
 
 if __name__ == '__main__':
     main()
