@@ -89,7 +89,14 @@ class Settings(QWidget):
         self.dimension_height.setValue(self.config.getint('grid', 'grid_dim_height'))
         self.dimension_height.textChanged.connect(self.change_dimension_height)
 
-
+        #Tile Set
+        tile_set_label = QLabel("Tile Set:", self)
+        self.tile_set_combo = QComboBox()
+        tile_set_options = self.config['tiles']['tile_set_options'].split(',')
+        self.tile_set_combo.addItems(tile_set_options)
+        tile_set = self.config['tiles']['tile_set_name']
+        self.tile_set_combo.setCurrentText(tile_set)
+        self.tile_set_combo.currentTextChanged.connect(self.change_tile_set)
 
         #Construct Grid
         grid.addWidget(debug_label, 0, 0)
@@ -104,6 +111,8 @@ class Settings(QWidget):
         grid.addWidget(self.dimension_width, 4, 1)
         grid.addWidget(dimension_height_label, 5, 0)
         grid.addWidget(self.dimension_height, 5, 1)
+        grid.addWidget(tile_set_label, 6, 0)
+        grid.addWidget(self.tile_set_combo, 6, 1)
         self.setLayout(grid)
 
     def toggle_debug(self):
@@ -128,6 +137,10 @@ class Settings(QWidget):
 
     def change_dimension_height(self):
         self.config['grid']['grid_dim_height'] = self.dimension_height.text()
+        self.write()
+
+    def change_tile_set(self):
+        self.config['tiles']['tile_set_name'] = self.tile_set_combo.currentText()
         self.write()
 
     def write(self):
