@@ -28,6 +28,9 @@ class MainWindow(QMainWindow):
 
 
     def start(self):
+        #TODO: Write settings file
+
+        #Run wfc
         wfc = PygameFrontEnd()
         wfc.solve_wave()
 
@@ -35,16 +38,27 @@ class Settings(QWidget):
     def __init__(self):
         super().__init__()
 
+        #Find current settings
+        self.config = configparser.ConfigParser()
+        self.config.read('../../settings.ini')
+
         grid = QGridLayout()
 
         #Instantiate Widgets
-        debug_checkbox = QCheckBox("Debug")
+        self.debug_checkbox = QCheckBox("Debug")
+        self.debug_checkbox.setChecked(self.config.getboolean('debug', 'DEBUG'))
+        self.debug_checkbox.stateChanged.connect(self.toggle_debug)
 
 
         #Construct Grid
-        grid.addWidget(debug_checkbox, 0, 0)
+        grid.addWidget(self.debug_checkbox, 0, 0)
 
         self.setLayout(grid)
+
+    def toggle_debug(self):
+        self.config['debug']['DEBUG'] = str(self.debug_checkbox.isChecked())
+        with open('../../settings.ini', 'w') as configfile:
+            self.config.write(configfile)
 
 def main():
     app = QApplication(sys.argv)
