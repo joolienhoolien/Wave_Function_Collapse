@@ -30,6 +30,8 @@ class MainWindow(QMainWindow):
     def start(self):
         #Run wfc
         wfc = PygameFrontEnd()
+        #while not wfc.solved:
+           #wfc.solve_next()
         wfc.solve_wave()
 
 class Settings(QWidget):
