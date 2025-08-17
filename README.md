@@ -12,13 +12,16 @@ Here are some examples:
 Simply clone the repository and install the requirements listed below in `technologies used and requirements`.
 
 ### Technologies Used and Requirements
-This project uses mostly core python, except for `PyGame` which
-is used for the frontend display. 
-Pygame can be installed via `pip install pygame`
+The requirements for this project can be found in `requirements.txt`
+
+To install, run `pip install -r requirements.txt`
+
+Some of the requirements are for a WIP pillow implementation, and can be ignored if desired.
+`pygame` (Rendering), `pyqt6` (GUI), `iniconfig` (Settings) and `pytest` (Testing) are the main requirements.
 
 # Basic Usage
-To use it without any modifications, simply run `pygame_frontend.py` or `solver.py`.
-- `pygame_frontend.py` is the implementation of the visualizer and the intended way to run the program.
+To use the program, run `launcher.py` or `solver.py`.
+- `launcher.py` will launch a settings menu where you can customize your execution
 - `solver.py` runs without updating any images and only generates CLI information about the grid. This is the "backend class"
 If you want to change any settings (tile set, constraints, weights, etc) see the below section `Advanced Usage`
 
