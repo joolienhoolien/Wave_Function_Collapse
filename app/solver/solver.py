@@ -75,6 +75,10 @@ class Solver:
         """Return the 2d grid of nodes - NOT the grid object."""
         return self.grid.grid
 
+    def get_grid_dimensions(self):
+        """Return the dimensions of the grid."""
+        return self.grid.width, self.grid.height
+
 if __name__ == "__main__":
     solver = Solver()
     while not solver.is_solved():
